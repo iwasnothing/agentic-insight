@@ -18,15 +18,47 @@ from concurrent.futures import ThreadPoolExecutor
 from typing import List, Dict, Any, Optional
 from pydantic import BaseModel, Field
 
+import sys
+from pathlib import Path
 from google.adk.agents import LlmAgent
 from google.adk.runners import InMemoryRunner
+from google.adk.skills import load_skill_from_dir
+from google.adk.tools import skill_toolset
+from google.adk.tools.mcp_tool import McpToolset
+from google.adk.tools.mcp_tool.mcp_session_manager import StdioConnectionParams
+from mcp import StdioServerParameters
 from google.genai import types
 
 from app.config import get_llm_model
 from app.ontology import find_loan_folder, get_ttl_files, parse_ontology_classes
-from api.utils import condense_summary, reranking, clean_and_filter_mapping
+from api.utils import condense_summary, reranking, clean_and_filter_mapping, check_sql_injection
+
+import secrets
 
 logger = logging.getLogger(__name__)
+
+# Ephemeral bearer token generated once on startup for local subprocess execution
+EPHEMERAL_MCP_BEARER_TOKEN = secrets.token_hex(32)
+
+def get_mcp_connection_params(db_path: str, read_only: bool = True) -> StdioConnectionParams:
+    """
+    Constructs StdioConnectionParams for spawning the DuckDB MCP server.
+    Configures database path, read-only mode, and passes the ephemeral MCP bearer token.
+    """
+    project_root = Path(__file__).parent.parent
+    env = {
+        **os.environ,
+        "DB_PATH": db_path,
+        "DB_READ_ONLY": "true" if read_only else "false",
+        "MCP_BEARER_TOKEN": EPHEMERAL_MCP_BEARER_TOKEN
+    }
+    return StdioConnectionParams(
+        server_params=StdioServerParameters(
+            command=sys.executable,
+            args=[str(project_root / "mcp" / "duckdb_server.py")],
+            env=env
+        )
+    )
 
 # --- Pydantic schemas for doc_context_retrieval ---
 
@@ -178,11 +210,25 @@ Query String:
 Candidates List:
 {candidate_list_text}
 """
+    project_root = Path(__file__).parent.parent
+    duckdb_skill = load_skill_from_dir(project_root / "skills" / "duckdb-skill")
+    doc_skill = load_skill_from_dir(project_root / "skills" / "doc-retrieval-skill")
+    mcp_params = get_mcp_connection_params(doc_db_path, read_only=True)
+    duckdb_mcp = McpToolset(
+        connection_params=mcp_params,
+        tool_filter=["list_tables", "describe_table", "run_sql", "execute_sql", "select_table", "insert_table", "update_table"],
+    )
+    skillset = skill_toolset.SkillToolset(
+        skills=[duckdb_skill, doc_skill],
+        additional_tools=[duckdb_mcp],
+    )
+    
     agent = LlmAgent(
         model=model,
         name="concept_searcher",
-        instruction="You are a data architect identifying related concepts for document analysis.",
-        output_schema=SelectedConcepts
+        instruction="Use the doc retrieval skill and DuckDB MCP to evaluate concepts.",
+        output_schema=SelectedConcepts,
+        tools=[skillset, duckdb_mcp]
     )
     runner = InMemoryRunner(agent=agent)
     session_id = f"session_{uuid.uuid4().hex}"
@@ -190,10 +236,13 @@ Candidates List:
     
     new_message = types.Content(parts=[types.Part(text=selection_prompt)])
     events = []
-    async for event in runner.run_async(user_id="user", session_id=session_id, new_message=new_message):
-        events.append(event)
-        if event.error_message:
-            raise ValueError(f"Concept selection failed: {event.error_message}")
+    try:
+        async for event in runner.run_async(user_id="user", session_id=session_id, new_message=new_message):
+            events.append(event)
+            if event.error_message:
+                raise ValueError(f"Concept selection failed: {event.error_message}")
+    finally:
+        await duckdb_mcp.close()
 
     model_text = ""
     for event in reversed(events):
@@ -289,11 +338,25 @@ Available Ontology Concept Types:
 Query String:
 {query_string}
 """
+    project_root = Path(__file__).parent.parent
+    duckdb_skill = load_skill_from_dir(project_root / "skills" / "duckdb-skill")
+    doc_skill = load_skill_from_dir(project_root / "skills" / "doc-retrieval-skill")
+    mcp_params = get_mcp_connection_params(doc_db_path, read_only=True)
+    duckdb_mcp = McpToolset(
+        connection_params=mcp_params,
+        tool_filter=["list_tables", "describe_table", "run_sql", "execute_sql", "select_table", "insert_table", "update_table"],
+    )
+    skillset = skill_toolset.SkillToolset(
+        skills=[duckdb_skill, doc_skill],
+        additional_tools=[duckdb_mcp],
+    )
+    
     agent = LlmAgent(
         model=model,
         name="doc_search_planner",
-        instruction="You are a data architect designing document search sub-queries.",
-        output_schema=DocRetrievalPlan
+        instruction="Use the doc retrieval skill and DuckDB MCP to design document search sub-queries.",
+        output_schema=DocRetrievalPlan,
+        tools=[skillset, duckdb_mcp]
     )
     runner = InMemoryRunner(agent=agent)
     session_id = f"session_{uuid.uuid4().hex}"
@@ -301,10 +364,13 @@ Query String:
     
     new_message = types.Content(parts=[types.Part(text=planning_prompt)])
     events = []
-    async for event in runner.run_async(user_id="user", session_id=session_id, new_message=new_message):
-        events.append(event)
-        if event.error_message:
-            raise ValueError(f"Doc planning failed: {event.error_message}")
+    try:
+        async for event in runner.run_async(user_id="user", session_id=session_id, new_message=new_message):
+            events.append(event)
+            if event.error_message:
+                raise ValueError(f"Doc planning failed: {event.error_message}")
+    finally:
+        await duckdb_mcp.close()
 
     model_text = ""
     for event in reversed(events):
@@ -372,10 +438,24 @@ Using the context above, analyze and answer the search query. Provide your answe
 Query:
 {query_string}
 """
+    project_root = Path(__file__).parent.parent
+    duckdb_skill = load_skill_from_dir(project_root / "skills" / "duckdb-skill")
+    doc_skill = load_skill_from_dir(project_root / "skills" / "doc-retrieval-skill")
+    mcp_params = get_mcp_connection_params(doc_db_path, read_only=True)
+    duckdb_mcp = McpToolset(
+        connection_params=mcp_params,
+        tool_filter=["list_tables", "describe_table", "run_sql", "execute_sql", "select_table", "insert_table", "update_table"],
+    )
+    skillset = skill_toolset.SkillToolset(
+        skills=[duckdb_skill, doc_skill],
+        additional_tools=[duckdb_mcp],
+    )
+    
     agent = LlmAgent(
         model=model,
         name="doc_query_analyst",
-        instruction="You are a data architect analyzing unstructured concept documentation."
+        instruction="Use the doc retrieval skill and DuckDB MCP to analyze concept documentation.",
+        tools=[skillset, duckdb_mcp]
     )
     runner = InMemoryRunner(agent=agent)
     session_id = f"session_{uuid.uuid4().hex}"
@@ -383,10 +463,13 @@ Query:
     
     new_message = types.Content(parts=[types.Part(text=analysis_prompt)])
     events = []
-    async for event in runner.run_async(user_id="user", session_id=session_id, new_message=new_message):
-        events.append(event)
-        if event.error_message:
-            raise ValueError(f"Doc query analysis failed: {event.error_message}")
+    try:
+        async for event in runner.run_async(user_id="user", session_id=session_id, new_message=new_message):
+            events.append(event)
+            if event.error_message:
+                raise ValueError(f"Doc query analysis failed: {event.error_message}")
+    finally:
+        await duckdb_mcp.close()
 
     analysis_text = ""
     for event in reversed(events):
@@ -416,8 +499,22 @@ async def execute_tabular_sub_query(
     sq_description = sq.get("description", "")
     logger.info(f"Executing sub-query {idx+1}: '{sq_description}'")
 
-    # 3a. Define Data Cube
-    cube_prompt = f"""You are a database modeler. Define a Data Cube definition for the sub-query below.
+    project_root = Path(__file__).parent.parent
+    duckdb_skill = load_skill_from_dir(project_root / "skills" / "duckdb-skill")
+    tabular_skill = load_skill_from_dir(project_root / "skills" / "tabular-retrieval-skill")
+    mcp_params = get_mcp_connection_params(db_path, read_only=True)
+    duckdb_mcp = McpToolset(
+        connection_params=mcp_params,
+        tool_filter=["list_tables", "describe_table", "run_sql", "execute_sql", "select_table", "insert_table", "update_table"],
+    )
+    skillset = skill_toolset.SkillToolset(
+        skills=[duckdb_skill, tabular_skill],
+        additional_tools=[duckdb_mcp],
+    )
+
+    try:
+        # 3a. Define Data Cube
+        cube_prompt = f"""You are a database modeler. Define a Data Cube definition for the sub-query below.
 The Data Cube must detail: measures, dimensions, filtering conditions, sort order, and aggregation functions.
 
 Sub-query:
@@ -429,74 +526,76 @@ Semantic Mapping Context:
 DuckDB Database Schemas:
 {table_schemas}
 """
-    agent_cube = LlmAgent(
-        model=model,
-        name=f"cube_definer_{idx}",
-        instruction="You are a database modeler defining OLAP data cubes.",
-        output_schema=DataCubeDefinition
-    )
-    runner_cube = InMemoryRunner(agent=agent_cube)
-    cube_sess = f"session_cube_{uuid.uuid4().hex}"
-    await runner_cube.session_service.create_session(app_name=runner_cube.app_name, user_id="user", session_id=cube_sess)
-    
-    new_message = types.Content(parts=[types.Part(text=cube_prompt)])
-    cube_events = []
-    async for event in runner_cube.run_async(user_id="user", session_id=cube_sess, new_message=new_message):
-        cube_events.append(event)
-        if event.error_message:
-            raise ValueError(f"Data cube definition failed: {event.error_message}")
+        agent_cube = LlmAgent(
+            model=model,
+            name=f"cube_definer_{idx}",
+            instruction="Use the tabular retrieval skill and DuckDB MCP to define OLAP data cubes.",
+            output_schema=DataCubeDefinition,
+            tools=[skillset, duckdb_mcp]
+        )
+        runner_cube = InMemoryRunner(agent=agent_cube)
+        cube_sess = f"session_cube_{uuid.uuid4().hex}"
+        await runner_cube.session_service.create_session(app_name=runner_cube.app_name, user_id="user", session_id=cube_sess)
+        
+        new_message = types.Content(parts=[types.Part(text=cube_prompt)])
+        cube_events = []
+        async for event in runner_cube.run_async(user_id="user", session_id=cube_sess, new_message=new_message):
+            cube_events.append(event)
+            if event.error_message:
+                raise ValueError(f"Data cube definition failed: {event.error_message}")
 
-    cube_model_text = ""
-    for event in reversed(cube_events):
-        if event.content and event.content.role == 'model' and event.content.parts:
-            cube_model_text = "".join(p.text for p in event.content.parts if p.text and not getattr(p, "thought", False))
-            break
+        cube_model_text = ""
+        for event in reversed(cube_events):
+            if event.content and event.content.role == 'model' and event.content.parts:
+                cube_model_text = "".join(p.text for p in event.content.parts if p.text and not getattr(p, "thought", False))
+                break
 
-    if not cube_model_text.strip() and cube_events and cube_events[-1].output:
-        cube_obj = cube_events[-1].output
-        cube_dict = cube_obj.model_dump()
-    else:
-        from app.agent import clean_json_text
-        cleaned_json = clean_json_text(cube_model_text)
-        from google.adk.utils._schema_utils import validate_schema
-        cube_dict = validate_schema(DataCubeDefinition, cleaned_json)
+        if not cube_model_text.strip() and cube_events and cube_events[-1].output:
+            cube_obj = cube_events[-1].output
+            cube_dict = cube_obj.model_dump()
+        else:
+            from app.agent import clean_json_text
+            cleaned_json = clean_json_text(cube_model_text)
+            from google.adk.utils._schema_utils import validate_schema
+            cube_dict = validate_schema(DataCubeDefinition, cleaned_json)
 
-    logger.info(f"Data Cube defined for sub-query {idx+1}: measure='{cube_dict.get('measure')}'")
+        logger.info(f"Data Cube defined for sub-query {idx+1}: measure='{cube_dict.get('measure')}'")
 
-    # 3b. Generate SQL & Execute with self-fixing loop
-    sql_success = False
-    current_sql = ""
-    last_error = ""
+        # 3b. Generate SQL & Execute with self-fixing loop
+        sql_success = False
+        current_sql = ""
+        last_error = ""
 
-    # Create one SQL generator agent and session for this sub-query's repair loop
-    agent_sql = LlmAgent(
-        model=model,
-        name=f"sql_generator_{idx}",
-        instruction=(
-            "You are a DuckDB developer writing and repairing SQL statements.\n"
-            "CRITICAL RULES:\n"
-            "1. NEVER use, query, or reference the table 'loan_prediction_train' or its columns (such as Loan_ID, Gender, Married, Dependents, Education, Self_Employed, ApplicantIncome, CoapplicantIncome, LoanAmount, Loan_Amount_Term, Credit_History, Property_Area, Loan_Status).\n"
-            "2. ONLY use the table 'loan_data' and its columns that are explicitly listed in the provided DuckDB Database Schemas. Do not assume or hallucinate columns (such as risk_category, insurance_status, guarantee_status, underwriter_notes).\n"
-            "3. DO NOT compare a VARCHAR column (like text/string IDs) with numeric columns (like DOUBLE, BIGINT) in JOIN conditions or WHERE clauses. Ensure all compared/joined fields have identical data types to avoid conversion errors.\n"
-            "4. All columns and tables queried MUST exist in the provided DuckDB Database Schemas. Do not assume or hallucinate table columns.\n"
-            "5. Any column name containing dots (e.g. log.annual.inc, int.rate, credit.policy, days.with.cr.line, revol.bal, revol.util, inq.last.6mths, delinq.2yrs, pub.rec, not.fully.paid) MUST always be enclosed in double quotes in the SQL query (e.g. \"log.annual.inc\", \"int.rate\", \"credit.policy\"). Dot-notation without quotes causes syntax errors (e.g. near '.6', '.2') or table binder errors (e.g., 'Referenced table credit not found').\n"
-            "6. SQL aliases / AS names must not contain dots unless they are double-quoted. Preferably use underscores (e.g. `AVG_log_annual_inc` instead of `AVG_log.annual.inc`).\n"
-            "7. For queries containing aggregate functions (e.g. SUM, AVG, COUNT, MIN, MAX), every non-aggregated column referenced in SELECT, ORDER BY, or WHERE clauses must appear in the GROUP BY clause. Ensure no GROUP BY binder errors occur (e.g., 'column must appear in the GROUP BY clause').\n"
-            f"8. ALWAYS generate SQL statements that cap the result to a maximum of {row_limit} rows, not exceeding {row_limit}. Apply a LIMIT clause (e.g., `LIMIT {row_limit}`) to every query. Use proper sorting order (using an ORDER BY clause) to ensure the most relevant top {row_limit} rows are retrieved.\n"
-            "9. Output strictly the SQL query string only. Do not wrap the SQL query in JSON structure trailing characters like `}`, `]`, or `}]` inside the `sql_query` field.\n"
-            "10. MUST use the table and columns in the DuckDB table schema ONLY. DO NOT use other tables or columns.\n"
-            "11. MUST follow DuckDB SQL syntax.\n"
-            f"12. MUST use LIMIT to limit the row count with proper sorting (using an ORDER BY clause) so that we can retrieve the top-n rows for analysis."
-        ),
-        output_schema=GeneratedSQL
-    )
-    runner_sql = InMemoryRunner(agent=agent_sql)
-    sql_sess = f"session_sql_{uuid.uuid4().hex}"
-    await runner_sql.session_service.create_session(app_name=runner_sql.app_name, user_id="user", session_id=sql_sess)
+        # Create one SQL generator agent and session for this sub-query's repair loop
+        agent_sql = LlmAgent(
+            model=model,
+            name=f"sql_generator_{idx}",
+            instruction=(
+                "Use the tabular retrieval skill and DuckDB MCP to write and repair SQL statements.\n"
+                "CRITICAL RULES:\n"
+                "1. NEVER use, query, or reference the table 'loan_prediction_train' or its columns (such as Loan_ID, Gender, Married, Dependents, Education, Self_Employed, ApplicantIncome, CoapplicantIncome, LoanAmount, Loan_Amount_Term, Credit_History, Property_Area, Loan_Status).\n"
+                "2. ONLY use the table 'loan_data' and its columns that are explicitly listed in the provided DuckDB Database Schemas. Do not assume or hallucinate columns (such as risk_category, insurance_status, guarantee_status, underwriter_notes).\n"
+                "3. DO NOT compare a VARCHAR column (like text/string IDs) with numeric columns (like DOUBLE, BIGINT) in JOIN conditions or WHERE clauses. Ensure all compared/joined fields have identical data types to avoid conversion errors.\n"
+                "4. All columns and tables queried MUST exist in the provided DuckDB Database Schemas. Do not assume or hallucinate table columns.\n"
+                "5. Any column name containing dots (e.g. log.annual.inc, int.rate, credit.policy, days.with.cr.line, revol.bal, revol.util, inq.last.6mths, delinq.2yrs, pub.rec, not.fully.paid) MUST always be enclosed in double quotes in the SQL query (e.g. \"log.annual.inc\", \"int.rate\", \"credit.policy\"). Dot-notation without quotes causes syntax errors (e.g. near '.6', '.2') or table binder errors (e.g., 'Referenced table credit not found').\n"
+                "6. SQL aliases / AS names must not contain dots unless they are double-quoted. Preferably use underscores (e.g. `AVG_log_annual_inc` instead of `AVG_log.annual.inc`).\n"
+                "7. For queries containing aggregate functions (e.g. SUM, AVG, COUNT, MIN, MAX), every non-aggregated column referenced in SELECT, ORDER BY, or WHERE clauses must appear in the GROUP BY clause. Ensure no GROUP BY binder errors occur (e.g., 'column must appear in the GROUP BY clause').\n"
+                f"8. ALWAYS generate SQL statements that cap the result to a maximum of {row_limit} rows, not exceeding {row_limit}. Apply a LIMIT clause (e.g., `LIMIT {row_limit}`) to every query. Use proper sorting order (using an ORDER BY clause) to ensure the most relevant top {row_limit} rows are retrieved.\n"
+                "9. Output strictly the SQL query string only. Do not wrap the SQL query in JSON structure trailing characters like `}`, `]`, or `}]` inside the `sql_query` field.\n"
+                "10. MUST use the table and columns in the DuckDB table schema ONLY. DO NOT use other tables or columns.\n"
+                "11. MUST follow DuckDB SQL syntax.\n"
+                f"12. MUST use LIMIT to limit the row count with proper sorting (using an ORDER BY clause) so that we can retrieve the top-n rows for analysis."
+            ),
+            output_schema=GeneratedSQL,
+            tools=[skillset, duckdb_mcp]
+        )
+        runner_sql = InMemoryRunner(agent=agent_sql)
+        sql_sess = f"session_sql_{uuid.uuid4().hex}"
+        await runner_sql.session_service.create_session(app_name=runner_sql.app_name, user_id="user", session_id=sql_sess)
 
-    for loop_idx in range(max_sql_iterations):
-        if loop_idx == 0:
-            sql_prompt = f"""You are a DuckDB SQL developer. Generate a valid DuckDB SQL statement to query the tables according to the following Data Cube definition, Semantic Mapping, and schemas.
+        for loop_idx in range(max_sql_iterations):
+            if loop_idx == 0:
+                sql_prompt = f"""You are a DuckDB SQL developer. Generate a valid DuckDB SQL statement to query the tables according to the following Data Cube definition, Semantic Mapping, and schemas.
 Ensure the query is capped to a maximum of {row_limit} rows, not exceeding {row_limit} under any circumstances. You must explicitly append a LIMIT clause (e.g., LIMIT {row_limit} or less) with proper sorting order (using an ORDER BY clause).
 
 CRITICAL RULES:
@@ -521,8 +620,8 @@ Semantic Mapping:
 DuckDB Database Schemas:
 {table_schemas}
 """
-        else:
-            sql_prompt = f"""The previous SQL statement failed with an error. Please FIX the SQL statement to resolve this error.
+            else:
+                sql_prompt = f"""The previous SQL statement failed with an error. Please FIX the SQL statement to resolve this error.
 Crucial: You MUST still answer/retrieve data for the exact same Data Cube definition:
 {yaml.safe_dump(cube_dict)}
 
@@ -555,73 +654,78 @@ Semantic Mapping:
 Generate the corrected SQL query.
 """
 
-        new_message = types.Content(parts=[types.Part(text=sql_prompt)])
-        sql_events = []
-        async for event in runner_sql.run_async(user_id="user", session_id=sql_sess, new_message=new_message):
-            sql_events.append(event)
-            if event.error_message:
-                raise ValueError(f"SQL generation failed: {event.error_message}")
+            new_message = types.Content(parts=[types.Part(text=sql_prompt)])
+            sql_events = []
+            async for event in runner_sql.run_async(user_id="user", session_id=sql_sess, new_message=new_message):
+                sql_events.append(event)
+                if event.error_message:
+                    raise ValueError(f"SQL generation failed: {event.error_message}")
 
-        sql_model_text = ""
-        for event in reversed(sql_events):
-            if event.content and event.content.role == 'model' and event.content.parts:
-                sql_model_text = "".join(p.text for p in event.content.parts if p.text and not getattr(p, "thought", False))
-                break
+            sql_model_text = ""
+            for event in reversed(sql_events):
+                if event.content and event.content.role == 'model' and event.content.parts:
+                    sql_model_text = "".join(p.text for p in event.content.parts if p.text and not getattr(p, "thought", False))
+                    break
 
-        if not sql_model_text.strip() and sql_events and sql_events[-1].output:
-            sql_obj = sql_events[-1].output
-            sql_dict = sql_obj.model_dump()
-        else:
-            from app.agent import clean_json_text
-            cleaned_json = clean_json_text(sql_model_text)
-            from google.adk.utils._schema_utils import validate_schema
-            sql_dict = validate_schema(GeneratedSQL, cleaned_json)
+            if not sql_model_text.strip() and sql_events and sql_events[-1].output:
+                sql_obj = sql_events[-1].output
+                sql_dict = sql_obj.model_dump()
+            else:
+                from app.agent import clean_json_text
+                cleaned_json = clean_json_text(sql_model_text)
+                from google.adk.utils._schema_utils import validate_schema
+                sql_dict = validate_schema(GeneratedSQL, cleaned_json)
 
-        current_sql = sql_dict.get("sql_query", "")
-        logger.info(f"Generated SQL for sub-query {idx+1} (attempt {loop_idx+1}): {current_sql}")
+            current_sql = sql_dict.get("sql_query", "")
+            logger.info(f"Generated SQL for sub-query {idx+1} (attempt {loop_idx+1}): {current_sql}")
 
-        # Run SQL on DuckDB
-        conn = duckdb.connect(db_path)
-        try:
-            # Ensure the SQL has LIMIT
-            if not re.search(r"\blimit\b", current_sql, re.IGNORECASE):
-                # Strip trailing semicolon if any
-                current_sql_stripped = current_sql.strip().rstrip(";")
-                current_sql = f"{current_sql_stripped} LIMIT {row_limit}"
-            
-            result = conn.execute(current_sql)
-            cols = [desc[0] for desc in result.description]
-            rows = result.fetchall()
-            
-            # Write to temp CSV
-            temp_filename = f"./temp/result_{uuid.uuid4().hex[:8]}.csv"
-            with open(temp_filename, "w", newline="", encoding="utf-8") as csv_file:
-                writer = csv.writer(csv_file)
-                writer.writerow(cols)
-                writer.writerows(rows)
-            
-            logger.info(f"SQL execution successful for sub-query {idx+1}! Saved {len(rows)} rows to {temp_filename}")
-            sql_success = True
-            return temp_filename
-        except Exception as sql_err:
-            last_error = str(sql_err)
-            logger.warning(f"SQL execution failed for sub-query {idx+1}: {last_error}")
+            # Run SQL on DuckDB
+            conn = duckdb.connect(db_path)
             try:
-                import datetime
-                timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                with open("sql_error.log", "a", encoding="utf-8") as err_log:
-                    err_log.write(f"[{timestamp}] SQL Execution Failed for sub-query {idx+1} (attempt {loop_idx+1}):\n")
-                    err_log.write(f"Query: {current_sql}\n")
-                    err_log.write(f"Error: {last_error}\n")
-                    err_log.write("-" * 80 + "\n")
-            except Exception as log_err:
-                logger.error(f"Failed to write to sql_error.log: {log_err}")
-        finally:
-            conn.close()
+                # Validate the generated SQL to check and prevent SQL injection
+                check_sql_injection(current_sql)
+                
+                # Ensure the SQL has LIMIT
+                if not re.search(r"\blimit\b", current_sql, re.IGNORECASE):
+                    # Strip trailing semicolon if any
+                    current_sql_stripped = current_sql.strip().rstrip(";")
+                    current_sql = f"{current_sql_stripped} LIMIT {row_limit}"
+                
+                result = conn.execute(current_sql)
+                cols = [desc[0] for desc in result.description]
+                rows = result.fetchall()
+                
+                # Write to temp CSV
+                temp_filename = f"./temp/result_{uuid.uuid4().hex[:8]}.csv"
+                with open(temp_filename, "w", newline="", encoding="utf-8") as csv_file:
+                    writer = csv.writer(csv_file)
+                    writer.writerow(cols)
+                    writer.writerows(rows)
+                
+                logger.info(f"SQL execution successful for sub-query {idx+1}! Saved {len(rows)} rows to {temp_filename}")
+                sql_success = True
+                return temp_filename
+            except Exception as sql_err:
+                last_error = str(sql_err)
+                logger.warning(f"SQL execution failed for sub-query {idx+1}: {last_error}")
+                try:
+                    import datetime
+                    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    with open("sql_error.log", "a", encoding="utf-8") as err_log:
+                        err_log.write(f"[{timestamp}] SQL Execution Failed for sub-query {idx+1} (attempt {loop_idx+1}):\n")
+                        err_log.write(f"Query: {current_sql}\n")
+                        err_log.write(f"Error: {last_error}\n")
+                        err_log.write("-" * 80 + "\n")
+                except Exception as log_err:
+                    logger.error(f"Failed to write to sql_error.log: {log_err}")
+            finally:
+                conn.close()
 
-    if not sql_success:
-        logger.error(f"Failed to execute sub-query {idx+1} SQL after {max_sql_iterations} attempts.")
-        return None
+        if not sql_success:
+            logger.error(f"Failed to execute sub-query {idx+1} SQL after {max_sql_iterations} attempts.")
+            return None
+    finally:
+        await duckdb_mcp.close()
 
 
 async def tabular_data_retrieval(
@@ -690,11 +794,25 @@ DuckDB Database Schemas:
 Query:
 {query_string}
 """
+    project_root = Path(__file__).parent.parent
+    duckdb_skill = load_skill_from_dir(project_root / "skills" / "duckdb-skill")
+    tabular_skill = load_skill_from_dir(project_root / "skills" / "tabular-retrieval-skill")
+    mcp_params = get_mcp_connection_params(db_path, read_only=True)
+    duckdb_mcp = McpToolset(
+        connection_params=mcp_params,
+        tool_filter=["list_tables", "describe_table", "run_sql", "execute_sql", "select_table", "insert_table", "update_table"],
+    )
+    skillset = skill_toolset.SkillToolset(
+        skills=[duckdb_skill, tabular_skill],
+        additional_tools=[duckdb_mcp],
+    )
+    
     agent = LlmAgent(
         model=model,
         name="tabular_query_planner",
-        instruction="You are a data architect planning SQL sub-queries.",
-        output_schema=TabularQueryPlan
+        instruction="Use the tabular retrieval skill and DuckDB MCP to plan SQL sub-queries.",
+        output_schema=TabularQueryPlan,
+        tools=[skillset, duckdb_mcp]
     )
     runner = InMemoryRunner(agent=agent)
     session_id = f"session_{uuid.uuid4().hex}"
@@ -702,10 +820,13 @@ Query:
     
     new_message = types.Content(parts=[types.Part(text=planning_prompt)])
     events = []
-    async for event in runner.run_async(user_id="user", session_id=session_id, new_message=new_message):
-        events.append(event)
-        if event.error_message:
-            raise ValueError(f"Tabular planning failed: {event.error_message}")
+    try:
+        async for event in runner.run_async(user_id="user", session_id=session_id, new_message=new_message):
+            events.append(event)
+            if event.error_message:
+                raise ValueError(f"Tabular planning failed: {event.error_message}")
+    finally:
+        await duckdb_mcp.close()
 
     model_text = ""
     for event in reversed(events):
@@ -813,10 +934,24 @@ Retrieved CSV Data:
 Query:
 {query_string}
 """
+    project_root = Path(__file__).parent.parent
+    duckdb_skill = load_skill_from_dir(project_root / "skills" / "duckdb-skill")
+    tabular_skill = load_skill_from_dir(project_root / "skills" / "tabular-retrieval-skill")
+    mcp_params = get_mcp_connection_params(db_path, read_only=True)
+    duckdb_mcp = McpToolset(
+        connection_params=mcp_params,
+        tool_filter=["list_tables", "describe_table", "run_sql", "execute_sql", "select_table", "insert_table", "update_table"],
+    )
+    skillset = skill_toolset.SkillToolset(
+        skills=[duckdb_skill, tabular_skill],
+        additional_tools=[duckdb_mcp],
+    )
+    
     agent_analysis = LlmAgent(
         model=model,
         name="tabular_query_analyst",
-        instruction="You are a data analyst summarizing and explaining tabular reports."
+        instruction="Use the tabular retrieval skill and DuckDB MCP to analyze retrieved tabular data.",
+        tools=[skillset, duckdb_mcp]
     )
     runner_analysis = InMemoryRunner(agent=agent_analysis)
     analysis_sess = f"session_analysis_{uuid.uuid4().hex}"
@@ -824,10 +959,13 @@ Query:
     
     new_message = types.Content(parts=[types.Part(text=analysis_prompt)])
     anal_events = []
-    async for event in runner_analysis.run_async(user_id="user", session_id=analysis_sess, new_message=new_message):
-        anal_events.append(event)
-        if event.error_message:
-            raise ValueError(f"Tabular analysis failed: {event.error_message}")
+    try:
+        async for event in runner_analysis.run_async(user_id="user", session_id=analysis_sess, new_message=new_message):
+            anal_events.append(event)
+            if event.error_message:
+                raise ValueError(f"Tabular analysis failed: {event.error_message}")
+    finally:
+        await duckdb_mcp.close()
 
     analysis_text = ""
     for event in reversed(anal_events):

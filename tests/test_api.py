@@ -12,7 +12,7 @@ from unittest import mock
 from fastapi.testclient import TestClient
 
 from api.main import app, load_csv_files_to_duckdb
-from api.utils import bm25_rank, reranking, condense_summary
+from api.utils import bm25_rank, reranking, condense_summary, check_sql_injection
 
 client = TestClient(app)
 
@@ -516,3 +516,144 @@ def test_litellm_logging_worker_patch():
     assert GLOBAL_LOGGING_WORKER.start() is None
     assert GLOBAL_LOGGING_WORKER.enqueue(None) is None
     assert GLOBAL_LOGGING_WORKER.ensure_initialized_and_enqueue(None) is None
+
+
+def test_check_sql_injection_success():
+    """Verify that valid read-only SELECT queries pass the injection check."""
+    valid_queries = [
+        "SELECT * FROM loan_data",
+        "SELECT col1, col2 FROM loan_data WHERE credit_policy = 1",
+        "SELECT \"log.annual.inc\" FROM loan_data LIMIT 100",
+        "SELECT purpose, AVG(installment) FROM loan_data GROUP BY purpose",
+        "SELECT * FROM loan_data -- trailing comment is stripped",
+        "SELECT * FROM loan_data /* multi-line comment */ WHERE fico > 700"
+    ]
+    for q in valid_queries:
+        check_sql_injection(q)  # Should not raise any exception
+
+
+def test_check_sql_injection_failures():
+    """Verify that various injection techniques raise ValueError."""
+    invalid_queries = [
+        # Stacked query
+        "SELECT * FROM loan_data; DROP TABLE loan_data",
+        "SELECT 1; SELECT 2",
+        # Modifying statement
+        "INSERT INTO loan_data VALUES (1, 2)",
+        "DROP TABLE loan_data",
+        "DELETE FROM loan_data WHERE 1=1",
+        "UPDATE loan_data SET int_rate = 0.05",
+        "CREATE TABLE test (val INTEGER)",
+        "ALTER TABLE loan_data ADD COLUMN new_col VARCHAR",
+        # System catalog access
+        "SELECT table_name FROM information_schema.tables",
+        "SELECT * FROM sqlite_master",
+        "SELECT * FROM duckdb_tables",
+        "SELECT * FROM pg_catalog.pg_tables",
+        # Disallowed functions
+        "SELECT * FROM read_csv('data.csv')",
+        "SELECT read_parquet('data.parquet')",
+        "SELECT getenv('SECRET')",
+        "SELECT system('ls')",
+        # File-like string literals
+        "SELECT * FROM loan_data WHERE purpose = 'test.csv'",
+        "SELECT * FROM loan_data WHERE purpose = 'https://malicious.com'",
+        "SELECT * FROM loan_data WHERE purpose = 's3://bucket/data.parquet'",
+        # Empty query
+        "",
+        "   ",
+    ]
+    for q in invalid_queries:
+        with pytest.raises(ValueError) as excinfo:
+            check_sql_injection(q)
+        assert any(x in str(excinfo.value) for x in ["Disallowed", "Multiple", "failed", "empty", "No SQL"])
+
+
+@pytest.mark.anyio
+async def test_sql_injection_fixing_loop():
+    """Verify that if the LLM generates a SQL query with potential injection, it is blocked and the loop attempts to fix it."""
+    from api.tools import tabular_data_retrieval
+    from unittest import mock
+
+    mock_model = mock.MagicMock()
+
+    with mock.patch("api.tools.LlmAgent") as mock_agent_class, \
+         mock.patch("api.tools.InMemoryRunner") as mock_runner_class, \
+         mock.patch("api.tools.open", mock.mock_open(read_data="CombinedLoanToValueRatio:\n  attributes: {}")), \
+         mock.patch("api.tools.get_duckdb_table_schemas", return_value="Table: loan_data"):
+         
+         mock_runner = mock.AsyncMock()
+         mock_runner_class.return_value = mock_runner
+
+         mock_event_plan = mock.MagicMock()
+         mock_event_plan.error_message = None
+         mock_event_plan.output = mock.MagicMock()
+         mock_event_plan.output.model_dump.return_value = {
+             "sub_queries": [{"description": "Get high risk loans", "justification": "needed"}]
+         }
+
+         mock_event_cube = mock.MagicMock()
+         mock_event_cube.error_message = None
+         mock_event_cube.output = mock.MagicMock()
+         mock_event_cube.output.model_dump.return_value = {
+             "measure": "COUNT(*)", "dimensions": ["loan_status"], "filtering_conditions": "",
+             "sort_order": "", "aggregation_functions": ["COUNT"]
+         }
+
+         # Mock two different SQL outputs: first is SQL injection, second is valid query
+         mock_event_sql_1 = mock.MagicMock()
+         mock_event_sql_1.error_message = None
+         mock_event_sql_1.output = mock.MagicMock()
+         mock_event_sql_1.output.model_dump.return_value = {
+             "sql_query": "SELECT * FROM read_csv('passwords.csv')"
+         }
+
+         mock_event_sql_2 = mock.MagicMock()
+         mock_event_sql_2.error_message = None
+         mock_event_sql_2.output = mock.MagicMock()
+         mock_event_sql_2.output.model_dump.return_value = {
+             "sql_query": "SELECT * FROM loan_data"
+         }
+
+         # Use a list to return different SQL queries sequentially
+         sql_events = [mock_event_sql_1, mock_event_sql_2]
+         sql_call_count = 0
+
+         async def mock_run_async(*args, **kwargs):
+             nonlocal sql_call_count
+             call_args = mock_agent_class.call_args
+             agent_name = call_args[1].get("name") or call_args[0][1]
+             if "query_planner" in agent_name:
+                 yield mock_event_plan
+             elif "cube_definer" in agent_name:
+                 yield mock_event_cube
+             else:
+                 event = sql_events[min(sql_call_count, len(sql_events) - 1)]
+                 sql_call_count += 1
+                 yield event
+
+         mock_runner.run_async = mock_run_async
+
+         with mock.patch("api.tools.duckdb.connect") as mock_db_connect:
+             mock_conn = mock.MagicMock()
+             mock_db_connect.return_value = mock_conn
+             mock_conn.execute.return_value.description = [("col",)]
+             mock_conn.execute.return_value.fetchall.return_value = [("val",)]
+
+             await tabular_data_retrieval(
+                 "test query", 
+                 semantic_mapping_path="/fake.yaml", 
+                 db_path="/fake.db", 
+                 row_limit=50, 
+                 model=mock_model
+             )
+             
+             # Verify that the SQL generation agent was called at least twice (initial attempt + fix attempt)
+             assert sql_call_count >= 2
+             
+             # Verify that the final execution query was the safe query and had LIMIT appended
+             called_sql = mock_conn.execute.call_args[0][0]
+             assert "SELECT * FROM loan_data" in called_sql
+             assert "LIMIT 50" in called_sql
+
+

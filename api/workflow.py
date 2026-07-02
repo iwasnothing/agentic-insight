@@ -14,11 +14,14 @@ import os
 import logging
 import uuid
 import duckdb
-from typing import List, Dict, Any, Optional, AsyncGenerator
+from typing import List, Dict, Any, Optional, AsyncGenerator, Literal
 from pydantic import BaseModel, Field
 
+from pathlib import Path
 from google.adk.agents import LlmAgent
 from google.adk.runners import InMemoryRunner
+from google.adk.skills import load_skill_from_dir
+from google.adk.tools import skill_toolset
 from google.genai import types
 
 from app.config import get_llm_model
@@ -30,7 +33,7 @@ logger = logging.getLogger(__name__)
 # --- Pydantic schemas for the workflow ---
 
 class ActionItem(BaseModel):
-    tool: str = Field(description="The tool to call: 'doc_context_retrieval' or 'tabular_data_retrieval'")
+    tool: Literal["doc_context_retrieval", "tabular_data_retrieval"] = Field(description="The tool to call: 'doc_context_retrieval' or 'tabular_data_retrieval'")
     query_string: str = Field(description="The search/query string to execute")
     explanation: str = Field(description="Explanation of why this retrieval is needed")
 
@@ -137,25 +140,19 @@ async def run_agentic_workflow(
     logger.info(f"Starting agentic search workflow for objective: '{objective}'")
     yield {"event": "start", "data": {"objective": objective}}
     
-    # Verification & Sanitization of the semantic mapping file against actual DuckDB schemas
-    logger.info(f"Sanitizing semantic mapping file {semantic_mapping_path} against schema in {mappings_db_path}")
-    try:
-        sanitize_semantic_mapping_file(semantic_mapping_path, mappings_db_path)
-    except Exception as e:
-        logger.error(f"Failed to sanitize semantic mapping file: {e}")
-
     model = get_llm_model()
 
-    # Minimum State variables
-    accumulated_context = ""
-    accumulated_analysis = []
-    accumulated_action_plans = []
-
+    project_root = Path(__file__).parent.parent
+    workflow_skill = load_skill_from_dir(project_root / "skills" / "workflow-skill")
+    skillset = skill_toolset.SkillToolset(skills=[workflow_skill])
     # Local state for loops
     iteration = 0
     confidence_score = 0
-    evaluation_explanation = ""
+    accumulated_context = ""
+    accumulated_analysis = []
+    accumulated_action_plans = []
     last_analysis = ""
+    evaluation_explanation = ""
 
     while iteration < max_iterations:
         iteration += 1
@@ -219,13 +216,14 @@ Rules:
         agent_planner = LlmAgent(
             model=model,
             name=f"planner_iter_{iteration}",
-            instruction="You are a data architect designing search action plans.",
-            output_schema=ActionPlan
+            instruction="Use the workflow orchestration skill to design search action plans.",
+            output_schema=ActionPlan,
+            tools=[skillset]
         )
         runner_planner = InMemoryRunner(agent=agent_planner)
         plan_sess = f"session_plan_{uuid.uuid4().hex}"
         await runner_planner.session_service.create_session(app_name=runner_planner.app_name, user_id="user", session_id=plan_sess)
-        
+
         new_message = types.Content(parts=[types.Part(text=planning_prompt)])
         plan_events = []
         async for event in runner_planner.run_async(user_id="user", session_id=plan_sess, new_message=new_message):
@@ -308,26 +306,35 @@ Rules:
 
         # Step 3: Analysis
         yield {"event": "analysis_start", "data": {"iteration": iteration}}
-        analysis_prompt = f"""You are a principal financial data auditor. Your objective is:
+        analysis_prompt = f"""You are an expert financial analyst. Analyze the following information to answer the objective:
+Objective:
 {objective}
 
-Here is the accumulated background, guidelines, and retrieved database context:
+Context:
 {accumulated_context}
 
-Perform a comprehensive analysis and provide clear recommendations in Markdown format to achieve the objective.
+Previous Analysis (if any):
+{last_analysis}
+
+Rules:
+1. Synthesize the context to provide a comprehensive answer to the objective.
+2. If information is missing, clearly state what is missing and why it is necessary.
+3. Provide a structured report with findings and recommendations.
 """
         agent_analysis = LlmAgent(
             model=model,
-            name=f"analyst_iter_{iteration}",
-            instruction="You are a principal auditor analyzing loan files."
+            name=f"analysis_iter_{iteration}",
+            instruction="Use the workflow orchestration skill to analyze accumulated evidence.",
+            tools=[skillset]
         )
         runner_analysis = InMemoryRunner(agent=agent_analysis)
-        analysis_sess = f"session_anal_{uuid.uuid4().hex}"
+        analysis_sess = f"session_analysis_{uuid.uuid4().hex}"
         await runner_analysis.session_service.create_session(app_name=runner_analysis.app_name, user_id="user", session_id=analysis_sess)
-        
+
         new_message = types.Content(parts=[types.Part(text=analysis_prompt)])
         anal_events = []
         analysis_text = ""
+
         async for event in runner_analysis.run_async(user_id="user", session_id=analysis_sess, new_message=new_message):
             anal_events.append(event)
             if event.error_message:
@@ -363,8 +370,9 @@ Evaluate if the analysis fully achieves the objective. Rate your confidence from
         agent_eval = LlmAgent(
             model=model,
             name=f"evaluator_iter_{iteration}",
-            instruction="You are an independent QA auditor scoring analytical reports.",
-            output_schema=EvaluationResult
+            instruction="Use the workflow orchestration skill to evaluate analysis and confidence score.",
+            output_schema=EvaluationResult,
+            tools=[skillset]
         )
         runner_eval = InMemoryRunner(agent=agent_eval)
         eval_sess = f"session_eval_{uuid.uuid4().hex}"

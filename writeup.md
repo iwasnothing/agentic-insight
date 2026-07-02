@@ -121,7 +121,34 @@ Based on the provided dataset and regulatory context, **no loan records definiti
 | *N/A*   | 4.00 | 667  | 0.1496   | 0       | 1              | debt_consolidation| 🔴 High (Potential) | Underwriting override log required |
 
 
-## 6. Key Strengths & Conclusion
+## 6. Integration of ADK Skills & Model Context Protocol (MCP)
+
+To achieve a modular, maintainable, and highly decoupled architecture, the agent execution layer leverages custom **Google ADK Skills** and the **Model Context Protocol (MCP)**:
+*   **Modular ADK Skills**: Prompt directives and structural instructions are separated into distinct skill folders under `skills/` containing markdown instructions:
+    *   [duckdb-skill/SKILL.md](file:///Users/kahingleung/Downloads/agentic-insight/skills/duckdb-skill/SKILL.md): Guidelines for executing SQL database operations.
+    *   [doc-retrieval-skill/SKILL.md](file:///Users/kahingleung/Downloads/agentic-insight/skills/doc-retrieval-skill/SKILL.md): Directives for unstructured policy search, semantic filtering, and recall optimization.
+    *   [tabular-retrieval-skill/SKILL.md](file:///Users/kahingleung/Downloads/agentic-insight/skills/tabular-retrieval-skill/SKILL.md): Guidelines for SQL formulation, handling schema configurations, and query repair loops.
+    *   [workflow-skill/SKILL.md](file:///Users/kahingleung/Downloads/agentic-insight/skills/workflow-skill/SKILL.md): Standard operating procedures for orchestration, gap identification, and QA evaluation.
+*   **Local FastMCP Server**: A standalone database access service is implemented at [duckdb_server.py](file:///Users/kahingleung/Downloads/agentic-insight/mcp/duckdb_server.py) using the FastMCP framework. It exposes specialized tools (such as `list_tables`, `describe_table`, `execute_sql`, `run_sql`, `select_table`) to query raw database tables safely.
+*   **Stdio-Based Subprocess Communication**: Instead of opening network sockets or managing persistent database connections, the retrieval client in [api/tools.py](file:///Users/kahingleung/Downloads/agentic-insight/api/tools.py) configures agents to spawn the FastMCP server as an isolated, ephemeral stdio child subprocess for the duration of the agent session. This avoids network footprint, port conflicts, and resource leaks.
+
+---
+
+## 7. Hardened Security Guardrails
+
+The database execution layer implements a multi-layered security model to prevent unauthorized access, database corruption, or arbitrary code execution:
+*   **SQL Injection Detection & Prevention**: Before any LLM-generated SQL query is executed, it passes through `check_sql_injection` in [api/utils.py](file:///Users/kahingleung/Downloads/agentic-insight/api/utils.py). This validator strips comments, restricts the AST parsing strictly to a single `SELECT` statement (blocking stacked queries or modifying operations like `DROP`/`UPDATE`), bans system schemas (e.g. `information_schema`), and blocks built-in DuckDB functions that read local files or invoke OS commands (e.g. `read_csv`, `system`, `getenv`, `glob`).
+*   **Database Engine Hardening**: Hardening rules are applied directly at the database engine level in [duckdb_server.py](file:///Users/kahingleung/Downloads/agentic-insight/mcp/duckdb_server.py#L65-L70). Immediately upon connecting, the connection executes:
+    ```python
+    c.execute("SET enable_external_access = false;")
+    c.execute("SET lock_configuration = true;")
+    ```
+    This completely disables the database's ability to read local files, call APIs, or change configurations from raw SQL, even if AST checks are bypassed. Furthermore, retrieval tools load the database in strict read-only mode (`read_only=True`).
+*   **MCP Protection & Ephemeral Tokens**: If the MCP server is launched in HTTP/SSE transport modes, it enforces static bearer token authentication (using `MCP_BEARER_TOKEN`). For stdio child subprocesses, the parent process generates a cryptographically secure random token (`EPHEMERAL_MCP_BEARER_TOKEN`) on startup and securely passes it to the child via environment variables, avoiding static secrets storage.
+
+---
+
+## 8. Key Strengths & Conclusion
 
 Our **Agentic Insight Engine** showcases the power of structured-unstructured hybrid analysis. The core strengths of this approach include:
 *   **Semantic Data Alignment**: The ontology and `mapping.yaml` allow the agent to understand what database columns mean, translating business terms to database queries.

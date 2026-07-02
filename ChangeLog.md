@@ -2,6 +2,62 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2026-07-02] - Fix DuckDB MCP Tool Registration
+
+### Fixed
+- Fixed `ValueError: Tool 'execute_sql' not found` inside document and tabular context retrieval agents in [api/tools.py](file:///Users/kahingleung/Downloads/agentic-insight/api/tools.py) by registering the `duckdb_mcp` toolset directly in the `tools` list of all `LlmAgent` instances. This resolves the issue where the local DuckDB MCP tools (e.g. `execute_sql`) were not exposed to the agents initially because they were only passed as `additional_tools` within `SkillToolset` without being declared in the ADK skill metadata.
+
+## [2026-07-02] - Fix Action Plan Tool Name Validation
+
+### Changed
+- Refactored `ActionItem` in [api/workflow.py](file:///Users/kahingleung/Downloads/agentic-insight/api/workflow.py) to change `tool: str` to `tool: Literal["doc_context_retrieval", "tabular_data_retrieval"]`. This restricts JSON schema generation to strictly enforce valid tool values at the LLM model/sampler level, resolving the issue where the model generated `"tool:"` or `"  ,"` as values of the `tool` field.
+
+## [2026-07-02] - Hardening MCP Server & SQL Security
+
+### Added
+- Implemented DuckDB engine-level sandboxing (disabling external file/network access and locking database configuration) in [mcp/duckdb_server.py](file:///Users/kahingleung/Downloads/agentic-insight/mcp/duckdb_server.py).
+- Added `DB_READ_ONLY` support in the MCP server connection to open database in read-only mode if requested.
+- Implemented `get_mcp_connection_params` helper function in [api/tools.py](file:///Users/kahingleung/Downloads/agentic-insight/api/tools.py) which auto-generates a secure `EPHEMERAL_MCP_BEARER_TOKEN` on parent process startup.
+
+### Changed
+- Refactored all duplicate `StdioConnectionParams` creation sequences in [api/tools.py](file:///Users/kahingleung/Downloads/agentic-insight/api/tools.py) to use the new connection parameters helper function.
+- Updated database client configurations to open connections in read-only mode.
+- Documented these architectural and security changes in [AGENTS.md](file:///Users/kahingleung/Downloads/agentic-insight/AGENTS.md) and [writeup.md](file:///Users/kahingleung/Downloads/agentic-insight/writeup.md).
+
+## [2026-07-02] - Add Bearer Token Auth and SQL Injection Prevention Check
+
+### Added
+- Implemented `check_sql_injection` in [api/utils.py](file:///Users/kahingleung/Downloads/agentic-insight/api/utils.py) to check and prevent SQL injection. It strips comments, blocks administrative/modifying query statements, blocks DuckDB file-reading functions/system schemas, and blocks file/URL-like string literals.
+- Configured static bearer token authentication for the local DuckDB FastMCP server in [mcp/duckdb_server.py](file:///Users/kahingleung/Downloads/agentic-insight/mcp/duckdb_server.py) by loading `MCP_BEARER_TOKEN` and defining a custom `StaticTokenVerifier`.
+- Created comprehensive unit tests in [tests/test_api.py](file:///Users/kahingleung/Downloads/agentic-insight/tests/test_api.py) to test SQL injection validation success/failure paths, and verified self-fixing repair loop execution upon encountering a validation block.
+
+### Changed
+- Integrated `check_sql_injection` step inside `execute_tabular_sub_query` in [api/tools.py](file:///Users/kahingleung/Downloads/agentic-insight/api/tools.py) immediately after SQL query generation.
+- Added `MCP_BEARER_TOKEN` variable setup inside [.env](file:///Users/kahingleung/Downloads/agentic-insight/.env).
+
+## [2026-07-02] - Migrate Agents to ADK Skills and local DuckDB MCP Server
+
+### Fixed
+- Fixed front-end crash on starting audit from UI by adding missing `.status-badge` element containing `#status-dot` and `#status-text` in [static/index.html](file:///Users/kahingleung/Downloads/agentic-insight/static/index.html).
+- Added a concise summary comment block at the beginning of [static/index.html](file:///Users/kahingleung/Downloads/agentic-insight/static/index.html).
+- Running the API server on port 8080 instead of 8000 to avoid conflicting with the custom LLM endpoint.
+
+### Added
+- Created [mcp/duckdb_server.py](file:///Users/kahingleung/Downloads/agentic-insight/mcp/duckdb_server.py) using the FastMCP framework, exposing thread-safe local DuckDB tools (`list_tables`, `describe_table`, `run_sql`, `execute_sql`, `select_table`, `insert_table`, `update_table`).
+- Created ADK Skill configuration directories and `SKILL.md` instruction files under `skills/`:
+  - `skills/duckdb_skill` (`duckdb_skill`): Instruction set for querying and updating local databases.
+  - `skills/doc_retrieval_skill` (`doc_retrieval_skill`): Target guidelines for fetching unstructured concept context.
+  - `skills/tabular_retrieval_skill` (`tabular_retrieval_skill`): SQL query formulation and schema compliance guidelines.
+  - `skills/workflow_skill` (`workflow_skill`): Plan auditing, objective synthesis, and QA guidelines.
+
+### Changed
+- Refactored retrieval agents in [tools.py](file:///Users/kahingleung/Downloads/agentic-insight/api/tools.py) to load ADK skills via `load_skill_from_dir` and link the local DuckDB MCP server using `McpToolset` inside `execute_doc_sub_query`, `doc_context_retrieval`, `execute_tabular_sub_query`, and `tabular_data_retrieval`.
+- Ensured stdio transport processes are closed properly in a `finally` block to prevent resource leaks and thread conflicts.
+- Updated [workflow.py](file:///Users/kahingleung/Downloads/agentic-insight/api/workflow.py) to load and equip the planner, analyst, and evaluator agents with the `workflow_skill` dataset.
+- Documented ADK skills and MCP server configuration details in [AGENTS.md](file:///Users/kahingleung/Downloads/agentic-insight/AGENTS.md).
+- Updated [README.md](file:///Users/kahingleung/Downloads/agentic-insight/README.md) to add Section 8 describing ADK Skills locations (`skills/duckdb-skill/SKILL.md`, etc.), MCP Server tools info, and startup procedures (automated stdio connection vs manual/dev standalone runs).
+- Corrected skill file structure names (using hyphenated directories instead of underscores) in [AGENTS.md](file:///Users/kahingleung/Downloads/agentic-insight/AGENTS.md) to keep it consistent with the physical directories.
+
 ## [2026-07-01] - Disable LiteLLM Background Logging Worker
 
 ### Changed

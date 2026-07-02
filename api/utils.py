@@ -364,3 +364,74 @@ def sanitize_semantic_mapping_file(file_path: str, db_path: str):
         raise e
 
 
+def check_sql_injection(sql: str) -> None:
+    """
+    Checks the generated SQL query for potential SQL injection or disallowed modification statements.
+    Only allows a single, read-only SELECT statement.
+    """
+    if not sql or not sql.strip():
+        raise ValueError("SQL query is empty.")
+
+    logger.debug(f"Validating SQL for potential injection: {sql}")
+
+    # 1. Strip comments to prevent comment-based bypasses
+    sql_clean = re.sub(r"--.*$", "", sql, flags=re.MULTILINE)
+    sql_clean = re.sub(r"/\*.*?\*/", "", sql_clean, flags=re.DOTALL).strip()
+
+    # 2. Check for disallowed functions/keywords
+    disallowed_funcs = [
+        "read_csv", "read_csv_auto", "read_parquet", "read_json", "read_json_auto",
+        "read_ndjson", "read_ndjson_auto", "read_blob", "read_text", "parquet_scan",
+        "scan_parquet", "glob", "getenv", "system", "query_directory", "write_csv"
+    ]
+    disallowed_funcs_pattern = re.compile(
+        r"\b(" + "|".join(disallowed_funcs) + r")\b",
+        re.IGNORECASE
+    )
+    if disallowed_funcs_pattern.search(sql_clean):
+        matched = disallowed_funcs_pattern.search(sql_clean).group(0)
+        raise ValueError(f"Disallowed function call detected in SQL query: '{matched}'")
+
+    # 3. Check for system tables or metadata access
+    disallowed_system_patterns = [
+        r"\binformation_schema\b",
+        r"\bsqlite_master\b",
+        r"\bduckdb_[a-zA-Z0-9_]+\b",
+        r"\bpg_[a-zA-Z0-9_]+\b",
+    ]
+    disallowed_system_pattern = re.compile(
+        "|".join(disallowed_system_patterns),
+        re.IGNORECASE
+    )
+    if disallowed_system_pattern.search(sql_clean):
+        matched = disallowed_system_pattern.search(sql_clean).group(0)
+        raise ValueError(f"Disallowed system table or catalog access detected in SQL query: '{matched}'")
+
+    # 4. Check for file-like strings or URLs in string literals
+    file_pattern = re.compile(
+        r"(['\"])(?:(?!\1).)*?(?:\.(?:csv|parquet|json|ndjson|db|sqlite|txt|tsv)|https?://|s3://)(?:(?!\1).)*?\1",
+        re.IGNORECASE
+    )
+    if file_pattern.search(sql_clean):
+        matched = file_pattern.search(sql_clean).group(0)
+        raise ValueError(f"Disallowed file path or external URL literal detected in SQL query: {matched}")
+
+    # 5. Extract and validate statement using DuckDB's parser directly on the module
+    import duckdb
+    try:
+        statements = duckdb.extract_statements(sql_clean)
+    except Exception as parse_err:
+        raise ValueError(f"SQL statement parsing failed: {parse_err}")
+
+    if len(statements) == 0:
+        raise ValueError("No SQL statements found.")
+    
+    if len(statements) > 1:
+        raise ValueError("Multiple SQL statements detected (stacked queries are forbidden).")
+
+    stmt = statements[0]
+    if stmt.type != duckdb.StatementType.SELECT:
+        raise ValueError(f"Disallowed SQL statement type: {stmt.type.name}. Only SELECT queries are permitted.")
+
+
+

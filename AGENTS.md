@@ -230,3 +230,66 @@ api/
 ### `api/workflow.py`
 - Co-ordinates the complete 6 steps: Planning, Execution, Analysis, Evaluation, Conditional Branch looping (until confidence >= 90 or iterations count reached), and writing of markdown analysis reports.
 - Implemented as an asynchronous generator that yields structured progress updates, planning details, query outcomes, analysis tokens, evaluation outcomes, and report outputs.
+
+---
+
+## 8. ADK Skills & MCP Integration (Migration)
+
+We have migrated the prompts of the retrieval and workflow orchestrator agents to ADK Skills and integrated a local DuckDB MCP server.
+
+### File Structure for Custom Customizations & Skills
+```
+skills/
+├── duckdb-skill/
+│   └── SKILL.md       # Generic local DuckDB querying instructions
+├── doc-retrieval-skill/
+│   └── SKILL.md       # Target guidelines for concept-based document context retrieval
+├── tabular-retrieval-skill/
+│   └── SKILL.md       # SQL query generation, data cube definitions, and data repairing rules
+└── workflow-skill/
+    └── SKILL.md       # Workflow planning, comprehensive analysis, and QA audit rules
+
+mcp/
+└── duckdb_server.py   # FastMCP DuckDB server exposing table discovery & SQL operations
+```
+
+### Components Configured with Skills and MCP Toolset:
+- **FastMCP Server (`mcp/duckdb_server.py`)**: Runs locally via stdio connection using `sys.executable`. Provides thread-safe isolated DB query executions for DuckDB operations: `list_tables`, `describe_table`, `run_sql`, `execute_sql`, `select_table`, `insert_table`, `update_table`.
+- **Retrieval Tools (`api/tools.py`)**:
+  - `execute_doc_sub_query`: Spawns a dedicated local DuckDB MCP server and loads `duckdb-skill` + `doc-retrieval-skill`.
+  - `doc_context_retrieval`: Planner and analyst agents load `duckdb-skill` + `doc-retrieval-skill` with the MCP server.
+  - `execute_tabular_sub_query`: Instantiates a single MCP server connection per thread task, loading `duckdb-skill` + `tabular-retrieval-skill`.
+  - `tabular_data_retrieval`: Planner and analyst agents load `duckdb-skill` + `tabular-retrieval-skill` with the MCP server.
+- **Workflow Core Orchestrator (`api/workflow.py`)**:
+  - `run_agentic_workflow`: Planner, analyst, and evaluator agents load the `workflow-skill` at function startup.
+
+---
+
+## 9. Security Specifications
+
+### 9.1 Bearer Token Authentication
+To prevent unauthorized network or process interaction with the local DuckDB MCP server, it requires bearer token authentication:
+- **Server Authentication**: Initialized with `AuthSettings` and `StaticTokenVerifier` (matching the `MCP_BEARER_TOKEN` environment variable). The FastMCP server validates `Authorization: Bearer <token>` in headers automatically when run in HTTP/SSE transport modes.
+- **Process Authentication**: The server loads the environment configuration at startup. If `MCP_BEARER_TOKEN` is missing or empty, execution fails immediately to prevent unauthenticated access.
+- **Client Configuration & Ephemeral Tokens**: To avoid plain-text storage of static keys on disk, retrieval agents in [api/tools.py](file:///Users/kahingleung/Downloads/agentic-insight/api/tools.py) generate a cryptographically secure random token (`EPHEMERAL_MCP_BEARER_TOKEN = secrets.token_hex(32)`) at startup and pass it to the spawned stdio child subprocesses via environment variables.
+
+### 9.2 SQL Injection Check & Prevention
+After SQL generation and before database query execution, a dedicated validation check `check_sql_injection` is executed:
+- **Comments Removal**: Single-line (`--`) and multi-line (`/* ... */`) comments are stripped to prevent comment-based logic modification.
+- **DML/DDL Restrictions**: Queries are parsed using `duckdb.extract_statements`. Only a single query of statement type `SELECT` is permitted. Stacked queries (using `;`) and modifying commands (`DROP`, `DELETE`, `UPDATE`, `INSERT`, etc.) are blocked.
+- **Command/Function Sanity Checking**: DuckDB file-reading functions (`read_csv`, `read_parquet`, `read_json`, `read_ndjson`, `read_blob`, `read_text`, `parquet_scan`, `scan_parquet`, `glob`, `getenv`, `system`, `query_directory`, `write_csv`) and system catalog schemas (`information_schema`, `sqlite_master`, `duckdb_`, `pg_`) are rejected.
+- **File/URL References Restriction**: Quoted string literals representing files (ending with `.csv`, `.parquet`, etc.) or network protocols (`http://`, `https://`, `s3://`) are forbidden.
+- **Self-fixing Loop Integration**: If validation fails, it throws a `ValueError` which is captured by the query repair loop, logging the security infraction to `sql_error.log` and prompting the agent to correct the SQL statement in subsequent attempts.
+
+### 9.3 Engine-Level Sandboxing & Read-Only Access
+The MCP database connection is hardened directly at the engine level in [mcp/duckdb_server.py](file:///Users/kahingleung/Downloads/agentic-insight/mcp/duckdb_server.py):
+- **DuckDB Sandboxing**: The database engine is locked immediately on connection by executing:
+  ```python
+  c.execute("SET enable_external_access = false;")
+  c.execute("SET lock_configuration = true;")
+  ```
+  This prevents the engine from loading extensions, reading/writing local files, or initiating network requests from raw SQL, even if query checks are bypassed.
+- **Read-Only Mode**: The MCP server respects `DB_READ_ONLY` from the environment. Retrieval tools pass `DB_READ_ONLY=true` to spawn the server in a read-only state, preventing any database mutation.
+
+
+

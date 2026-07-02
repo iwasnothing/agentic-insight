@@ -1,3 +1,7 @@
+<!--
+static/index.html - User Interface for Agentic Search Multi-Threaded Audit Dashboard.
+Provides input fields for audit parameters and displays real-time console logs and final report markdown stream.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,14 +75,14 @@
             </div>
             <div class="form-group">
               <label for="input-top-n">Rerank Limit (Top N)</label>
-              <input type="number" id="input-top-n" class="form-input" value="100">
+              <input type="number" id="input-top-n" class="form-input" value="10">
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
               <label for="input-row-limit">Row Limit</label>
-              <input type="number" id="input-row-limit" class="form-input" value="100">
+              <input type="number" id="input-row-limit" class="form-input" value="10">
             </div>
             <div class="form-group">
               <label for="input-max-sql-iterations">Max SQL Fixes</label>
@@ -113,7 +117,7 @@
         <h2>Agentic Search Multi-Threaded Audit</h2>
         <div class="status-badge">
           <span id="status-dot" class="status-dot"></span>
-          <span id="status-text">Disconnected</span>
+          <span id="status-text">Idle</span>
         </div>
       </header>
 
