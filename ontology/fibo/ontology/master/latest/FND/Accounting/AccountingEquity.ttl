@@ -1,0 +1,205 @@
+# baseURI: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Accounting/AccountingEquity/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Accounting/CurrencyAmount/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/OwnershipAndControl/Ownership/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/ContextualDesignators/
+# imports: https://www.omg.org/spec/Commons/DatesAndTimes/
+# imports: https://www.omg.org/spec/Commons/Organizations/
+# imports: https://www.omg.org/spec/Commons/QuantitiesAndUnits/
+
+@base <https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Accounting/AccountingEquity/> .
+@prefix cmns-av: <https://www.omg.org/spec/Commons/AnnotationVocabulary/> .
+@prefix cmns-cxtdsg: <https://www.omg.org/spec/Commons/ContextualDesignators/> .
+@prefix cmns-dt: <https://www.omg.org/spec/Commons/DatesAndTimes/> .
+@prefix cmns-org: <https://www.omg.org/spec/Commons/Organizations/> .
+@prefix cmns-qtu: <https://www.omg.org/spec/Commons/QuantitiesAndUnits/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fibo-fnd-acc-aeq: <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/> .
+@prefix fibo-fnd-acc-cur: <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/> .
+@prefix fibo-fnd-oac-own: <https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/> .
+@prefix fibo-fnd-utl-av: <https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/>
+	a owl:Ontology ;
+	rdfs:label "Accounting Equity Ontology" ;
+	dcterms:abstract "This ontology defines equity-related concepts for use in defining other FIBO ontology elements. These are based on basic accounting principles as they relate to equity, debt, assets and liabilities of a firm. Equity forms the basis for ownership of certain forms of corporate body." ;
+	dcterms:license """Copyright (c) 2013-2025 EDM Council, Inc.
+Copyright (c) 2013-2025 Object Management Group, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+		
+		See https://opensource.org/licenses/MIT.""" ;
+	owl:imports
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Accounting/CurrencyAmount/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/OwnershipAndControl/Ownership/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/ContextualDesignators/> ,
+		<https://www.omg.org/spec/Commons/DatesAndTimes/> ,
+		<https://www.omg.org/spec/Commons/Organizations/> ,
+		<https://www.omg.org/spec/Commons/QuantitiesAndUnits/>
+		;
+	owl:versionIRI <https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Accounting/AccountingEquity/> ;
+	skos:changeNote
+		"""The http://www.omg.org/spec/FIBO/Foundations/20130601/Accounting/AccountingEquity.owl version of the ontology was revised in advance of the September 2013 New Brunswick, NJ meeting, as follows:
+   (1) to use slash style URI/IRIss (also called 303 URIs, vs. hash style) as required to support server side processing 
+   (2) to use version-independent IRIs for all definitions internally as opposed to version-specific IRIs
+   (3) to change the file suffix from .owl to .rdf to increase usability in RDF tools
+   (4) to use 4-level abbreviations and corresponding namespace prefixes for all FIBO ontologies, reflecting a family/specification/module/ontology structure
+   (5) to incorporate changes to the specification metadata to support documentation at the family, specification, module, and ontology level, similar to the abbreviations.""" ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity.rdf version of the ontology was modified to replace additional content that is now available in the OMG Commons Ontology Library (Commons) v1.2 (FND-389)." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity.rdf version of this ontology was modified per the FIBO 2.0 RFC to rework definitions in support of revised Business Entities, Equities and related ontologies." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity.rdf version of this ontology was modified per the issue resolutions identified in the FIBO FND 1.0 FTF report and in https://spec.edmcouncil.org/fibo/ontology/FND/1.0/AboutFND-1.0/." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity.rdf version of this ontology was modified per the issue resolutions identified in the FIBO FND 1.1 RTF report, namely, to rename MoneyAmount to AmountOfMoney and replace it herein with MonetaryAmount, as appropriate." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity.rdf version of this ontology was modified to add a definition for EBITDA." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity.rdf version of this ontology was modified to add physical asset and eliminate ambiguity in some definitions." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity.rdf version of this ontology was modified to augment the definition of asset, and add income." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity.rdf version of this ontology was modified to correct the definition of EBITDA and to replace content that is now available in the OMG Commons Ontology Library (Commons) v1.1 (FND-380)." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity.rdf version of this ontology was modified to eliminate deprecated elements." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity.rdf version of this ontology was modified to eliminate the deprecated 'represents an interest in' property." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity.rdf version of this ontology was modified to fix spelling errors and deprecate the property represents an interest in, which is not used elsewhere and is confusing." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity.rdf version of this ontology was modified to make income a subclass of monetary amount and eliminate the oblique restriction on monetary amount to simplify its representation." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity.rdf version of this ontology was modified to use the Commons Ontology Library (Commons) Annotation Vocabulary rather than the OMG's Specification Metadata vocabulary." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity.rdf version of this ontology was modified to use the Commons Ontology Library (Commons) rather than the OMG's Languages, Countries and Codes (LCC), eliminating redundancies in FIBO as appropriate."
+		;
+	fibo-fnd-utl-av:hasMaturityLevel fibo-fnd-utl-av:Release ;
+	cmns-av:copyright
+		"Copyright (c) 2013-2025 EDM Council, Inc." ,
+		"Copyright (c) 2013-2025 Object Management Group, Inc."
+		;
+	.
+
+fibo-fnd-acc-aeq:CapitalSurplus
+	a owl:Class ;
+	rdfs:subClassOf fibo-fnd-acc-aeq:PaidInCapital ;
+	rdfs:label "capital surplus" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/> ;
+	skos:definition "capital contributed in excess of the par value (stated value) of the ownership interest issued" ;
+	.
+
+fibo-fnd-acc-aeq:EarningsBeforeInterestTaxesDepreciationAmortization
+	a owl:Class ;
+	rdfs:subClassOf
+		cmns-qtu:Expression ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cxtdsg:appliesTo ;
+			owl:onClass cmns-org:FormalOrganization ;
+			owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+		]
+		;
+	rdfs:label "earnings before interest, taxes, depreciation and amortization" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/> ;
+	skos:definition "measure of potential cash flow that excludes the effects of capital structure, taxes and non-cash expenses" ;
+	cmns-av:abbreviation "EBITDA" ;
+	cmns-av:explanatoryNote
+		"By stripping out the non-cash depreciation and amortization expense as well as taxes and debt costs dependent on the capital structure, EBITDA attempts to represent cash profit generated by the company's operations. EBITDA is not a metric recognized under Generally Accepted Accounting Principles (GAAP). Some public companies report EBITDA in their quarterly results along with adjusted EBITDA figures typically excluding additional costs, such as stock-based compensation." ,
+		"EBITDA is often used as a proxy for cash flow, as it shows how much cash a company can generate from its core operations. However, EBITDA has some limitations, such as ignoring the cost of maintaining and replacing capital assets, and being susceptible to manipulation by excluding certain expenses."
+		;
+	.
+
+fibo-fnd-acc-aeq:FinancialAsset
+	a owl:Class ;
+	rdfs:subClassOf fibo-fnd-oac-own:TangibleAsset ;
+	rdfs:label "financial asset" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/> ;
+	skos:definition "non-physical, tangible asset whose value is derived from a contractual claim, such as bank deposits, bonds, stocks, rights, certificates, and bank balances" ;
+	cmns-av:explanatoryNote "Financial assets are typically more liquid than other tangible assets, such as commodities or real estate. Financial assets may not cover all assets that might be included on a balance sheet, and do not include tangible, physical assets or intangible assets such as intellectual property." ;
+	.
+
+fibo-fnd-acc-aeq:Income
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-fnd-acc-cur:MonetaryAmount ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-dt:hasDatePeriod ;
+			owl:onClass cmns-dt:DatePeriod ;
+			owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+		]
+		;
+	rdfs:label "income"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/> ;
+	skos:definition "revenue received during a period of time" ;
+	cmns-av:explanatoryNote "Income includes cash or cash equivalent(s) received during some period of time in exchange for labor or services, from the sale of goods or property, or as receipts from financial investments." ;
+	.
+
+fibo-fnd-acc-aeq:OwnersEquity
+	a owl:Class ;
+	rdfs:subClassOf
+		cmns-qtu:Expression ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cxtdsg:appliesTo ;
+			owl:onClass cmns-org:FormalOrganization ;
+			owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-qtu:hasArgument ;
+			owl:someValuesFrom fibo-fnd-acc-aeq:PaidInCapital ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-qtu:hasArgument ;
+			owl:someValuesFrom fibo-fnd-acc-aeq:RetainedEarnings ;
+		]
+		;
+	rdfs:label "owners' equity"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/> ;
+	skos:definition "owners' share in a business plus operating profit" ;
+	cmns-av:adaptedFrom "Barron's Dictionary of Banking Terms, Sixth Edition, 2012." ;
+	cmns-av:explanatoryNote "Owner's equity is represented by capital investments and accumulated earnings less any dividends or other financial obligations. It is typically used to talk about equity in a business, but may also refer to the net assets of a pool or special purpose vehicle." ;
+	cmns-av:synonym
+		"capital"@en ,
+		"contributed capital"@en ,
+		"equity" ,
+		"net worth"
+		;
+	.
+
+fibo-fnd-acc-aeq:PaidInCapital
+	a owl:Class ;
+	rdfs:subClassOf fibo-fnd-acc-aeq:OwnersEquity ;
+	rdfs:label "paid-in capital" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/> ;
+	skos:definition "assets received from investors in exchange for an ownership interest" ;
+	.
+
+fibo-fnd-acc-aeq:PhysicalAsset
+	a owl:Class ;
+	rdfs:subClassOf fibo-fnd-oac-own:TangibleAsset ;
+	rdfs:label "physical asset" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/> ;
+	owl:disjointWith fibo-fnd-acc-aeq:FinancialAsset ;
+	skos:definition "tangible asset that has a material form, such as property, equipment, and inventory" ;
+	cmns-av:explanatoryNote "Physical (tangible) assets are real items of value that are used to generate revenue for a company." ;
+	.
+
+fibo-fnd-acc-aeq:RetainedEarnings
+	a owl:Class ;
+	rdfs:subClassOf fibo-fnd-acc-aeq:OwnersEquity ;
+	rdfs:label "retained earnings" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/> ;
+	skos:definition "net profits kept to accumulate in a business after dividends are paid" ;
+	cmns-av:explanatoryNote "If the corporation takes a loss, then that loss is retained and called variously retained losses, accumulated losses or accumulated deficit. Retained earnings and losses are cumulative from year to year with losses offsetting earnings." ;
+	.
+
+fibo-fnd-acc-aeq:ShareholdersEquity
+	a owl:Class ;
+	rdfs:subClassOf fibo-fnd-acc-aeq:OwnersEquity ;
+	rdfs:label "shareholders' equity" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/> ;
+	skos:definition "equity that is manifested in the form of shares in an entity, fund or structured product"@en ;
+	.
+

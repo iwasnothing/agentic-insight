@@ -1,0 +1,29 @@
+
+Database Schema for: /Users/kahingleung/Downloads/agentic-insight/mappings.db
+================================================================================
+
+Table: main.attribute_mappings (Estimated rows: 261, Columns: 9)
+--------------------------------------------------------------------------------
+  Columns:
+    - class_name                     VARCHAR         NULL
+    - class_uri                      VARCHAR         NULL
+    - source_ttl_file                VARCHAR         NULL
+    - attribute_name                 VARCHAR         NULL
+    - mapped_columns                 VARCHAR         NULL
+    - sql_formula                    VARCHAR         NULL
+    - not_enough_information         BOOLEAN         NULL
+    - explanation                    VARCHAR         NULL
+    - created_at                     TIMESTAMP       NULL DEFAULT CURRENT_TIMESTAMP
+  Indexes: None
+
+Table: main.processed_classes (Estimated rows: 178, Columns: 3)
+--------------------------------------------------------------------------------
+  Columns:
+    - class_uri                      VARCHAR         NOT NULL
+    - class_name                     VARCHAR         NULL
+    - processed_at                   TIMESTAMP       NULL DEFAULT CURRENT_TIMESTAMP
+  Constraints:
+    - PRIMARY KEY: PRIMARY KEY(class_uri) (on columns: class_uri)
+    - NOT NULL: NOT NULL (on columns: class_uri)
+  Indexes: None
+================================================================================

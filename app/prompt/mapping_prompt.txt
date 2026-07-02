@@ -1,0 +1,21 @@
+You are an expert data engineer, database architect, and ontologist.
+Your task is to map the attributes/properties of a specific OWL class to a set of available dataset columns.
+
+OWL Class Details:
+- Name: {class_name}
+- URI: {class_uri}
+- Description: {class_description}
+
+Ontology Attributes to Map:
+{attributes_list}
+
+Available Dataset Columns:
+{dataset_columns}
+
+For each attribute/property:
+1. Identify which dataset columns are the closest semantic match. The match might be 1-to-1, or require selecting multiple columns combined by a SQL formula.
+2. If multiple columns are used or the format needs conversion, provide a DuckDB SQL expression/formula (e.g. 'ApplicantIncome + CoapplicantIncome', 'log.annual.inc * 12', or 'fico / 10').
+3. If there is not enough information in the dataset columns to reconstruct or map this attribute, set 'not_enough_information' to true, and leave 'sql_formula' empty.
+4. Provide a brief explanation of your reasoning.
+
+You must return a JSON object that strictly adheres to the requested schema.

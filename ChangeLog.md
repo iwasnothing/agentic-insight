@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2026-07-01] - Disable LiteLLM Background Logging Worker
+
+### Changed
+- Monkeypatched LiteLLM's `LoggingWorker` class and `GLOBAL_LOGGING_WORKER` instance in [config.py](file:///Users/kahingleung/Downloads/agentic-insight/app/config.py) to stub out background worker queue methods, fully resolving the `ValueError: task_done() called too many times` error and preventing other asynchronous queue exceptions/warnings on closed event loops in threads.
+
+## [2026-06-30] - Parallel Query Plan Execution and Hard SQL Limits
+
+
+### Added
+- Created `execute_doc_sub_query` and `execute_tabular_sub_query` inside [tools.py](file:///Users/kahingleung/Downloads/agentic-insight/api/tools.py) to encapsulate single sub-query executions.
+- Added `test_sql_limit_fallback` inside [test_api.py](file:///Users/kahingleung/Downloads/agentic-insight/tests/test_api.py) to verify programmatic row-limiting in SQL execution.
+
+### Changed
+- Refactored [tools.py](file:///Users/kahingleung/Downloads/agentic-insight/api/tools.py) to support parallel execution of sub-query retrieval plans using a `ThreadPoolExecutor` (default size 5).
+- Configured thread workers to run async tasks inside custom `asyncio` event loops within each thread context.
+- Modified SQL LLM agent prompts and instruction constraints inside [tools.py](file:///Users/kahingleung/Downloads/agentic-insight/api/tools.py) to explicitly enforce query results capping (default 100 rows) with sorting (`ORDER BY`).
+- Enhanced SQL execution in [tools.py](file:///Users/kahingleung/Downloads/agentic-insight/api/tools.py) to programmatically check for `LIMIT` using a case-insensitive regex pattern and append `LIMIT {row_limit}` if no limit is present.
+- Updated constraints assertions in [test_api.py](file:///Users/kahingleung/Downloads/agentic-insight/tests/test_api.py) to dynamically match row limit prompt substrings.
+
+## [2026-06-30] - Implement SSE Streaming and Premium Dashboard UI
+
+### Added
+- Created `static/` directory containing `index.html`, `style.css`, and `app.js` to serve as a premium dashboard UI for testing the agentic search workflow.
+- Served the dashboard UI directly at `GET /` and mounted static assets under `/static`.
+- Implemented real-time markdown rendering inside the dashboard using `marked.js`.
+
+### Changed
+- Converted `run_agentic_workflow` in [workflow.py](file:///Users/kahingleung/Downloads/agentic-insight/api/workflow.py) to an async generator yielding intermediate progress events (planning, sub-queries, token analysis delta streaming, evaluation, and final reports).
+- Modified the `/run` endpoint in [main.py](file:///Users/kahingleung/Downloads/agentic-insight/api/main.py) to return a `StreamingResponse` in standard SSE data-stream format.
+- Updated the unit test cases in [test_api.py](file:///Users/kahingleung/Downloads/agentic-insight/tests/test_api.py) to mock async generator streams and verify SSE response codes, content headers, and event contents.
+- Updated [AGENTS.md](file:///Users/kahingleung/Downloads/agentic-insight/AGENTS.md) to document the streaming and static UI specifications.
+
 ## [2026-06-29] - Add Mermaid Diagram Conversion in Markdown to PDF Converter
 
 ### Changed

@@ -13,6 +13,8 @@ import logging
 import uuid
 import yaml
 import duckdb
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
 from typing import List, Dict, Any, Optional
 from pydantic import BaseModel, Field
 
@@ -115,12 +117,148 @@ def list_concept_types(ontology_folder: str) -> str:
 
 # --- Doc Context Retrieval Function ---
 
+async def execute_doc_sub_query(
+    sq: Dict[str, Any],
+    doc_db_path: str,
+    top_n: int,
+    model: Any
+) -> Optional[str]:
+    """
+    Executes a single document sub-query, querying and selecting concepts, and returning the YAML result.
+    """
+    concept_type = sq.get("concept_type")
+    sub_query_string = sq.get("sub_query_string")
+    logger.info(f"Processing sub-query: type='{concept_type}', query='{sub_query_string}'")
+
+    # Query duckdb
+    conn = duckdb.connect(doc_db_path)
+    try:
+        rows = conn.execute(
+            "SELECT concept_name, summary FROM concepts WHERE LOWER(concept_type) = LOWER(?)",
+            [concept_type]
+        ).fetchall()
+    except Exception as db_err:
+        logger.error(f"Error querying concepts: {db_err}")
+        rows = []
+    finally:
+        conn.close()
+
+    if not rows:
+        logger.info(f"No concepts found in database for concept_type '{concept_type}'")
+        return None
+
+    # Check if list is longer than top_n (default 100)
+    list_of_strings = [f"Name: {name} | Summary: {summary}" for name, summary in rows]
+    concept_map = {name: (name, summary) for name, summary in rows}
+
+    if len(list_of_strings) > top_n:
+        logger.info(f"Concepts count ({len(list_of_strings)}) > {top_n}, reranking...")
+        reranked = reranking(sub_query_string, list_of_strings, top_n)
+        # Reconstruct elements
+        selected_candidates = []
+        for item in reranked:
+            # Extract name
+            match = re.match(r"Name:\s*([^|]+)\|", item)
+            if match:
+                name_extracted = match.group(1).strip()
+                if name_extracted in concept_map:
+                    selected_candidates.append(concept_map[name_extracted])
+    else:
+        selected_candidates = rows
+
+    # Feed candidates to LLM to select all related concepts
+    candidate_list_text = "\n".join([f"- Name: {name}\n  Summary: {summary}" for name, summary in selected_candidates])
+    
+    selection_prompt = f"""You are a search query evaluator. Your task is to select ALL concepts from the candidates list below that are related to the query string.
+Emphasis: Get ALL related concepts to maximize recall.
+
+Query String:
+{sub_query_string}
+
+Candidates List:
+{candidate_list_text}
+"""
+    agent = LlmAgent(
+        model=model,
+        name="concept_searcher",
+        instruction="You are a data architect identifying related concepts for document analysis.",
+        output_schema=SelectedConcepts
+    )
+    runner = InMemoryRunner(agent=agent)
+    session_id = f"session_{uuid.uuid4().hex}"
+    await runner.session_service.create_session(app_name=runner.app_name, user_id="user", session_id=session_id)
+    
+    new_message = types.Content(parts=[types.Part(text=selection_prompt)])
+    events = []
+    async for event in runner.run_async(user_id="user", session_id=session_id, new_message=new_message):
+        events.append(event)
+        if event.error_message:
+            raise ValueError(f"Concept selection failed: {event.error_message}")
+
+    model_text = ""
+    for event in reversed(events):
+        if event.content and event.content.role == 'model' and event.content.parts:
+            model_text = "".join(p.text for p in event.content.parts if p.text and not getattr(p, "thought", False))
+            break
+
+    if not model_text.strip() and events and events[-1].output:
+        sel_obj = events[-1].output
+        sel_dict = sel_obj.model_dump()
+    else:
+        from app.agent import clean_json_text
+        cleaned_json = clean_json_text(model_text)
+        from google.adk.utils._schema_utils import validate_schema
+        sel_dict = validate_schema(SelectedConcepts, cleaned_json)
+
+    selected_names = sel_dict.get("concept_names", [])
+    logger.info(f"Selected {len(selected_names)} related concepts.")
+
+    if not selected_names:
+        return None
+
+    # Get source segment text for each selected concept
+    conn = duckdb.connect(doc_db_path)
+    try:
+        placeholders = ",".join(["?"] * len(selected_names))
+        query = f"""
+            SELECT m.concept_name, s.segment_text 
+            FROM main.concept_segment_mapping m 
+            JOIN main.text_segments s ON m.segment_id = s.segment_id 
+            WHERE m.concept_name IN ({placeholders})
+        """
+        segments = conn.execute(query, selected_names).fetchall()
+    except Exception as db_err:
+        logger.error(f"Error querying concept segments: {db_err}")
+        segments = []
+    finally:
+        conn.close()
+
+    # Format output in yaml
+    concept_to_segments = {}
+    for c_name, seg_text in segments:
+        if c_name not in concept_to_segments:
+            concept_to_segments[c_name] = []
+        concept_to_segments[c_name].append(seg_text)
+
+    yaml_list = []
+    for c_name, segs in concept_to_segments.items():
+        yaml_list.append({
+            "concept_name": c_name,
+            "segment_text": "\n---\n".join(segs)
+        })
+    
+    if yaml_list:
+        return yaml.safe_dump(yaml_list, sort_keys=False, default_flow_style=False)
+    return None
+
+
 async def doc_context_retrieval(
     query_string: str,
     ontology_folder: str = None,
     doc_db_path: str = None,
     top_n: int = None,
-    model: Any = None
+    model: Any = None,
+    pool_size: int = 5
 ) -> str:
     """
     Executes doc context retrieval agentic workflow.
@@ -186,134 +324,34 @@ Query String:
     sub_queries = plan_dict.get("sub_queries", [])
     logger.info(f"Doc Retrieval Plan generated: {len(sub_queries)} sub-queries.")
 
-    # Step 2: Execution step (execute sub-queries)
+    # Step 2: Execution step (execute sub-queries in parallel using ThreadPoolExecutor)
     combined_yaml_results = []
     
-    for sq in sub_queries:
-        concept_type = sq["concept_type"]
-        sub_query_string = sq["sub_query_string"]
-        logger.info(f"Processing sub-query: type='{concept_type}', query='{sub_query_string}'")
+    if sub_queries:
+        def run_in_thread(sq):
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            try:
+                return loop.run_until_complete(
+                    execute_doc_sub_query(sq, doc_db_path, top_n, model)
+                )
+            finally:
+                try:
+                    pending = asyncio.all_tasks(loop)
+                    for t in pending:
+                        t.cancel()
+                    if pending:
+                        loop.run_until_complete(asyncio.gather(*pending, return_exceptions=True))
+                except Exception:
+                    pass
+                loop.close()
 
-        # Query duckdb
-        conn = duckdb.connect(doc_db_path)
-        try:
-            rows = conn.execute(
-                "SELECT concept_name, summary FROM concepts WHERE LOWER(concept_type) = LOWER(?)",
-                [concept_type]
-            ).fetchall()
-        except Exception as db_err:
-            logger.error(f"Error querying concepts: {db_err}")
-            rows = []
-        finally:
-            conn.close()
-
-        if not rows:
-            logger.info(f"No concepts found in database for concept_type '{concept_type}'")
-            continue
-
-        # Check if list is longer than top_n (default 100)
-        list_of_strings = [f"Name: {name} | Summary: {summary}" for name, summary in rows]
-        concept_map = {name: (name, summary) for name, summary in rows}
-
-        if len(list_of_strings) > top_n:
-            logger.info(f"Concepts count ({len(list_of_strings)}) > {top_n}, reranking...")
-            reranked = reranking(sub_query_string, list_of_strings, top_n)
-            # Reconstruct elements
-            selected_candidates = []
-            for item in reranked:
-                # Extract name
-                match = re.match(r"Name:\s*([^|]+)\|", item)
-                if match:
-                    name_extracted = match.group(1).strip()
-                    if name_extracted in concept_map:
-                        selected_candidates.append(concept_map[name_extracted])
-        else:
-            selected_candidates = rows
-
-        # Feed candidates to LLM to select all related concepts
-        candidate_list_text = "\n".join([f"- Name: {name}\n  Summary: {summary}" for name, summary in selected_candidates])
-        
-        selection_prompt = f"""You are a search query evaluator. Your task is to select ALL concepts from the candidates list below that are related to the query string.
-Emphasis: Get ALL related concepts to maximize recall.
-
-Query String:
-{sub_query_string}
-
-Candidates List:
-{candidate_list_text}
-"""
-        agent = LlmAgent(
-            model=model,
-            name="concept_searcher",
-            instruction="You are a data architect identifying related concepts for document analysis.",
-            output_schema=SelectedConcepts
-        )
-        runner = InMemoryRunner(agent=agent)
-        session_id = f"session_{uuid.uuid4().hex}"
-        await runner.session_service.create_session(app_name=runner.app_name, user_id="user", session_id=session_id)
-        
-        new_message = types.Content(parts=[types.Part(text=selection_prompt)])
-        events = []
-        async for event in runner.run_async(user_id="user", session_id=session_id, new_message=new_message):
-            events.append(event)
-            if event.error_message:
-                raise ValueError(f"Concept selection failed: {event.error_message}")
-
-        model_text = ""
-        for event in reversed(events):
-            if event.content and event.content.role == 'model' and event.content.parts:
-                model_text = "".join(p.text for p in event.content.parts if p.text and not getattr(p, "thought", False))
-                break
-
-        if not model_text.strip() and events and events[-1].output:
-            sel_obj = events[-1].output
-            sel_dict = sel_obj.model_dump()
-        else:
-            from app.agent import clean_json_text
-            cleaned_json = clean_json_text(model_text)
-            from google.adk.utils._schema_utils import validate_schema
-            sel_dict = validate_schema(SelectedConcepts, cleaned_json)
-
-        selected_names = sel_dict.get("concept_names", [])
-        logger.info(f"Selected {len(selected_names)} related concepts.")
-
-        if not selected_names:
-            continue
-
-        # Get source segment text for each selected concept
-        conn = duckdb.connect(doc_db_path)
-        try:
-            placeholders = ",".join(["?"] * len(selected_names))
-            query = f"""
-                SELECT m.concept_name, s.segment_text 
-                FROM main.concept_segment_mapping m 
-                JOIN main.text_segments s ON m.segment_id = s.segment_id 
-                WHERE m.concept_name IN ({placeholders})
-            """
-            segments = conn.execute(query, selected_names).fetchall()
-        except Exception as db_err:
-            logger.error(f"Error querying concept segments: {db_err}")
-            segments = []
-        finally:
-            conn.close()
-
-        # Format output in yaml
-        concept_to_segments = {}
-        for c_name, seg_text in segments:
-            if c_name not in concept_to_segments:
-                concept_to_segments[c_name] = []
-            concept_to_segments[c_name].append(seg_text)
-
-        yaml_list = []
-        for c_name, segs in concept_to_segments.items():
-            yaml_list.append({
-                "concept_name": c_name,
-                "segment_text": "\n---\n".join(segs)
-            })
-        
-        if yaml_list:
-            yaml_str = yaml.safe_dump(yaml_list, sort_keys=False, default_flow_style=False)
-            combined_yaml_results.append(yaml_str)
+        with ThreadPoolExecutor(max_workers=pool_size) as executor:
+            futures = [executor.submit(run_in_thread, sq) for sq in sub_queries]
+            for fut in futures:
+                res = fut.result()
+                if res:
+                    combined_yaml_results.append(res)
 
     # Step 3: Combine and condense
     if not combined_yaml_results:
@@ -361,13 +399,239 @@ Query:
 
 # --- Tabular Data Retrieval Function ---
 
+async def execute_tabular_sub_query(
+    idx: int,
+    sq: Dict[str, Any],
+    semantic_mapping: str,
+    table_schemas: str,
+    db_path: str,
+    row_limit: int,
+    max_sql_iterations: int,
+    model: Any
+) -> Optional[str]:
+    """
+    Executes a single tabular sub-query: defines a data cube, generates SQL,
+    runs the SQL (with repair loop), and writes the result to a temp CSV file.
+    """
+    sq_description = sq.get("description", "")
+    logger.info(f"Executing sub-query {idx+1}: '{sq_description}'")
+
+    # 3a. Define Data Cube
+    cube_prompt = f"""You are a database modeler. Define a Data Cube definition for the sub-query below.
+The Data Cube must detail: measures, dimensions, filtering conditions, sort order, and aggregation functions.
+
+Sub-query:
+{sq_description}
+
+Semantic Mapping Context:
+{semantic_mapping}
+
+DuckDB Database Schemas:
+{table_schemas}
+"""
+    agent_cube = LlmAgent(
+        model=model,
+        name=f"cube_definer_{idx}",
+        instruction="You are a database modeler defining OLAP data cubes.",
+        output_schema=DataCubeDefinition
+    )
+    runner_cube = InMemoryRunner(agent=agent_cube)
+    cube_sess = f"session_cube_{uuid.uuid4().hex}"
+    await runner_cube.session_service.create_session(app_name=runner_cube.app_name, user_id="user", session_id=cube_sess)
+    
+    new_message = types.Content(parts=[types.Part(text=cube_prompt)])
+    cube_events = []
+    async for event in runner_cube.run_async(user_id="user", session_id=cube_sess, new_message=new_message):
+        cube_events.append(event)
+        if event.error_message:
+            raise ValueError(f"Data cube definition failed: {event.error_message}")
+
+    cube_model_text = ""
+    for event in reversed(cube_events):
+        if event.content and event.content.role == 'model' and event.content.parts:
+            cube_model_text = "".join(p.text for p in event.content.parts if p.text and not getattr(p, "thought", False))
+            break
+
+    if not cube_model_text.strip() and cube_events and cube_events[-1].output:
+        cube_obj = cube_events[-1].output
+        cube_dict = cube_obj.model_dump()
+    else:
+        from app.agent import clean_json_text
+        cleaned_json = clean_json_text(cube_model_text)
+        from google.adk.utils._schema_utils import validate_schema
+        cube_dict = validate_schema(DataCubeDefinition, cleaned_json)
+
+    logger.info(f"Data Cube defined for sub-query {idx+1}: measure='{cube_dict.get('measure')}'")
+
+    # 3b. Generate SQL & Execute with self-fixing loop
+    sql_success = False
+    current_sql = ""
+    last_error = ""
+
+    # Create one SQL generator agent and session for this sub-query's repair loop
+    agent_sql = LlmAgent(
+        model=model,
+        name=f"sql_generator_{idx}",
+        instruction=(
+            "You are a DuckDB developer writing and repairing SQL statements.\n"
+            "CRITICAL RULES:\n"
+            "1. NEVER use, query, or reference the table 'loan_prediction_train' or its columns (such as Loan_ID, Gender, Married, Dependents, Education, Self_Employed, ApplicantIncome, CoapplicantIncome, LoanAmount, Loan_Amount_Term, Credit_History, Property_Area, Loan_Status).\n"
+            "2. ONLY use the table 'loan_data' and its columns that are explicitly listed in the provided DuckDB Database Schemas. Do not assume or hallucinate columns (such as risk_category, insurance_status, guarantee_status, underwriter_notes).\n"
+            "3. DO NOT compare a VARCHAR column (like text/string IDs) with numeric columns (like DOUBLE, BIGINT) in JOIN conditions or WHERE clauses. Ensure all compared/joined fields have identical data types to avoid conversion errors.\n"
+            "4. All columns and tables queried MUST exist in the provided DuckDB Database Schemas. Do not assume or hallucinate table columns.\n"
+            "5. Any column name containing dots (e.g. log.annual.inc, int.rate, credit.policy, days.with.cr.line, revol.bal, revol.util, inq.last.6mths, delinq.2yrs, pub.rec, not.fully.paid) MUST always be enclosed in double quotes in the SQL query (e.g. \"log.annual.inc\", \"int.rate\", \"credit.policy\"). Dot-notation without quotes causes syntax errors (e.g. near '.6', '.2') or table binder errors (e.g., 'Referenced table credit not found').\n"
+            "6. SQL aliases / AS names must not contain dots unless they are double-quoted. Preferably use underscores (e.g. `AVG_log_annual_inc` instead of `AVG_log.annual.inc`).\n"
+            "7. For queries containing aggregate functions (e.g. SUM, AVG, COUNT, MIN, MAX), every non-aggregated column referenced in SELECT, ORDER BY, or WHERE clauses must appear in the GROUP BY clause. Ensure no GROUP BY binder errors occur (e.g., 'column must appear in the GROUP BY clause').\n"
+            f"8. ALWAYS generate SQL statements that cap the result to a maximum of {row_limit} rows, not exceeding {row_limit}. Apply a LIMIT clause (e.g., `LIMIT {row_limit}`) to every query. Use proper sorting order (using an ORDER BY clause) to ensure the most relevant top {row_limit} rows are retrieved.\n"
+            "9. Output strictly the SQL query string only. Do not wrap the SQL query in JSON structure trailing characters like `}`, `]`, or `}]` inside the `sql_query` field.\n"
+            "10. MUST use the table and columns in the DuckDB table schema ONLY. DO NOT use other tables or columns.\n"
+            "11. MUST follow DuckDB SQL syntax.\n"
+            f"12. MUST use LIMIT to limit the row count with proper sorting (using an ORDER BY clause) so that we can retrieve the top-n rows for analysis."
+        ),
+        output_schema=GeneratedSQL
+    )
+    runner_sql = InMemoryRunner(agent=agent_sql)
+    sql_sess = f"session_sql_{uuid.uuid4().hex}"
+    await runner_sql.session_service.create_session(app_name=runner_sql.app_name, user_id="user", session_id=sql_sess)
+
+    for loop_idx in range(max_sql_iterations):
+        if loop_idx == 0:
+            sql_prompt = f"""You are a DuckDB SQL developer. Generate a valid DuckDB SQL statement to query the tables according to the following Data Cube definition, Semantic Mapping, and schemas.
+Ensure the query is capped to a maximum of {row_limit} rows, not exceeding {row_limit} under any circumstances. You must explicitly append a LIMIT clause (e.g., LIMIT {row_limit} or less) with proper sorting order (using an ORDER BY clause).
+
+CRITICAL RULES:
+- Do NOT reference or query the table 'loan_prediction_train'.
+- Only query table 'loan_data' and use the columns explicitly listed in the schemas below. Do not assume or guess column names like risk_category, insurance_status, guarantee_status, underwriter_notes.
+- MUST use the table and columns in the DuckDB table schema ONLY. DO NOT use other tables or columns.
+- MUST follow DuckDB SQL syntax.
+- Avoid join type conversion errors: DO NOT compare VARCHAR columns to numeric columns (BIGINT, DOUBLE, etc.) in JOINs or comparison expressions.
+- Column naming rule: Any column name containing dots (e.g. log.annual.inc, int.rate, credit.policy, days.with.cr.line, revol.bal, revol.util, inq.last.6mths, delinq.2yrs, pub.rec, not.fully.paid) MUST always be double-quoted in the query (e.g. "log.annual.inc", "int.rate").
+- Aliases naming rule: SQL aliases / AS names must not contain dots unless double-quoted. Use underscores (e.g., AVG_log_annual_inc) instead.
+- Group By rule: If the query uses aggregates (SUM, AVG, COUNT, MIN, MAX), every non-aggregated column in the SELECT, ORDER BY, or WHERE clause MUST appear in the GROUP BY clause.
+- Capping rule: The query result MUST NOT exceed {row_limit} rows. Add `LIMIT {row_limit}` (or lower if appropriate, but never higher) with proper sorting (using an ORDER BY clause) to your SQL query.
+- MUST use LIMIT to limit the row count with proper sorting (using an ORDER BY clause) so that we can retrieve the top-n rows for analysis.
+- Format rule: Output only the SQL query string in the response. Do not include trailing braces/brackets like `}}`, `]`, or `}}]` inside the SQL.
+
+Data Cube:
+{yaml.safe_dump(cube_dict)}
+
+Semantic Mapping:
+{semantic_mapping}
+
+DuckDB Database Schemas:
+{table_schemas}
+"""
+        else:
+            sql_prompt = f"""The previous SQL statement failed with an error. Please FIX the SQL statement to resolve this error.
+Crucial: You MUST still answer/retrieve data for the exact same Data Cube definition:
+{yaml.safe_dump(cube_dict)}
+
+Failed SQL:
+{current_sql}
+
+Error detail:
+{last_error}
+
+CRITICAL RULES:
+- Do NOT reference or query the table 'loan_prediction_train'.
+- Only query table 'loan_data' and use the columns explicitly listed in the schemas below. Do not assume or guess column names like risk_category, insurance_status, guarantee_status, underwriter_notes.
+- MUST use the table and columns in the DuckDB table schema ONLY. DO NOT use other tables or columns.
+- MUST follow DuckDB SQL syntax.
+- Avoid join type conversion errors: DO NOT compare VARCHAR columns to numeric columns (BIGINT, DOUBLE, etc.) in JOINs or comparison expressions.
+- Column naming rule: Any column name containing dots (e.g. log.annual.inc, int.rate, credit.policy, days.with.cr.line, revol.bal, revol.util, inq.last.6mths, delinq.2yrs, pub.rec, not.fully.paid) MUST always be double-quoted in the query (e.g. "log.annual.inc", "int.rate").
+- Aliases naming rule: SQL aliases / AS names must not contain dots unless double-quoted. Use underscores (e.g., AVG_log_annual_inc) instead.
+- Group By rule: If the query uses aggregates (SUM, AVG, COUNT, MIN, MAX), every non-aggregated column in the SELECT, ORDER BY, or WHERE clause MUST appear in the GROUP BY clause.
+- Capping rule: The query result MUST NOT exceed {row_limit} rows. Make sure to include `LIMIT {row_limit}` (or lower if appropriate) with proper sorting (using an ORDER BY clause) in your fixed SQL query.
+- MUST use LIMIT to limit the row count with proper sorting (using an ORDER BY clause) so that we can retrieve the top-n rows for analysis.
+- Format rule: Output only the SQL query string in the response. Do not include trailing braces/brackets like `}}`, `]`, or `}}]` inside the SQL.
+
+To assist you in fixing the SQL query, here are the database schemas and mappings:
+DuckDB Database Schemas:
+{table_schemas}
+
+Semantic Mapping:
+{semantic_mapping}
+
+Generate the corrected SQL query.
+"""
+
+        new_message = types.Content(parts=[types.Part(text=sql_prompt)])
+        sql_events = []
+        async for event in runner_sql.run_async(user_id="user", session_id=sql_sess, new_message=new_message):
+            sql_events.append(event)
+            if event.error_message:
+                raise ValueError(f"SQL generation failed: {event.error_message}")
+
+        sql_model_text = ""
+        for event in reversed(sql_events):
+            if event.content and event.content.role == 'model' and event.content.parts:
+                sql_model_text = "".join(p.text for p in event.content.parts if p.text and not getattr(p, "thought", False))
+                break
+
+        if not sql_model_text.strip() and sql_events and sql_events[-1].output:
+            sql_obj = sql_events[-1].output
+            sql_dict = sql_obj.model_dump()
+        else:
+            from app.agent import clean_json_text
+            cleaned_json = clean_json_text(sql_model_text)
+            from google.adk.utils._schema_utils import validate_schema
+            sql_dict = validate_schema(GeneratedSQL, cleaned_json)
+
+        current_sql = sql_dict.get("sql_query", "")
+        logger.info(f"Generated SQL for sub-query {idx+1} (attempt {loop_idx+1}): {current_sql}")
+
+        # Run SQL on DuckDB
+        conn = duckdb.connect(db_path)
+        try:
+            # Ensure the SQL has LIMIT
+            if not re.search(r"\blimit\b", current_sql, re.IGNORECASE):
+                # Strip trailing semicolon if any
+                current_sql_stripped = current_sql.strip().rstrip(";")
+                current_sql = f"{current_sql_stripped} LIMIT {row_limit}"
+            
+            result = conn.execute(current_sql)
+            cols = [desc[0] for desc in result.description]
+            rows = result.fetchall()
+            
+            # Write to temp CSV
+            temp_filename = f"./temp/result_{uuid.uuid4().hex[:8]}.csv"
+            with open(temp_filename, "w", newline="", encoding="utf-8") as csv_file:
+                writer = csv.writer(csv_file)
+                writer.writerow(cols)
+                writer.writerows(rows)
+            
+            logger.info(f"SQL execution successful for sub-query {idx+1}! Saved {len(rows)} rows to {temp_filename}")
+            sql_success = True
+            return temp_filename
+        except Exception as sql_err:
+            last_error = str(sql_err)
+            logger.warning(f"SQL execution failed for sub-query {idx+1}: {last_error}")
+            try:
+                import datetime
+                timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                with open("sql_error.log", "a", encoding="utf-8") as err_log:
+                    err_log.write(f"[{timestamp}] SQL Execution Failed for sub-query {idx+1} (attempt {loop_idx+1}):\n")
+                    err_log.write(f"Query: {current_sql}\n")
+                    err_log.write(f"Error: {last_error}\n")
+                    err_log.write("-" * 80 + "\n")
+            except Exception as log_err:
+                logger.error(f"Failed to write to sql_error.log: {log_err}")
+        finally:
+            conn.close()
+
+    if not sql_success:
+        logger.error(f"Failed to execute sub-query {idx+1} SQL after {max_sql_iterations} attempts.")
+        return None
+
+
 async def tabular_data_retrieval(
     query_string: str,
     semantic_mapping_path: str = None,
     db_path: str = None,
     row_limit: int = None,
     max_sql_iterations: int = None,
-    model: Any = None
+    model: Any = None,
+    pool_size: int = 5
 ) -> str:
     """
     Executes tabular data retrieval agentic workflow.
@@ -465,217 +729,41 @@ Query:
     os.makedirs("./temp", exist_ok=True)
     temp_csv_files = []
 
-    # Step 3: Execution Phase
-    for idx, sq in enumerate(sub_queries):
-        sq_description = sq["description"]
-        logger.info(f"Executing sub-query {idx+1}/{len(sub_queries)}: '{sq_description}'")
-
-        # 3a. Define Data Cube
-        cube_prompt = f"""You are a database modeler. Define a Data Cube definition for the sub-query below.
-The Data Cube must detail: measures, dimensions, filtering conditions, sort order, and aggregation functions.
-
-Sub-query:
-{sq_description}
-
-Semantic Mapping Context:
-{semantic_mapping}
-
-DuckDB Database Schemas:
-{table_schemas}
-"""
-        agent_cube = LlmAgent(
-            model=model,
-            name=f"cube_definer_{idx}",
-            instruction="You are a database modeler defining OLAP data cubes.",
-            output_schema=DataCubeDefinition
-        )
-        runner_cube = InMemoryRunner(agent=agent_cube)
-        cube_sess = f"session_cube_{uuid.uuid4().hex}"
-        await runner_cube.session_service.create_session(app_name=runner_cube.app_name, user_id="user", session_id=cube_sess)
-        
-        new_message = types.Content(parts=[types.Part(text=cube_prompt)])
-        cube_events = []
-        async for event in runner_cube.run_async(user_id="user", session_id=cube_sess, new_message=new_message):
-            cube_events.append(event)
-            if event.error_message:
-                raise ValueError(f"Data cube definition failed: {event.error_message}")
-
-        cube_model_text = ""
-        for event in reversed(cube_events):
-            if event.content and event.content.role == 'model' and event.content.parts:
-                cube_model_text = "".join(p.text for p in event.content.parts if p.text and not getattr(p, "thought", False))
-                break
-
-        if not cube_model_text.strip() and cube_events and cube_events[-1].output:
-            cube_obj = cube_events[-1].output
-            cube_dict = cube_obj.model_dump()
-        else:
-            from app.agent import clean_json_text
-            cleaned_json = clean_json_text(cube_model_text)
-            from google.adk.utils._schema_utils import validate_schema
-            cube_dict = validate_schema(DataCubeDefinition, cleaned_json)
-
-        logger.info(f"Data Cube defined: measure='{cube_dict.get('measure')}'")
-
-        # 3b. Generate SQL & Execute with self-fixing loop
-        sql_success = False
-        current_sql = ""
-        last_error = ""
-
-        # Create one SQL generator agent and session for this sub-query's repair loop
-        agent_sql = LlmAgent(
-            model=model,
-            name=f"sql_generator_{idx}",
-            instruction=(
-                "You are a DuckDB developer writing and repairing SQL statements.\n"
-                "CRITICAL RULES:\n"
-                "1. NEVER use, query, or reference the table 'loan_prediction_train' or its columns (such as Loan_ID, Gender, Married, Dependents, Education, Self_Employed, ApplicantIncome, CoapplicantIncome, LoanAmount, Loan_Amount_Term, Credit_History, Property_Area, Loan_Status).\n"
-                "2. ONLY use the table 'loan_data' and its columns that are explicitly listed in the provided DuckDB Database Schemas. Do not assume or hallucinate columns (such as risk_category, insurance_status, guarantee_status, underwriter_notes).\n"
-                "3. DO NOT compare a VARCHAR column (like text/string IDs) with numeric columns (like DOUBLE, BIGINT) in JOIN conditions or WHERE clauses. Ensure all compared/joined fields have identical data types to avoid conversion errors.\n"
-                "4. All columns and tables queried MUST exist in the provided DuckDB Database Schemas. Do not assume or hallucinate table columns.\n"
-                "5. Any column name containing dots (e.g. log.annual.inc, int.rate, credit.policy, days.with.cr.line, revol.bal, revol.util, inq.last.6mths, delinq.2yrs, pub.rec, not.fully.paid) MUST always be enclosed in double quotes in the SQL query (e.g. \"log.annual.inc\", \"int.rate\", \"credit.policy\"). Dot-notation without quotes causes syntax errors (e.g. near '.6', '.2') or table binder errors (e.g., 'Referenced table credit not found').\n"
-                "6. SQL aliases / AS names must not contain dots unless they are double-quoted. Preferably use underscores (e.g. `AVG_log_annual_inc` instead of `AVG_log.annual.inc`).\n"
-                "7. For queries containing aggregate functions (e.g. SUM, AVG, COUNT, MIN, MAX), every non-aggregated column referenced in SELECT, ORDER BY, or WHERE clauses must appear in the GROUP BY clause. Ensure no GROUP BY binder errors occur (e.g., 'column must appear in the GROUP BY clause').\n"
-                "8. ALWAYS generate SQL statements that cap the result to a maximum of 100 rows, not exceeding 100. Apply a LIMIT clause (e.g., `LIMIT 100`) to every query.\n"
-                "9. Output strictly the SQL query string only. Do not wrap the SQL query in JSON structure trailing characters like `}`, `]`, or `}]` inside the `sql_query` field.\n"
-                "10. MUST use the table and columns in the DuckDB table schema ONLY. DO NOT use other tables or columns.\n"
-                "11. MUST follow DuckDB SQL syntax.\n"
-                "12. MUST use LIMIT to limit the row count with proper sorting (using an ORDER BY clause) so that we can retrieve the top-n rows for analysis."
-            ),
-            output_schema=GeneratedSQL
-        )
-        runner_sql = InMemoryRunner(agent=agent_sql)
-        sql_sess = f"session_sql_{uuid.uuid4().hex}"
-        await runner_sql.session_service.create_session(app_name=runner_sql.app_name, user_id="user", session_id=sql_sess)
-
-        for loop_idx in range(max_sql_iterations):
-            if loop_idx == 0:
-                sql_prompt = f"""You are a DuckDB SQL developer. Generate a valid DuckDB SQL statement to query the tables according to the following Data Cube definition, Semantic Mapping, and schemas.
-Ensure the query is capped to a maximum of 100 rows, not exceeding 100 under any circumstances. You must explicitly append a LIMIT clause (e.g., LIMIT 100 or less).
-
-CRITICAL RULES:
-- Do NOT reference or query the table 'loan_prediction_train'.
-- Only query table 'loan_data' and use the columns explicitly listed in the schemas below. Do not assume or guess column names like risk_category, insurance_status, guarantee_status, underwriter_notes.
-- MUST use the table and columns in the DuckDB table schema ONLY. DO NOT use other tables or columns.
-- MUST follow DuckDB SQL syntax.
-- Avoid join type conversion errors: DO NOT compare VARCHAR columns to numeric columns (BIGINT, DOUBLE, etc.) in JOINs or comparison expressions.
-- Column naming rule: Any column name containing dots (e.g. log.annual.inc, int.rate, credit.policy, days.with.cr.line, revol.bal, revol.util, inq.last.6mths, delinq.2yrs, pub.rec, not.fully.paid) MUST always be double-quoted in the query (e.g. "log.annual.inc", "int.rate").
-- Aliases naming rule: SQL aliases / AS names must not contain dots unless double-quoted. Use underscores (e.g., AVG_log_annual_inc) instead.
-- Group By rule: If the query uses aggregates (SUM, AVG, COUNT, MIN, MAX), every non-aggregated column in the SELECT, ORDER BY, or WHERE clause MUST appear in the GROUP BY clause.
-- Capping rule: The query result MUST NOT exceed 100 rows. Add `LIMIT 100` (or lower if appropriate, but never higher) to your SQL query.
-- MUST use LIMIT to limit the row count with proper sorting (using an ORDER BY clause) so that we can retrieve the top-n rows for analysis.
-- Format rule: Output only the SQL query string in the response. Do not include trailing braces/brackets like `}}`, `]`, or `}}]` inside the SQL.
-
-Data Cube:
-{yaml.safe_dump(cube_dict)}
-
-Semantic Mapping:
-{semantic_mapping}
-
-DuckDB Database Schemas:
-{table_schemas}
-"""
-            else:
-                sql_prompt = f"""The previous SQL statement failed with an error. Please FIX the SQL statement to resolve this error.
-Crucial: You MUST still answer/retrieve data for the exact same Data Cube definition:
-{yaml.safe_dump(cube_dict)}
-
-Failed SQL:
-{current_sql}
-
-Error detail:
-{last_error}
-
-CRITICAL RULES:
-- Do NOT reference or query the table 'loan_prediction_train'.
-- Only query table 'loan_data' and use the columns explicitly listed in the schemas below. Do not assume or guess column names like risk_category, insurance_status, guarantee_status, underwriter_notes.
-- MUST use the table and columns in the DuckDB table schema ONLY. DO NOT use other tables or columns.
-- MUST follow DuckDB SQL syntax.
-- Avoid join type conversion errors: DO NOT compare VARCHAR columns to numeric columns (BIGINT, DOUBLE, etc.) in JOINs or comparison expressions.
-- Column naming rule: Any column name containing dots (e.g. log.annual.inc, int.rate, credit.policy, days.with.cr.line, revol.bal, revol.util, inq.last.6mths, delinq.2yrs, pub.rec, not.fully.paid) MUST always be double-quoted in the query (e.g. "log.annual.inc", "int.rate").
-- Aliases naming rule: SQL aliases / AS names must not contain dots unless double-quoted. Use underscores (e.g., AVG_log_annual_inc) instead.
-- Group By rule: If the query uses aggregates (SUM, AVG, COUNT, MIN, MAX), every non-aggregated column in the SELECT, ORDER BY, or WHERE clause MUST appear in the GROUP BY clause.
-- Capping rule: The query result MUST NOT exceed 100 rows. Make sure to include `LIMIT 100` (or lower if appropriate) in your fixed SQL query.
-- MUST use LIMIT to limit the row count with proper sorting (using an ORDER BY clause) so that we can retrieve the top-n rows for analysis.
-- Format rule: Output only the SQL query string in the response. Do not include trailing braces/brackets like `}}`, `]`, or `}}]` inside the SQL.
-
-To assist you in fixing the SQL query, here are the database schemas and mappings:
-DuckDB Database Schemas:
-{table_schemas}
-
-Semantic Mapping:
-{semantic_mapping}
-
-Generate the corrected SQL query.
-"""
-
-            new_message = types.Content(parts=[types.Part(text=sql_prompt)])
-            sql_events = []
-            async for event in runner_sql.run_async(user_id="user", session_id=sql_sess, new_message=new_message):
-                sql_events.append(event)
-                if event.error_message:
-                    raise ValueError(f"SQL generation failed: {event.error_message}")
-
-            sql_model_text = ""
-            for event in reversed(sql_events):
-                if event.content and event.content.role == 'model' and event.content.parts:
-                    sql_model_text = "".join(p.text for p in event.content.parts if p.text and not getattr(p, "thought", False))
-                    break
-
-            if not sql_model_text.strip() and sql_events and sql_events[-1].output:
-                sql_obj = sql_events[-1].output
-                sql_dict = sql_obj.model_dump()
-            else:
-                from app.agent import clean_json_text
-                cleaned_json = clean_json_text(sql_model_text)
-                from google.adk.utils._schema_utils import validate_schema
-                sql_dict = validate_schema(GeneratedSQL, cleaned_json)
-
-            current_sql = sql_dict.get("sql_query", "")
-            logger.info(f"Generated SQL (attempt {loop_idx+1}): {current_sql}")
-
-            # Run SQL on DuckDB
-            conn = duckdb.connect(db_path)
+    # Step 3: Execution Phase (parallel execution using ThreadPoolExecutor)
+    if sub_queries:
+        def run_in_thread(idx, sq):
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
             try:
-                # Ensure the SQL has LIMIT
-                if "limit" not in current_sql.lower():
-                    # Strip trailing semicolon if any
-                    current_sql_stripped = current_sql.strip().rstrip(";")
-                    current_sql = f"{current_sql_stripped} LIMIT {row_limit}"
-                
-                result = conn.execute(current_sql)
-                cols = [desc[0] for desc in result.description]
-                rows = result.fetchall()
-                
-                # Write to temp CSV
-                temp_filename = f"./temp/result_{uuid.uuid4().hex[:8]}.csv"
-                with open(temp_filename, "w", newline="", encoding="utf-8") as csv_file:
-                    writer = csv.writer(csv_file)
-                    writer.writerow(cols)
-                    writer.writerows(rows)
-                
-                temp_csv_files.append(temp_filename)
-                logger.info(f"SQL execution successful! Saved {len(rows)} rows to {temp_filename}")
-                sql_success = True
-                break
-            except Exception as sql_err:
-                last_error = str(sql_err)
-                logger.warning(f"SQL execution failed: {last_error}")
-                try:
-                    import datetime
-                    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                    with open("sql_error.log", "a", encoding="utf-8") as err_log:
-                        err_log.write(f"[{timestamp}] SQL Execution Failed (attempt {loop_idx+1}):\n")
-                        err_log.write(f"Query: {current_sql}\n")
-                        err_log.write(f"Error: {last_error}\n")
-                        err_log.write("-" * 80 + "\n")
-                except Exception as log_err:
-                    logger.error(f"Failed to write to sql_error.log: {log_err}")
+                return loop.run_until_complete(
+                    execute_tabular_sub_query(
+                        idx,
+                        sq,
+                        semantic_mapping,
+                        table_schemas,
+                        db_path,
+                        row_limit,
+                        max_sql_iterations,
+                        model
+                    )
+                )
             finally:
-                conn.close()
+                try:
+                    pending = asyncio.all_tasks(loop)
+                    for t in pending:
+                        t.cancel()
+                    if pending:
+                        loop.run_until_complete(asyncio.gather(*pending, return_exceptions=True))
+                except Exception:
+                    pass
+                loop.close()
 
-        if not sql_success:
-            logger.error(f"Failed to execute sub-query SQL after {max_sql_iterations} attempts.")
+        with ThreadPoolExecutor(max_workers=pool_size) as executor:
+            futures = [executor.submit(run_in_thread, idx, sq) for idx, sq in enumerate(sub_queries)]
+            for fut in futures:
+                res = fut.result()
+                if res:
+                    temp_csv_files.append(res)
 
     # Step 4: Query Analysis (analyze csv data)
     if not temp_csv_files:

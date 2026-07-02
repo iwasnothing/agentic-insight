@@ -1,0 +1,721 @@
+# baseURI: https://spec.edmcouncil.org/fibo/ontology/master/latest/LOAN/RealEstateLoans/MortgageOrigination/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/LegalEntities/LEIEntities/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/LegalEntities/LegalPersons/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/DebtAndEquities/Debt/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/DebtAndEquities/Guaranty/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FinancialInstruments/FinancialInstruments/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/ProductsAndServices/FinancialProductsAndServices/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Accounting/CurrencyAmount/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/AgentsAndPeople/Agents/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Agreements/Contracts/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Arrangements/Assessments/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/DatesAndTimes/FinancialDates/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/DatesAndTimes/Occurrences/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Law/LegalCapacity/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Places/Addresses/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Places/RealProperty/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Relations/Relations/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/LOAN/LoansGeneral/Loans/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/LOAN/RealEstateLoans/Mortgages/
+# imports: https://www.omg.org/spec/Commons/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/Classifiers/
+# imports: https://www.omg.org/spec/Commons/Collections/
+# imports: https://www.omg.org/spec/Commons/ContextualDesignators/
+# imports: https://www.omg.org/spec/Commons/DatesAndTimes/
+# imports: https://www.omg.org/spec/Commons/Identifiers/
+# imports: https://www.omg.org/spec/Commons/PartiesAndSituations/
+# imports: https://www.omg.org/spec/Commons/RolesAndCompositions/
+
+@base <https://spec.edmcouncil.org/fibo/ontology/master/latest/LOAN/RealEstateLoans/MortgageOrigination/> .
+@prefix cmns-av: <https://www.omg.org/spec/Commons/AnnotationVocabulary/> .
+@prefix cmns-cls: <https://www.omg.org/spec/Commons/Classifiers/> .
+@prefix cmns-col: <https://www.omg.org/spec/Commons/Collections/> .
+@prefix cmns-cxtdsg: <https://www.omg.org/spec/Commons/ContextualDesignators/> .
+@prefix cmns-dt: <https://www.omg.org/spec/Commons/DatesAndTimes/> .
+@prefix cmns-id: <https://www.omg.org/spec/Commons/Identifiers/> .
+@prefix cmns-pts: <https://www.omg.org/spec/Commons/PartiesAndSituations/> .
+@prefix cmns-rlcmp: <https://www.omg.org/spec/Commons/RolesAndCompositions/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fibo-be-le-lp: <https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/> .
+@prefix fibo-fbc-dae-gty: <https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/> .
+@prefix fibo-fbc-pas-fpas: <https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/> .
+@prefix fibo-fnd-aap-agt: <https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/Agents/> .
+@prefix fibo-fnd-agr-ctr: <https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/> .
+@prefix fibo-fnd-dt-fd: <https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/> .
+@prefix fibo-fnd-law-lcap: <https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/> .
+@prefix fibo-fnd-plc-rp: <https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/> .
+@prefix fibo-fnd-rel-rel: <https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/> .
+@prefix fibo-fnd-utl-av: <https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/> .
+@prefix fibo-loan-ln-ln: <https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/> .
+@prefix fibo-loan-reln-mtg: <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/Mortgages/> .
+@prefix fibo-loan-reln-org: <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/>
+	a owl:Ontology ;
+	rdfs:label "Mortgage Origination Ontology"@en ;
+	dcterms:abstract "This ontology covers a range of mortgage origination concepts, primarily in the form of controlled vocabularies that can be used to categorize aspects of a given mortgage loan." ;
+	dcterms:license """Copyright (c) 2016-2025 EDM Council, Inc.
+		Copyright (c) 2016-2025 Object Management Group, Inc.
+		
+		Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+		
+		See https://opensource.org/licenses/MIT.""" ;
+	owl:imports
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/LegalEntities/LEIEntities/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/LegalEntities/LegalPersons/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/DebtAndEquities/Debt/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/DebtAndEquities/Guaranty/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FinancialInstruments/FinancialInstruments/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/ProductsAndServices/FinancialProductsAndServices/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Accounting/CurrencyAmount/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/AgentsAndPeople/Agents/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Agreements/Contracts/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Arrangements/Assessments/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/DatesAndTimes/FinancialDates/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/DatesAndTimes/Occurrences/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Law/LegalCapacity/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Places/Addresses/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Places/RealProperty/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Relations/Relations/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/LOAN/LoansGeneral/Loans/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/LOAN/RealEstateLoans/Mortgages/> ,
+		<https://www.omg.org/spec/Commons/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/Classifiers/> ,
+		<https://www.omg.org/spec/Commons/Collections/> ,
+		<https://www.omg.org/spec/Commons/ContextualDesignators/> ,
+		<https://www.omg.org/spec/Commons/DatesAndTimes/> ,
+		<https://www.omg.org/spec/Commons/Identifiers/> ,
+		<https://www.omg.org/spec/Commons/PartiesAndSituations/> ,
+		<https://www.omg.org/spec/Commons/RolesAndCompositions/>
+		;
+	owl:versionIRI <https://spec.edmcouncil.org/fibo/ontology/master/latest/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	fibo-fnd-utl-av:hasMaturityLevel fibo-fnd-utl-av:Provisional ;
+	cmns-av:copyright
+		"Copyright (c) 2016-2024 EDM Council, Inc." ,
+		"Copyright (c) 2016-2024 Object Management Group, Inc."
+		;
+	.
+
+fibo-fnd-plc-rp:RealProperty
+	a owl:Class ;
+	rdfs:subClassOf
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-loan-reln-org:hasNumberOfAffordableDwellingUnits ;
+			owl:someValuesFrom xsd:positiveInteger ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-loan-reln-org:hasNumberOfDwellingUnits ;
+			owl:someValuesFrom xsd:positiveInteger ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:isClassifiedBy ;
+			owl:someValuesFrom fibo-loan-reln-org:DwellingCapacity ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:isClassifiedBy ;
+			owl:someValuesFrom fibo-loan-reln-org:ManufacturedHomeLegalClassification ;
+		]
+		;
+	.
+
+fibo-loan-reln-org:AmortizationType
+	a owl:Class ;
+	rdfs:subClassOf cmns-cls:Classifier ;
+	rdfs:label "amortization type" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "classifier of amortization algorithms" ;
+	.
+
+fibo-loan-reln-org:AmortizationType-adjustableRate
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:AmortizationType
+		;
+	rdfs:label "adjustable rate" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "a loan that allows the lender to periodically adjust the interest rate in accordance with a specified index" ;
+	cmns-av:adaptedFrom "the 2015 Revised HMDA regulation." ;
+	.
+
+fibo-loan-reln-org:AmortizationType-fixedRate
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:AmortizationType
+		;
+	rdfs:label "fixed rate" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "a loan in which the interest rate and payments remain the same for the life of the loan" ;
+	cmns-av:adaptedFrom "the 2015 Revised HMDA regulation." ;
+	.
+
+fibo-loan-reln-org:AmortizationType-graduatedPayment
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:AmortizationType
+		;
+	rdfs:label "graduated payment" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "a flexible payment loan where the payments increase for a specified period of time and then level off" ;
+	cmns-av:adaptedFrom "the 2015 Revised HMDA regulation." ;
+	cmns-av:explanatoryNote "Usually involves negative amortization." ;
+	.
+
+fibo-loan-reln-org:AmortizationType-graduatedPaymentAdjustable
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:AmortizationType
+		;
+	rdfs:label "graduated payment adjustable" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "a loan for which there are periodic payments/rate changes with additional specified principal and interest changes as documented in the Security Instruments." ;
+	cmns-av:adaptedFrom "the 2015 Revised HMDA regulation." ;
+	.
+
+fibo-loan-reln-org:AmortizationType-growingEquity
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:AmortizationType
+		;
+	rdfs:label "growing equity" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "A graduated payment loan in which increases in a borrowers loan payments are used to accelerate reduction of principal on the mortgage" ;
+	cmns-av:adaptedFrom "the 2015 Revised HMDA regulation." ;
+	cmns-av:explanatoryNote "Due to increased payment, the borrower acquires equity more rapidly and retires the debt earlier." ;
+	.
+
+fibo-loan-reln-org:AmortizationType-rateImprovement
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:AmortizationType
+		;
+	rdfs:label "rate improvement" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "a type of flexible loan where the interest rate may decrease based on payment history." ;
+	cmns-av:adaptedFrom "the 2015 Revised HMDA regulation." ;
+	.
+
+fibo-loan-reln-org:AmortizationType-step
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:AmortizationType
+		;
+	rdfs:label "step" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "a loan with fixed periodic payment/rate changes without subsidy or negative amortization." ;
+	cmns-av:adaptedFrom "the 2015 Revised HMDA regulation." ;
+	.
+
+fibo-loan-reln-org:AutomatedUnderwritingSystem
+	a owl:Class ;
+	rdfs:subClassOf fibo-fnd-aap-agt:AutomatedSystem ;
+	rdfs:label "automated underwriting system" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "software system that collects the information necessary to approve a loan application and supports a mortgage lender's analysis of a new loan application" ;
+	cmns-av:explanatoryNote "In the United States, automated underwriting systems review the applicant's credit history and ability to repay the loan, and determine whether the price the applicant is offering to pay is supported by the property value." ;
+	.
+
+fibo-loan-reln-org:AutomatedUnderwritingSystem-DesktopUnderwriter
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:AutomatedUnderwritingSystem
+		;
+	rdfs:label "Desktop Underwriter" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "an automated underwriting software system produced by Fannie Mae" ;
+	.
+
+fibo-loan-reln-org:AutomatedUnderwritingSystem-FHAScorecard
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:AutomatedUnderwritingSystem
+		;
+	rdfs:label "FHA Scorecard" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "an automated underwriting software system produced by Federal Housing Administration (FHA)" ;
+	.
+
+fibo-loan-reln-org:AutomatedUnderwritingSystem-GuaranteedUnderwritingSystem
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:AutomatedUnderwritingSystem
+		;
+	rdfs:label "Guaranteed Underwriting System" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "an automated underwriting software system used by the USDA rural development loan program" ;
+	cmns-av:synonym "GUS" ;
+	.
+
+fibo-loan-reln-org:AutomatedUnderwritingSystem-LoanProspector
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:AutomatedUnderwritingSystem
+		;
+	rdfs:label "Loan Prospector" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "an automated underwriting software system produced by Freddie Mac" ;
+	.
+
+fibo-loan-reln-org:CashOutStatus
+	a owl:Class ;
+	rdfs:subClassOf cmns-cls:Classifier ;
+	rdfs:label "cash-out status" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "classifier indicating the extent to which funds are released to the borrower on a new loan origination that refinances an existing loan" ;
+	cmns-av:explanatoryNote "This is subject to lender and/or investor policy(s)." ;
+	.
+
+fibo-loan-reln-org:CashOutStatus-CashOut
+	a
+		owl:NamedIndividual ,
+		owl:Thing ,
+		fibo-loan-reln-org:CashOutStatus
+		;
+	rdfs:label "cashout" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "the mortgage is refinanced for more than is owed and the borrower pockets the difference." ;
+	.
+
+fibo-loan-reln-org:CashOutStatus-LimitedCashOut
+	a
+		owl:NamedIndividual ,
+		owl:Thing ,
+		fibo-loan-reln-org:CashOutStatus
+		;
+	rdfs:label "limited cashout" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "a cashout mortgage where the amount is limited by the lenger. 80% loan to value ratio is a common limit." ;
+	.
+
+fibo-loan-reln-org:CashOutStatus-NoCashOut
+	a
+		owl:NamedIndividual ,
+		owl:Thing ,
+		fibo-loan-reln-org:CashOutStatus
+		;
+	rdfs:label "no cashout" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "The mortgage is refinanced for less than or equal to what is owed." ;
+	.
+
+fibo-loan-reln-org:ChargeCategory
+	a owl:Class ;
+	rdfs:subClassOf cmns-cls:Classifier ;
+	rdfs:label "charge category" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition
+		"Examples include closing costs, interest, taxes, and other service-related fees." ,
+		"classifier indicating what a particular fee or other expense is for"
+		;
+	cmns-av:usageNote "Use with LineItem, (has ChargeCategory instance), (hasNumericalValue for number of units) and (hasCost for the amount of money)" ;
+	.
+
+fibo-loan-reln-org:ChargeCategory-appraisalFee
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:ChargeCategory
+		;
+	rdfs:label "appraisal fee" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "a charge for an appraisal" ;
+	.
+
+fibo-loan-reln-org:ChargeCategory-discountPoints
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:ChargeCategory
+		;
+	rdfs:label "discount points" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "a charge for lowering your interest rate" ;
+	cmns-av:adaptedFrom "https://www.consumerfinance.gov/askcfpb/136/what-are-discount-points-and-lender-credits-and-how-do-they-work.html" ;
+	.
+
+fibo-loan-reln-org:ChargeCategory-lenderCredits
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:ChargeCategory
+		;
+	rdfs:label "lender credits" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "a credit whereby the lender reduces closing costs in exchange for a higher interest rate." ;
+	cmns-av:adaptedFrom "https://www.consumerfinance.gov/askcfpb/136/what-are-discount-points-and-lender-credits-and-how-do-they-work.html" ;
+	cmns-av:usageNote "This needs to be treated as a negative charge." ;
+	.
+
+fibo-loan-reln-org:ChargeCategory-originationFee
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:ChargeCategory
+		;
+	rdfs:label "origination fee" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "a charge for an origination" ;
+	.
+
+fibo-loan-reln-org:ChargeCategory-principal
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:ChargeCategory
+		;
+	rdfs:label "principal" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "the principal of the loan that is owed" ;
+	.
+
+fibo-loan-reln-org:DwellingCapacity
+	a owl:Class ;
+	rdfs:subClassOf cmns-cls:Classifier ;
+	rdfs:label "dwelling capacity" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "classifier indicating how many dwellings some property has" ;
+	.
+
+fibo-loan-reln-org:DwellingCapacity-multiFamily
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:DwellingCapacity
+		;
+	rdfs:label "multi-family" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "5 or more units" ;
+	.
+
+fibo-loan-reln-org:DwellingCapacity-singleFamily
+	a
+		owl:NamedIndividual ,
+		owl:Thing ,
+		fibo-loan-reln-org:DwellingCapacity
+		;
+	rdfs:label "single family" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "1-4 units" ;
+	.
+
+fibo-loan-reln-org:GovernmentSponsoredLoan
+	a owl:Class ;
+	rdfs:subClassOf fibo-loan-reln-mtg:LoanSecuredByRealEstate ;
+	rdfs:label "government-sponsored loan"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	.
+
+fibo-loan-reln-org:ManufacturedHomeLegalClassification
+	a owl:Class ;
+	rdfs:subClassOf cmns-cls:Classifier ;
+	rdfs:label "manufactured home legal classification" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "category indicating whether the covered loan is secured by a manufactured home only or with land as well" ;
+	cmns-av:adaptedFrom "2015 Revised HMDA regulation" ;
+	.
+
+fibo-loan-reln-org:ManufacturedHomeLegalClassification-personalProperty
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:ManufacturedHomeLegalClassification
+		;
+	rdfs:label "personal property" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "the covered loan is secured by a manufactured home but not land" ;
+	cmns-av:adaptedFrom "the 2015 Revised HMDA regulation." ;
+	.
+
+fibo-loan-reln-org:ManufacturedHomeLegalClassification-realProperty
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:ManufacturedHomeLegalClassification
+		;
+	rdfs:label "real property" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "the covered loan is secured by a manufactured home and land" ;
+	cmns-av:adaptedFrom "the 2015 Revised HMDA regulation." ;
+	.
+
+fibo-loan-reln-org:MortgageIndemnityGuarantee
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-fbc-dae-gty:InsuranceBackedGuaranty ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fbc-dae-gty:isGuaranteedBy ;
+			owl:someValuesFrom fibo-loan-reln-org:MortgageIndemnityGuarantor ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-rel-rel:isExemplifiedBy ;
+			owl:someValuesFrom fibo-loan-reln-org:MortgageIndemnityInsurancePolicy ;
+		]
+		;
+	rdfs:label "mortgage indemnity guarantee"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "insurance-backed guarantee that protects lenders if the mortgage repayments cease for some reason, perhaps due to death or a homeowner being made redundant at work"@en ;
+	skos:editorialNote 'See notes from SME Review and in MIG Provider. Applies to securitized pool, insures the lender. Additional note (IBM): there is a further application of this. When a lender takes a loan which is a where the value of the loan is greater than 80% of the value of the property, at that point it is required for the lender to also get a private mortgage insurance, so they are paying separately for the mortgage insurance so that if the borrower defaults above 80% then the mortgage insurance pays the loss. In the Loan Party Insurer (new "Party" type) you have Loan Party Insured Ratio (e.g. the 80% in the example above). These are different situations but the same principle. So this needs to be modeled for both. 30 June: Is this Lender or Borrower? since you have one lender and one borrower in a single loan, but multiple lenders in the case of packaging this up for a security - there are then multiple lenders and multiple borrowers. A similar kind of insurance exists in the one lender one borrower scenario i.e. the mortgage loan itself. There are two concepts here. the MIG thing was for bundling these. the MIG might apply across multiple contracts, but still be a fact about "the" contract? The notes about 80% above (IBM) are about the individual loan. ACTION: Tidy this up.'@en ;
+	.
+
+fibo-loan-reln-org:MortgageIndemnityGuarantor
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-fbc-dae-gty:Guarantor ,
+		fibo-fbc-dae-gty:Insurer
+		;
+	rdfs:label "mortgage indemnity guarantor"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "guarantor and insurer that provides mortgage insurance in the form of a mortgage indemnity guarantee (MIG)"@en ;
+	cmns-av:explanatoryNote "SME Review notes 16 Sept: Guaranty - mortgage insurance e.g. insure up to 80% exposure. When you get into indemnification, then for instance if the product doesn't meet the investor's requirement such that if it doesn't get paid then the lender steps in and takes the hit for the loan - this is usually a precondition for securitizing (issuing) the loan in a pool. If the loan is not going to be sold on the secondary market there would be no need to indemnify that loan so this term would not apply. Indemnification is insurance for the investor, while the lender is the one providing that indemnification."@en ;
+	.
+
+fibo-loan-reln-org:MortgageIndemnityInsurancePolicy
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-fbc-dae-gty:InsurancePolicy ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-agr-ctr:isEvidenceFor ;
+			owl:someValuesFrom fibo-loan-reln-org:MortgageIndemnityGuarantee ;
+		]
+		;
+	rdfs:label "mortgage indemnity insurance policy"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "insurance policy providing the mortgage indemnity guarantee"@en ;
+	.
+
+fibo-loan-reln-org:MortgageLoanPurpose
+	a owl:Class ;
+	rdfs:subClassOf cmns-cls:Classifier ;
+	rdfs:label "mortgage loan purpose" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "the purpose for which mortgage loan proceeds will be used, such as real property purchase, dwelling construction, or loan refinancing" ;
+	.
+
+fibo-loan-reln-org:MortgageLoanPurpose-BusinessOrCommercial
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:MortgageLoanPurpose
+		;
+	rdfs:label "business or commercial" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	.
+
+fibo-loan-reln-org:MortgageLoanPurpose-DwellingConstruction
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:MortgageLoanPurpose
+		;
+	rdfs:label "dwelling construction" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	.
+
+fibo-loan-reln-org:MortgageLoanPurpose-HomeImprovement
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:MortgageLoanPurpose
+		;
+	rdfs:label "home improvement" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	.
+
+fibo-loan-reln-org:MortgageLoanPurpose-LoanRefinancing
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:MortgageLoanPurpose
+		;
+	rdfs:label "loan refinancing" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	.
+
+fibo-loan-reln-org:MortgageLoanPurpose-MortgageModification
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:MortgageLoanPurpose
+		;
+	rdfs:label "mortgage modification" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	.
+
+fibo-loan-reln-org:MortgageLoanPurpose-RealPropertyPurchase
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:MortgageLoanPurpose
+		;
+	rdfs:label "real property purchase" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	.
+
+fibo-loan-reln-org:NMLSR-ID
+	a owl:Class ;
+	rdfs:subClassOf fibo-fnd-law-lcap:LicenseIdentifier ;
+	rdfs:label "Nationwide Mortgage Licensing System and Registry Identifier" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "the number permanently assigned by the Nationwide Mortgage Licensing System and Registry (NMLS) for each company, branch, and individual that maintains a single account on NMLS." ;
+	cmns-av:abbreviation "NMLSR ID" ;
+	cmns-av:adaptedFrom "http://mortgage.nationwidelicensingsystem.org/about/Pages/NMLSID.aspx" ;
+	.
+
+fibo-loan-reln-org:PropertyUsage
+	a owl:Class ;
+	rdfs:subClassOf cmns-cls:Classifier ;
+	rdfs:label "property usage" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "a category indicating the manner in which the borrower intends to utilize the property" ;
+	.
+
+fibo-loan-reln-org:PropertyUsage-investment
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:PropertyUsage
+		;
+	rdfs:label "investment" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "a home owned for the purpose of generating income" ;
+	.
+
+fibo-loan-reln-org:PropertyUsage-primaryResidence
+	a
+		owl:NamedIndividual ,
+		fibo-loan-reln-org:PropertyUsage
+		;
+	rdfs:label "primary residence" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "residence that the owner physically occupies and uses as his or her principal residence" ;
+	.
+
+fibo-loan-reln-org:PropertyUsage-secondHome
+	a
+		owl:NamedIndividual ,
+		owl:Thing ,
+		fibo-loan-reln-org:PropertyUsage
+		;
+	rdfs:label "second home" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "a property occupied by the owner for a portion of the year that is not the primary residence" ;
+	.
+
+fibo-loan-reln-org:assumes
+	a owl:ObjectProperty ;
+	rdfs:label "assumes" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "relates a new mortgage loan contract to a previous one made to a different borrower for the same property. The new contract is created via a legally binding process where the new borrower assumes the terms of the previous loan contract" ;
+	.
+
+fibo-loan-reln-org:hasNumberOfAffordableDwellingUnits
+	a owl:DatatypeProperty ;
+	rdfs:subPropertyOf fibo-loan-reln-org:hasNumberOfDwellingUnits ;
+	rdfs:label "has number of affordable dwelling units" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "relates real estate to the number of dwelling units it contains that are income-restricted under Federal, State, or local affordable housing programs." ;
+	cmns-av:adaptedFrom "the 2015 Revised HMDA regulation." ;
+	.
+
+fibo-loan-reln-org:hasNumberOfDwellingUnits
+	a owl:DatatypeProperty ;
+	rdfs:subPropertyOf fibo-fnd-dt-fd:hasCount ;
+	rdfs:label "has number of dwelling units" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	skos:definition "relates real estate to the number of dwelling units it contains" ;
+	cmns-av:adaptedFrom "the 2015 Revised HMDA regulation." ;
+	.
+
+fibo-loan-reln-org:hasOriginatingServiceProvider
+	a owl:ObjectProperty ;
+	rdfs:subPropertyOf cmns-pts:hasPartyRole ;
+	rdfs:label "has originating service provider" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	rdfs:range [
+		a owl:Class ;
+		owl:intersectionOf (
+			fibo-fbc-pas-fpas:FinancialServiceProvider
+			[
+				a owl:Class ;
+				owl:unionOf (
+					fibo-fnd-agr-ctr:ContractParty
+					fibo-fnd-agr-ctr:ContractThirdParty
+				) ;
+			]
+		) ;
+	] ;
+	skos:definition "relates something, typically a loan contract, to the service provider responsible for originated the loan" ;
+	cmns-av:explanatoryNote "Typically this will be a bank, mortgage broker, investment bank, or other similar party." ;
+	.
+
+fibo-loan-reln-org:hasOriginatorPerson
+	a owl:ObjectProperty ;
+	rdfs:subPropertyOf cmns-pts:hasParty ;
+	rdfs:label "has originator person" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	rdfs:range fibo-be-le-lp:LegallyCompetentNaturalPerson ;
+	skos:definition "relates something, typically a loan, to a person that initially originates or creates it" ;
+	.
+
+fibo-loan-reln-org:isLienOn
+	a owl:ObjectProperty ;
+	rdfs:label "is lien on" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/> ;
+	.
+
+fibo-loan-reln-mtg:LoanSecuredByRealEstate
+	a owl:Class ;
+	rdfs:subClassOf
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-loan-ln-ln:isServicedBy ;
+			owl:onClass fibo-loan-ln-ln:Servicer ;
+			owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fbc-dae-gty:hasGuarantor ;
+			owl:onClass fibo-loan-reln-org:MortgageIndemnityGuarantor ;
+			owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-loan-reln-org:assumes ;
+			owl:onClass fibo-loan-reln-mtg:LoanSecuredByRealEstate ;
+			owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-loan-reln-org:hasOriginatingServiceProvider ;
+			owl:someValuesFrom [
+				a owl:Class ;
+				owl:intersectionOf (
+					fibo-fbc-pas-fpas:FinancialServiceProvider
+					[
+						a owl:Restriction ;
+						owl:onProperty cmns-id:isIdentifiedBy ;
+						owl:someValuesFrom fibo-loan-reln-org:NMLSR-ID ;
+					]
+				) ;
+			] ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-loan-reln-org:hasOriginatorPerson ;
+			owl:someValuesFrom [
+				a owl:Class ;
+				owl:intersectionOf (
+					fibo-be-le-lp:LegallyCompetentNaturalPerson
+					[
+						a owl:Restriction ;
+						owl:onProperty cmns-id:isIdentifiedBy ;
+						owl:someValuesFrom fibo-loan-reln-org:NMLSR-ID ;
+					]
+				) ;
+			] ;
+		]
+		;
+	.
+

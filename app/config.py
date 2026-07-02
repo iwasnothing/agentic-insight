@@ -8,8 +8,28 @@ models if no custom configuration is provided.
 
 import os
 import logging
+import litellm
 from dotenv import load_dotenv
 from google.adk.models.lite_llm import LiteLlm
+
+# Disable LiteLLM's background logging worker to prevent exceptions on closed event loops in threads
+litellm.turn_off_message_logging = True
+litellm.telemetry = False
+
+# Fully disable the litellm background LoggingWorker to prevent ValueError("task_done() called too many times")
+# and other thread/event-loop exceptions under high concurrency.
+try:
+    from litellm.litellm_core_utils.logging_worker import LoggingWorker, GLOBAL_LOGGING_WORKER
+    LoggingWorker.start = lambda *args, **kwargs: None
+    LoggingWorker.enqueue = lambda *args, **kwargs: None
+    LoggingWorker.ensure_initialized_and_enqueue = lambda *args, **kwargs: None
+    LoggingWorker._handle_queue_full = lambda *args, **kwargs: None
+    if GLOBAL_LOGGING_WORKER:
+        GLOBAL_LOGGING_WORKER.start = lambda *args, **kwargs: None
+        GLOBAL_LOGGING_WORKER.enqueue = lambda *args, **kwargs: None
+        GLOBAL_LOGGING_WORKER.ensure_initialized_and_enqueue = lambda *args, **kwargs: None
+except Exception as e:
+    logging.getLogger(__name__).warning(f"Failed to monkeypatch litellm logging worker: {e}")
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")

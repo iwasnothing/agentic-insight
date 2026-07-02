@@ -1,0 +1,276 @@
+# baseURI: https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/Process/FinancialContextAndProcess/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FinancialInstruments/FinancialInstruments/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/ContextualDesignators/
+
+@base <https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/Process/FinancialContextAndProcess/> .
+@prefix cmns-av: <https://www.omg.org/spec/Commons/AnnotationVocabulary/> .
+@prefix cmns-cxtdsg: <https://www.omg.org/spec/Commons/ContextualDesignators/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fibo-bp-prc-fcp: <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> .
+@prefix fibo-fbc-fi-fi: <https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/> .
+@prefix fibo-fnd-utl-av: <https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/>
+	a owl:Ontology ;
+	rdfs:label "Financial Context and Process Ontology"@en ;
+	dcterms:abstract "This ontology defines process concepts in general for refinement and re-use elsewhere in the FIBO business process domain." ;
+	dcterms:license "https://opensource.org/licenses/MIT"^^xsd:anyURI ;
+	owl:imports
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FinancialInstruments/FinancialInstruments/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/ContextualDesignators/>
+		;
+	owl:versionIRI <https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/Process/FinancialContextAndProcess/> ;
+	fibo-fnd-utl-av:hasMaturityLevel fibo-fnd-utl-av:Provisional ;
+	cmns-av:copyright "Copyright (c) 2013-2023 EDM Council, Inc." ;
+	.
+
+fibo-bp-prc-fcp:Clearing
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:ClearingAndSettlement ;
+	rdfs:label "clearing"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	skos:definition "The process by which securities trades are cleared."@en ;
+	.
+
+fibo-bp-prc-fcp:ClearingAndSettlement
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:FinancialIndustryContext ;
+	rdfs:label "clearing and settlement"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	skos:definition "The business process or service area of securities clearing and settlement."@en ;
+	.
+
+fibo-bp-prc-fcp:FinancialIndustryContext
+	a owl:Class ;
+	rdfs:subClassOf cmns-cxtdsg:Context ;
+	rdfs:label "financial industry context"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	skos:definition "The context in which business activites take place within the financial industry, i.e. investment management, wholesale financial markets trading and so on."@en ;
+	skos:editorialNote "REVIEW: Ther precise definition above defines the Scope of this model."@en ;
+	.
+
+fibo-bp-prc-fcp:FinancialMarketsRegulation
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:FinancialIndustryContext ;
+	rdfs:label "financial markets regulation"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:InvestmentManagement
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:FinancialIndustryContext ;
+	rdfs:label "investment management"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:MarketDataProvision
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:PreTrade ;
+	rdfs:label "market data provision"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:PortfolioManagement
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:InvestmentManagement ;
+	rdfs:label "portfolio management"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:PreTrade
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:InvestmentManagement ;
+	rdfs:label "pre trade"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:PretradeQuotes
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:PreTrade ;
+	rdfs:label "pretrade quotes"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:PretradeReferenceDataProvision
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:PreTrade ;
+	rdfs:label "pretrade reference data provision"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:PrimaryMarket
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:FinancialIndustryContext ;
+	rdfs:label "primary market"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	skos:definition "Issuance and primary market trading of new Traded Financial Instruments"@en ;
+	.
+
+fibo-bp-prc-fcp:PrimaryMarketClosing
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:PrimaryMarket ;
+	rdfs:label "primary market closing"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:PrimaryMarketIndicationsOfInterest
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:PreTrade ;
+	rdfs:label "primary market indications of interest"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:SecondaryMarketTradingContext
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:FinancialIndustryContext ;
+	rdfs:label "secondary market trading context"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:SecuritiesCustody
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:FinancialIndustryContext ;
+	rdfs:label "securities custody"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:SecuritiesPostTrade
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:FinancialIndustryContext ;
+	rdfs:label "securities post trade"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:SecuritiesPostTradePositionManagement
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:SecuritiesPostTrade ;
+	rdfs:label "securities post trade position management"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:SecuritiesTrade
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:FinancialIndustryContext ;
+	rdfs:label "securities trade"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:SecuritiesTradeAllocation
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:SecuritiesPostTrade ;
+	rdfs:label "securities trade allocation"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:SecuritiesTradeCaptureAndValidation
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:SecuritiesPostTrade ;
+	rdfs:label "securities trade capture and validation"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:SecuritiesTradeConfirmationAffirmation
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:SecuritiesPostTrade ;
+	rdfs:label "securities trade confirmation affirmation"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:SecuritiesTradeDatePositionReporting
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:SecuritiesTrade ;
+	rdfs:label "securities trade date position reporting"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:SecuritiesTradeExecution
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:SecuritiesTrade ;
+	rdfs:label "securities trade execution"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:SecuritiesTradeOrderRouting
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:SecuritiesTrade ;
+	rdfs:label "securities trade order routing"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:SecuritiesTradesMatching
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:SecuritiesPostTrade ;
+	rdfs:label "securities trades matching"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	skos:definition "Matching of trade allegations to identify confirmed trades, on an Over the Counter market in Traded Securities."@en ;
+	.
+
+fibo-bp-prc-fcp:SecuritiesTradesReporting
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:SecuritiesPostTrade ;
+	rdfs:label "securities trades reporting"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:SecurityRetirement
+	a owl:Class ;
+	rdfs:subClassOf [
+		a owl:Restriction ;
+		owl:onProperty fibo-bp-prc-fcp:isRetirementOf ;
+		owl:someValuesFrom fibo-fbc-fi-fi:Security ;
+	] ;
+	rdfs:label "security retirement"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:ShortSaleLocate
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:PreTrade ;
+	rdfs:label "short sale locate"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:TradeAdvertisements
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:PreTrade ;
+	rdfs:label "trade advertisements"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:TradedSecurityLifecycle
+	a owl:Class ;
+	rdfs:label "traded security lifecycle"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:TradesReferenceDataProvision
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:SecuritiesTrade ;
+	rdfs:label "trades reference data provision"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:WhenIssuedTrading
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-prc-fcp:PrimaryMarket ;
+	rdfs:label "when issued trading"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	.
+
+fibo-bp-prc-fcp:isRetirementOf
+	a owl:ObjectProperty ;
+	rdfs:label "is retirement of"@en ;
+	rdfs:domain fibo-bp-prc-fcp:SecurityRetirement ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	rdfs:range fibo-fbc-fi-fi:Security ;
+	.
+

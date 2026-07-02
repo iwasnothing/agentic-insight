@@ -1,0 +1,1825 @@
+# baseURI: https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/FunctionalEntities/Publishers/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/LegalEntities/CorporateBodies/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/LegalEntities/FormalBusinessOrganizations/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/LegalEntities/LEIEntities/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/OwnershipAndControl/CorporateControl/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/DER/DerivativesContracts/DerivativesBasics/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/DER/DerivativesContracts/Swaps/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FunctionalEntities/BusinessCentersIndividuals/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FunctionalEntities/BusinessRegistries/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FunctionalEntities/EuropeanEntities/EURegulatoryAgencies/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FunctionalEntities/FinancialServicesEntities/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FunctionalEntities/MarketsIndividuals/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FunctionalEntities/NorthAmericanEntities/USFinancialServicesEntitiesIndividuals/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/ProductsAndServices/FinancialProductsAndServices/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Places/Addresses/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Relations/Relations/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/Collections/
+# imports: https://www.omg.org/spec/Commons/Identifiers/
+# imports: https://www.omg.org/spec/Commons/Locations/
+# imports: https://www.omg.org/spec/Commons/Organizations/
+# imports: https://www.omg.org/spec/Commons/RegistrationAuthorities/
+# imports: https://www.omg.org/spec/Commons/RolesAndCompositions/
+# imports: https://www.omg.org/spec/LCC/Countries/ISO3166-1-CountryCodes/
+
+@base <https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> .
+@prefix cmns-av: <https://www.omg.org/spec/Commons/AnnotationVocabulary/> .
+@prefix cmns-col: <https://www.omg.org/spec/Commons/Collections/> .
+@prefix cmns-id: <https://www.omg.org/spec/Commons/Identifiers/> .
+@prefix cmns-loc: <https://www.omg.org/spec/Commons/Locations/> .
+@prefix cmns-org: <https://www.omg.org/spec/Commons/Organizations/> .
+@prefix cmns-ra: <https://www.omg.org/spec/Commons/RegistrationAuthorities/> .
+@prefix cmns-rlcmp: <https://www.omg.org/spec/Commons/RolesAndCompositions/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fibo-be-fct-pub: <https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/> .
+@prefix fibo-be-le-cb: <https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/> .
+@prefix fibo-be-le-fbo: <https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/> .
+@prefix fibo-be-le-lei: <https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/> .
+@prefix fibo-be-oac-cctl: <https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/> .
+@prefix fibo-der-drc-bsc: <https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/> .
+@prefix fibo-der-drc-swp: <https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/> .
+@prefix fibo-fbc-fct-bci: <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessCentersIndividuals/> .
+@prefix fibo-fbc-fct-breg: <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/> .
+@prefix fibo-fbc-fct-eufseind: <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> .
+@prefix fibo-fbc-fct-eurga: <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EURegulatoryAgencies/> .
+@prefix fibo-fbc-fct-fse: <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/> .
+@prefix fibo-fbc-fct-mkti: <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/MarketsIndividuals/> .
+@prefix fibo-fbc-fct-usfsind: <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USFinancialServicesEntitiesIndividuals/> .
+@prefix fibo-fbc-pas-fpas: <https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/> .
+@prefix fibo-fnd-plc-adr: <https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/> .
+@prefix fibo-fnd-rel-rel: <https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/> .
+@prefix fibo-fnd-utl-av: <https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/> .
+@prefix lcc-3166-1: <https://www.omg.org/spec/LCC/Countries/ISO3166-1-CountryCodes/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/>
+	a owl:Ontology ;
+	rdfs:label "European Financial Services Entities Individuals Ontology" ;
+	dcterms:abstract "This ontology extends the primary financial services entities ontology in FBC with individuals representing additional kinds of entities that provide services internationally, such as international market data providers, organizations that provide exchanges in multiple countries, etc." ;
+	dcterms:license """Copyright (c) 2017-2026 EDM Council, Inc.
+Copyright (c) 2017-2026 Object Management Group
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+		
+		See https://opensource.org/licenses/MIT.""" ;
+	owl:imports
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/FunctionalEntities/Publishers/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/LegalEntities/CorporateBodies/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/LegalEntities/FormalBusinessOrganizations/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/LegalEntities/LEIEntities/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/OwnershipAndControl/CorporateControl/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/DER/DerivativesContracts/DerivativesBasics/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/DER/DerivativesContracts/Swaps/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FunctionalEntities/BusinessCentersIndividuals/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FunctionalEntities/BusinessRegistries/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FunctionalEntities/EuropeanEntities/EURegulatoryAgencies/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FunctionalEntities/FinancialServicesEntities/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FunctionalEntities/MarketsIndividuals/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FunctionalEntities/NorthAmericanEntities/USFinancialServicesEntitiesIndividuals/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/ProductsAndServices/FinancialProductsAndServices/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Places/Addresses/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Relations/Relations/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/Collections/> ,
+		<https://www.omg.org/spec/Commons/Identifiers/> ,
+		<https://www.omg.org/spec/Commons/Locations/> ,
+		<https://www.omg.org/spec/Commons/Organizations/> ,
+		<https://www.omg.org/spec/Commons/RegistrationAuthorities/> ,
+		<https://www.omg.org/spec/Commons/RolesAndCompositions/> ,
+		<https://www.omg.org/spec/LCC/Countries/ISO3166-1-CountryCodes/>
+		;
+	owl:versionIRI <https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:changeNote
+		"The https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals.rdf version of the ontology was modified to add individuals needed for the ACTUS challenge (SEC-215)." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals.rdf version of the ontology was modified to merge details from the old corporations ontology into corporate bodies for consistency and useability (BE-259)." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals.rdf version of the ontology was modified to refine and streamline the definitions of some service providers (SEC-205)." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals.rdf version of the ontology was modified to replace additional content that is now available in the OMG Commons Ontology Library (Commons) v1.2 (FND-389)." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals.rdf version of the ontology was modified to use the Commons Ontology Library (Commons) Annotation Vocabulary rather than the OMG's Specification Metadata vocabulary." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals.rdf version of this ontology was added via the FIBO 2.0 RFC." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals.rdf version of this ontology was modified to eliminate duplication of concepts in LCC, simplify addresses and merge countries with locations in FND." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals.rdf version of this ontology was modified to eliminate usage of deprecated elements." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals.rdf version of this ontology was modified to reflect revisions to the GLEIF LEI representation for validation level." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals.rdf version of this ontology was modified to replace content that is now available in the OMG Commons Ontology Library (Commons) v1.1 (FND-380)." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals.rdf version of this ontology was modified to use the Commons Ontology Library (Commons) rather than the OMG's Languages, Countries and Codes (LCC), eliminating redundancies in FIBO as appropriate." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals.rdf version of this ontology was revised to add the SIX Group and SIX Financial Information, which owns and operates a number of exchanges and issues the valoren, which is a commonly used financial instrument identifier, as well as to update the LEI data for all LEIs to correspond to the content published by the GLEIF on data.world." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals.rdf version of this ontology was revised to clarify the definitions of various LOUs as well as to update the LEI data for all LEIs to correspond to the content published by the GLEIF and clean up individual definitions as appropriate." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals.rdf version of this ontology was revised to clean up dead links." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals.rdf version of this ontology was revised to replace uses of hasTag in Relations with hasTag from LCC, as the more complex union of datatypes in the Relations concept is not needed here." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals.rdf version of this ontology was modified to use the Commons Ontology Library (Commons) rather than the OMG's Languages, Countries and Codes (LCC) and to eliminate redundancies in FIBO as appropriate."
+		;
+	fibo-fnd-utl-av:hasMaturityLevel fibo-fnd-utl-av:Release ;
+	cmns-av:copyright
+		"Copyright (c) 2017-2026 EDM Council, Inc." ,
+		"Copyright (c) 2017-2026 Object Management Group"
+		;
+	.
+
+<https://rdf.gleif.org/L1/L-213800D1EI4B9WTWWD28-LEI>
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-lei:LegalEntityIdentifier
+		;
+	rdfs:label "London Stock Exchange plc. legal entity identifier" ;
+	skos:definition "legal entity identifier for London Stock Exchange plc." ;
+	fibo-fnd-rel-rel:hasTag "213800D1EI4B9WTWWD28" ;
+	cmns-id:identifies fibo-fbc-fct-eufseind:LondonStockExchangePlc ;
+	cmns-ra:isRegisteredBy fibo-fbc-fct-eufseind:LondonStockExchangeAsLocalOperatingUnit ;
+	.
+
+<https://rdf.gleif.org/L1/L-213800O66553ESU7RD35-LEI>
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-lei:LegalEntityIdentifier
+		;
+	rdfs:label "Société Générale Plc legal entity identifier" ;
+	skos:definition "legal entity identifier for Société Générale" ;
+	fibo-fnd-rel-rel:hasTag "213800O66553ESU7RD35" ;
+	cmns-id:identifies fibo-fbc-fct-eufseind:SocieteGeneraleEntity ;
+	.
+
+<https://rdf.gleif.org/L1/L-222100T6ICDIY8V4VX70-LEI>
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-lei:LegalEntityIdentifier
+		;
+	rdfs:label "LuxCSD S.A. legal entity identifier" ;
+	skos:definition "legal entity identifier for LuxCSD S.A." ;
+	fibo-fnd-rel-rel:hasTag "222100T6ICDIY8V4VX70" ;
+	cmns-id:identifies fibo-fbc-fct-eufseind:LuxCSDSA ;
+	cmns-ra:isRegisteredBy fibo-fbc-fct-eufseind:LuxCSDAsLocalOperatingUnit ;
+	.
+
+<https://rdf.gleif.org/L1/L-3TK20IVIUJ8J3ZU0QE75-LEI>
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-lei:LegalEntityIdentifier
+		;
+	rdfs:label "ING Bank NV legal entity identifier" ;
+	skos:definition "legal entity identifier for ING Bank NV" ;
+	fibo-fnd-rel-rel:hasTag "3TK20IVIUJ8J3ZU0QE75" ;
+	cmns-id:identifies fibo-fbc-fct-eufseind:INGBankNV ;
+	.
+
+<https://rdf.gleif.org/L1/L-4PQUHN3JPFGFNF3BB653-LEI>
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-lei:LegalEntityIdentifier
+		;
+	rdfs:label "Morgan Stanley & Co. International plc legal entity identifier" ;
+	skos:definition "legal entity identifier for Morgan Stanley & Co. International plc" ;
+	fibo-fnd-rel-rel:hasTag "4PQUHN3JPFGFNF3BB653" ;
+	cmns-id:identifies fibo-fbc-fct-eufseind:MorganStanleyAndCoInternationalPlc ;
+	.
+
+<https://rdf.gleif.org/L1/L-506700D369548LQDC335-LEI>
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-lei:LegalEntityIdentifier
+		;
+	rdfs:label "SIX Financial Information AG legal entity identifier" ;
+	skos:definition "legal entity identifier for SIX Financial Information AG" ;
+	fibo-fnd-rel-rel:hasTag "506700D369548LQDC335" ;
+	cmns-id:identifies fibo-fbc-fct-eufseind:SIXFinancialInformationAG ;
+	cmns-ra:isRegisteredBy fibo-fbc-fct-eufseind:HerausgebergemeinschaftWertpapier-MitteilungenKepplerLehmann ;
+	.
+
+<https://rdf.gleif.org/L1/L-5299000J2N45DDNE4Y28-LEI>
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-lei:LegalEntityIdentifier
+		;
+	rdfs:label "Herausgebergemeinschaft Wertpapier-Mitteilungen Keppler, Lehmann GmbH & Co. KG legal entity identifier" ;
+	skos:definition "legal entity identifier for Herausgebergemeinschaft Wertpapier-Mitteilungen Keppler, Lehmann GmbH & Co. KG" ;
+	fibo-fnd-rel-rel:hasTag "5299000J2N45DDNE4Y28" ;
+	cmns-id:identifies fibo-fbc-fct-eufseind:HerausgebergemeinschaftWertpapier-MitteilungenKepplerLehmannGmbHAndCoKG-DE ;
+	cmns-ra:isRegisteredBy fibo-fbc-fct-eufseind:HerausgebergemeinschaftWertpapier-MitteilungenKepplerLehmann ;
+	.
+
+<https://rdf.gleif.org/L1/L-529900ZMNQFCPP762W05-LEI>
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-lei:LegalEntityIdentifier
+		;
+	rdfs:label "SIX Group AG legal entity identifier" ;
+	skos:definition "legal entity identifier for SIX Group AG" ;
+	fibo-fnd-rel-rel:hasTag "529900ZMNQFCPP762W05" ;
+	cmns-id:identifies fibo-fbc-fct-eufseind:SIXGroupAG ;
+	cmns-ra:isRegisteredBy fibo-fbc-fct-eufseind:HerausgebergemeinschaftWertpapier-MitteilungenKepplerLehmann ;
+	.
+
+<https://rdf.gleif.org/L1/L-5493000F4ZO33MV32P92-LEI>
+	a owl:NamedIndividual ;
+	cmns-ra:isRegisteredBy fibo-fbc-fct-eufseind:BusinessEntityData ;
+	.
+
+<https://rdf.gleif.org/L1/L-549300561UZND4C7B569-LEI>
+	a owl:NamedIndividual ;
+	cmns-ra:isRegisteredBy fibo-fbc-fct-eufseind:BusinessEntityData ;
+	.
+
+<https://rdf.gleif.org/L1/L-549300CBNW05DILT6870-LEI>
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-lei:LegalEntityIdentifier
+		;
+	rdfs:label "Euroclear SA/NV legal entity identifier" ;
+	skos:definition "legal entity identifier for Euroclear SA/NV" ;
+	fibo-fnd-rel-rel:hasTag "549300CBNW05DILT6870" ;
+	cmns-id:identifies fibo-fbc-fct-eufseind:EuroclearSANV ;
+	cmns-ra:isRegisteredBy fibo-fbc-fct-eufseind:BusinessEntityData ;
+	.
+
+<https://rdf.gleif.org/L1/L-549300DTUYXVMJXZNY75-LEI>
+	a owl:NamedIndividual ;
+	cmns-ra:isRegisteredBy fibo-fbc-fct-eufseind:HerausgebergemeinschaftWertpapier-MitteilungenKepplerLehmann ;
+	.
+
+<https://rdf.gleif.org/L1/L-549300HBJLRO8YFMI370-LEI>
+	a owl:NamedIndividual ;
+	cmns-ra:isRegisteredBy fibo-fbc-fct-eufseind:BusinessEntityData ;
+	.
+
+<https://rdf.gleif.org/L1/L-549300NOPSIMGJNT8J31-LEI>
+	a owl:NamedIndividual ;
+	cmns-ra:isRegisteredBy fibo-fbc-fct-eufseind:BusinessEntityData ;
+	.
+
+<https://rdf.gleif.org/L1/L-549300OL514RA0SXJJ44-LEI>
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-lei:LegalEntityIdentifier
+		;
+	rdfs:label "Clearstream Banking S.A. legal entity identifier" ;
+	skos:definition "legal entity identifier for Clearstream Banking S.A." ;
+	fibo-fnd-rel-rel:hasTag "549300OL514RA0SXJJ44" ;
+	cmns-id:identifies fibo-fbc-fct-eufseind:ClearstreamBankingSA ;
+	cmns-ra:isRegisteredBy fibo-fbc-fct-eufseind:LuxCSDAsLocalOperatingUnit ;
+	.
+
+<https://rdf.gleif.org/L1/L-549300PN6MKI0CLP4T28-LEI>
+	a owl:NamedIndividual ;
+	cmns-ra:isRegisteredBy fibo-fbc-fct-eufseind:BusinessEntityData ;
+	.
+
+<https://rdf.gleif.org/L1/L-851WYGNLUQLFZBSYGB56-LEI>
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-lei:LegalEntityIdentifier
+		;
+	rdfs:label "Commerzbank AG legal entity identifier" ;
+	skos:definition "legal entity identifier for Commerzbank AG" ;
+	fibo-fnd-rel-rel:hasTag "851WYGNLUQLFZBSYGB56" ;
+	cmns-id:identifies fibo-fbc-fct-eufseind:CommerzbankAG ;
+	.
+
+<https://rdf.gleif.org/L1/L-BFXS5XCH7N0Y05NIXW11-LEI>
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-lei:LegalEntityIdentifier
+		;
+	rdfs:label "ABN AMRO Bank N.V. legal entity identifier" ;
+	skos:definition "legal entity identifier for ABN AMRO Bank N.V." ;
+	fibo-fnd-rel-rel:hasTag "BFXS5XCH7N0Y05NIXW11" ;
+	cmns-id:identifies fibo-fbc-fct-eufseind:ABNAMROBankNV ;
+	.
+
+<https://rdf.gleif.org/L1/L-EQYXK86SF381Q21S3020-LEI>
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-lei:LegalEntityIdentifier
+		;
+	rdfs:label "Bank of America Europe legal entity identifier" ;
+	skos:definition "legal entity identifier for Bank of America Europe Designated Activity Company" ;
+	fibo-fnd-rel-rel:hasTag "EQYXK86SF381Q21S3020" ;
+	cmns-id:identifies fibo-fbc-fct-eufseind:BankOfAmericaEuropeEntity ;
+	.
+
+<https://rdf.gleif.org/L1/L-EVK05KS7XY1DEII3R011-LEI>
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-lei:LegalEntityIdentifier
+		;
+	rdfs:label "Business Entity Data (BED) B.V. legal entity identifier" ;
+	skos:definition "legal entity identifier for Business Entity Data (BED) B.V." ;
+	fibo-fnd-rel-rel:hasTag "EVK05KS7XY1DEII3R011" ;
+	cmns-id:identifies fibo-fbc-fct-eufseind:BusinessEntityData-NL ;
+	cmns-ra:isRegisteredBy fibo-fbc-fct-eufseind:BusinessEntityData ;
+	.
+
+<https://rdf.gleif.org/L1/L-G5GSEF7VJP5I7OUK5573-LEI>
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-lei:LegalEntityIdentifier
+		;
+	rdfs:label "Barclays Bank Plc legal entity identifier" ;
+	skos:definition "legal entity identifier for Barclays Bank Plc" ;
+	fibo-fnd-rel-rel:hasTag "G5GSEF7VJP5I7OUK5573" ;
+	cmns-id:identifies fibo-fbc-fct-eufseind:BarclaysBankPlc ;
+	.
+
+<https://rdf.gleif.org/L1/L-K6Q0W1PS1L1O4IQL9C32-LEI>
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-lei:LegalEntityIdentifier
+		;
+	rdfs:label "JP Morgan Securities legal entity identifier" ;
+	skos:definition "legal entity identifier for JP Morgan Securities" ;
+	fibo-fnd-rel-rel:hasTag "K6Q0W1PS1L1O4IQL9C32" ;
+	cmns-id:identifies fibo-fbc-fct-eufseind:JPMorganSecuritiesPlc ;
+	.
+
+<https://rdf.gleif.org/L1/L-MLDY5N6PZ58ZE60QU102-LEI>
+	a owl:NamedIndividual ;
+	cmns-ra:isRegisteredBy fibo-fbc-fct-eufseind:BusinessEntityData ;
+	.
+
+<https://rdf.gleif.org/L1/L-RILFO74KP1CM8P6PCT96-LEI>
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-lei:LegalEntityIdentifier
+		;
+	rdfs:label "Standard Chartered Bank legal entity identifier" ;
+	skos:definition "legal entity identifier for Standard Chartered Bank" ;
+	fibo-fnd-rel-rel:hasTag "RILFO74KP1CM8P6PCT96" ;
+	cmns-id:identifies fibo-fbc-fct-eufseind:StandardCharteredBankEntity ;
+	.
+
+<https://rdf.gleif.org/L1/L-RR3QWICWWIPCS8A4S074-LEI>
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-lei:LegalEntityIdentifier
+		;
+	rdfs:label "NatWest Markets Plc legal entity identifier" ;
+	skos:definition "legal entity identifier for NatWest Markets Plc" ;
+	fibo-fnd-rel-rel:hasTag "RR3QWICWWIPCS8A4S074" ;
+	cmns-id:identifies fibo-fbc-fct-eufseind:NatWestMarketsPlc ;
+	.
+
+<https://rdf.gleif.org/L1/L-Y6X4K52KMJMZE7I7MY94-LEI>
+	a owl:NamedIndividual ;
+	cmns-ra:isRegisteredBy fibo-fbc-fct-eufseind:BusinessEntityData ;
+	.
+
+fibo-fbc-fct-eufseind:ABNAMROBank
+	a
+		owl:NamedIndividual ,
+		fibo-der-drc-bsc:IntroducingBroker ,
+		fibo-der-drc-swp:SwapDealer ,
+		fibo-fbc-fct-fse:BrokerageFirm ,
+		fibo-fbc-fct-fse:CommercialBank ,
+		fibo-fbc-fct-fse:CommodityTradingAdvisor ,
+		fibo-fbc-fct-fse:InsuranceCompany
+		;
+	owl:sameAs fibo-fbc-fct-mkti:ServiceProvider-L-BFXS5XCH7N0Y05NIXW11 ;
+	rdfs:label "ABN AMRO Bank" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "ABN AMRO Bank functional entity, which it the third largest Dutch bank" ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:ABNAMROBankNV ;
+	cmns-rlcmp:isRegulatedBy
+		fibo-fbc-fct-eurga:EuropeanBankingAuthorityRegulator ,
+		fibo-fbc-fct-eurga:EuropeanBankingRegulatoryAgencyAndCentralBank ,
+		fibo-fbc-fct-eurga:FinancialConductAuthority ,
+		fibo-fbc-fct-eurga:PrudentialRegulatoryAuthority
+		;
+	.
+
+fibo-fbc-fct-eufseind:ABNAMROBankNV
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-cb:Corporation
+		;
+	rdfs:label "ABN AMRO Bank N.V." ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "ABN AMRO Bank N.V. legal entity that is a public limited company in the Netherlands" ;
+	fibo-be-le-fbo:hasHeadquartersAddress fibo-fbc-fct-eufseind:ABNAMROBankNVHeadquartersAddress ;
+	fibo-be-le-lei:hasLegalAddress fibo-fbc-fct-eufseind:ABNAMROBankNVLegalAddress ;
+	fibo-be-le-lei:hasLegalFormAbbreviation "naamloze vennootschap, B5PM"@nl ;
+	fibo-fnd-rel-rel:hasLegalName "ABN AMRO Bank N.V." ;
+	.
+
+fibo-fbc-fct-eufseind:ABNAMROBankNVHeadquartersAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "ABN AMRO Bank N.V. headquarters address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "headquarters address for ABN AMRO Bank N.V." ;
+	fibo-fnd-plc-adr:hasAddressLine1 "Gustav Mahlerlaan 10"@nl ;
+	fibo-fnd-plc-adr:hasPostalCode "1082PP" ;
+	cmns-loc:hasCountry lcc-3166-1:Netherlands ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:Amsterdam ;
+	.
+
+fibo-fbc-fct-eufseind:ABNAMROBankNVLegalAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "ABN AMRO Bank N.V. legal address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal address for ABN AMRO Bank N.V." ;
+	fibo-fnd-plc-adr:hasAddressLine1 "Gustav Mahlerlaan 10"@nl ;
+	fibo-fnd-plc-adr:hasPostalCode "1082PP" ;
+	cmns-loc:hasCountry lcc-3166-1:Netherlands ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:Amsterdam ;
+	.
+
+fibo-fbc-fct-eufseind:ABNAMROBankNVLegalEntityIdentifierRegistryEntry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistryEntry
+		;
+	rdfs:label "ABN AMRO Bank N.V. legal entity identifier registry entry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal entity identifier Global LEI Index registry entry for ABN AMRO Bank N.V." ;
+	fibo-fbc-fct-breg:hasInitialRegistrationDate "2012-06-06T08:50:00-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationRevisionDate "2025-07-22T22:10:14-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationStatus fibo-fbc-fct-breg:IssuedStatus ;
+	fibo-fbc-fct-breg:hasRenewalDate "2026-07-23T07:07:00-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasValidationLevel fibo-fbc-fct-breg:EntityValidationLevelFullyCorroborated ;
+	cmns-col:comprises <https://rdf.gleif.org/L1/L-BFXS5XCH7N0Y05NIXW11-LEI> ;
+	.
+
+fibo-fbc-fct-eufseind:BankOfAmericaEurope
+	a
+		owl:NamedIndividual ,
+		fibo-der-drc-bsc:IntroducingBroker ,
+		fibo-der-drc-swp:SwapDealer ,
+		fibo-fbc-fct-fse:BrokerageFirm ,
+		fibo-fbc-fct-fse:CommercialBank ,
+		fibo-fbc-fct-fse:CommodityTradingAdvisor
+		;
+	rdfs:label "Bank of America Europe" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "Bank of America Europe functional entity, a licenced credit institution and Bank of America Corporation's primary European banking entity" ;
+	cmns-av:explanatoryNote "BofA Europe is a wholly owned subsidiary of Bank of America, N.A." ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:BankOfAmericaEuropeEntity ;
+	cmns-rlcmp:isRegulatedBy
+		fibo-fbc-fct-eurga:EuropeanBankingAuthorityRegulator ,
+		fibo-fbc-fct-eurga:EuropeanBankingRegulatoryAgencyAndCentralBank ,
+		fibo-fbc-fct-eurga:FinancialConductAuthority
+		;
+	.
+
+fibo-fbc-fct-eufseind:BankOfAmericaEuropeEntity
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-cb:Corporation
+		;
+	rdfs:label "Bank of America Europe entity" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "the Bank of America Europe legal entity that is a Designated Activity Company in Ireland" ;
+	fibo-be-le-fbo:hasHeadquartersAddress fibo-fbc-fct-eufseind:BankOfAmericaEuropeHeadquartersAddress ;
+	fibo-be-le-lei:hasLegalAddress fibo-fbc-fct-eufseind:BankOfAmericaEuropeLegalAddress ;
+	fibo-be-le-lei:hasLegalFormAbbreviation "Designated Activity Company (en), Cuideachta Ghníomhaíochta Ainmnithe (ga)" ;
+	fibo-fnd-rel-rel:hasLegalName "Bank of America Europe Designated Activity Company" ;
+	.
+
+fibo-fbc-fct-eufseind:BankOfAmericaEuropeHeadquartersAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "Bank of America Europe headquarters address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "headquarters address for Bank of America Europe" ;
+	fibo-fnd-plc-adr:hasAddressLine1 "Central Park" ;
+	fibo-fnd-plc-adr:hasAddressLine2 "Leopardstown" ;
+	fibo-fnd-plc-adr:hasAddressLine3 "Dublin 18" ;
+	fibo-fnd-plc-adr:hasPostalCode "D02 XN96" ;
+	cmns-loc:hasCountry lcc-3166-1:Ireland ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:Dublin ;
+	.
+
+fibo-fbc-fct-eufseind:BankOfAmericaEuropeLegalAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "Bank of America Europe legal address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal address for Bank of America Europe" ;
+	fibo-fnd-plc-adr:hasAddressLine1 "Two Park Place" ;
+	fibo-fnd-plc-adr:hasAddressLine2 "Hatch Street" ;
+	fibo-fnd-plc-adr:hasAddressLine3 "Dublin 2" ;
+	fibo-fnd-plc-adr:hasPostalCode "D02 NP94" ;
+	cmns-loc:hasCountry lcc-3166-1:Ireland ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:Dublin ;
+	.
+
+fibo-fbc-fct-eufseind:BankOfAmericaEuropeLegalEntityIdentifierRegistryEntry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistryEntry
+		;
+	rdfs:label "Bank of America Europe legal entity identifier registry entry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal entity identifier Global LEI Index registry entry for Bank of America Europe" ;
+	fibo-fbc-fct-breg:hasInitialRegistrationDate "2012-06-06T08:51:00-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationRevisionDate "2025-08-29T01:36:57-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationStatus fibo-fbc-fct-breg:IssuedStatus ;
+	fibo-fbc-fct-breg:hasRenewalDate "2026-09-06T23:33:00-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasValidationLevel fibo-fbc-fct-breg:EntityValidationLevelFullyCorroborated ;
+	cmns-col:comprises <https://rdf.gleif.org/L1/L-EQYXK86SF381Q21S3020-LEI> ;
+	.
+
+fibo-fbc-fct-eufseind:BarclaysBank
+	a
+		owl:NamedIndividual ,
+		fibo-der-drc-bsc:IntroducingBroker ,
+		fibo-der-drc-swp:SwapDealer ,
+		fibo-fbc-fct-fse:BrokerageFirm ,
+		fibo-fbc-fct-fse:CommercialBank ,
+		fibo-fbc-fct-fse:CommodityTradingAdvisor
+		;
+	owl:sameAs fibo-fbc-fct-mkti:ServiceProvider-L-G5GSEF7VJP5I7OUK5573 ;
+	rdfs:label "Barclays Bank" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "Barclays Bank functional entity, a diversified, multinational universal bank, and its functions span retail banking, corporate banking, investment banking, wealth management, and U.S. consumer finance" ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:BarclaysBankPlc ;
+	cmns-rlcmp:isRegulatedBy
+		fibo-fbc-fct-eurga:EuropeanBankingAuthorityRegulator ,
+		fibo-fbc-fct-eurga:EuropeanBankingRegulatoryAgencyAndCentralBank ,
+		fibo-fbc-fct-eurga:FinancialConductAuthority ,
+		fibo-fbc-fct-eurga:PrudentialRegulatoryAuthority
+		;
+	.
+
+fibo-fbc-fct-eufseind:BarclaysBankPlc
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-cb:Corporation
+		;
+	rdfs:label "Barclays Bank Plc" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "Barclays Bank Plc legal entity that is a Public Limited Company in the United Kingdom" ;
+	fibo-be-le-fbo:hasHeadquartersAddress fibo-fbc-fct-eufseind:BarclaysBankPlcHeadquartersAddress ;
+	fibo-be-le-lei:hasLegalAddress fibo-fbc-fct-eufseind:BarclaysBankPlcLegalAddress ;
+	fibo-be-le-lei:hasLegalFormAbbreviation "Public Limited Company (en), Cwmni Cyfyngedig Cyhoeddus (cy), B6ES" ;
+	fibo-fnd-rel-rel:hasLegalName "Barclays Bank Plc" ;
+	.
+
+fibo-fbc-fct-eufseind:BarclaysBankPlcHeadquartersAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "Barclays Bank Plc headquarters address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "headquarters address for Barclays Bank Plc" ;
+	fibo-fnd-plc-adr:hasAddressLine1 "1 Churchill Place" ;
+	fibo-fnd-plc-adr:hasPostalCode "E14 5HP" ;
+	cmns-loc:hasCountry lcc-3166-1:UnitedKingdomOfGreatBritainAndNorthernIreland ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:London ;
+	.
+
+fibo-fbc-fct-eufseind:BarclaysBankPlcLegalAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "Barclays Bank Plc legal address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal address for Barclays Bank Plc" ;
+	fibo-fnd-plc-adr:hasAddressLine1 "1 Churchill Place" ;
+	fibo-fnd-plc-adr:hasPostalCode "E14 5HP" ;
+	cmns-loc:hasCountry lcc-3166-1:UnitedKingdomOfGreatBritainAndNorthernIreland ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:London ;
+	.
+
+fibo-fbc-fct-eufseind:BarclaysBankPlcLegalEntityIdentifierRegistryEntry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistryEntry
+		;
+	rdfs:label "Barclays Bank Plc legal entity identifier registry entry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal entity identifier Global LEI Index registry entry for Barclays Bank Plc" ;
+	fibo-fbc-fct-breg:hasInitialRegistrationDate "2012-06-06T08:51:54-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationRevisionDate "2025-04-17T06:27:06-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationStatus fibo-fbc-fct-breg:IssuedStatus ;
+	fibo-fbc-fct-breg:hasRenewalDate "2026-04-29T17:00:00-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasValidationLevel fibo-fbc-fct-breg:EntityValidationLevelFullyCorroborated ;
+	cmns-col:comprises <https://rdf.gleif.org/L1/L-G5GSEF7VJP5I7OUK5573-LEI> ;
+	.
+
+fibo-fbc-fct-eufseind:BusinessEntityData
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LocalOperatingUnit
+		;
+	rdfs:label "Business Entity Data (BED) B.V." ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	rdfs:seeAlso <https://www.gmeiutility.org/> ;
+	skos:definition "Business Entity Data (BED) B.V." ;
+	cmns-av:explanatoryNote "wholly-owned subsidiary of DTCC that owns and operates the Global Market Entity Identifier Utility (GMEI) legal entity identifier (LEI) solution in the federated Global LEI system (GLEIS)" ;
+	cmns-org:manages fibo-fbc-fct-usfsind:GlobalMarketsEntityIdentifierRegistry ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:BusinessEntityData-NL ;
+	.
+
+fibo-fbc-fct-eufseind:BusinessEntityData-NL
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-cb:PrivatelyHeldCompany
+		;
+	rdfs:label "Business Entity Data (BED) B.V. NL" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "Business Entity Data (BED) B.V. legal entity that is a privately held company in the Netherlands" ;
+	fibo-be-le-fbo:hasHeadquartersAddress fibo-fbc-fct-eufseind:BusinessEntityDataHeadquartersAddress ;
+	fibo-be-le-lei:hasLegalAddress fibo-fbc-fct-eufseind:BusinessEntityDataLegalAddress ;
+	fibo-be-le-lei:hasLegalFormAbbreviation "Besloten Vennootschap"@nl ;
+	fibo-be-oac-cctl:hasGlobalUltimateParent fibo-fbc-fct-usfsind:DepositoryTrustAndClearingCorporation ;
+	fibo-fnd-rel-rel:hasLegalName "Business Entity Data (BED) B.V." ;
+	.
+
+fibo-fbc-fct-eufseind:BusinessEntityDataHeadquartersAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "Business Entity Data (BED) B.V. headquarters address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "headquarters address for Business Entity Data (BED) B.V." ;
+	fibo-fnd-plc-adr:hasAddressLine1 "Bernhardplein 200"@nl ;
+	fibo-fnd-plc-adr:hasPostalCode "1097 JB" ;
+	cmns-loc:hasCountry lcc-3166-1:Netherlands ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:Amsterdam ;
+	.
+
+fibo-fbc-fct-eufseind:BusinessEntityDataLegalAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "Business Entity Data (BED) B.V. legal address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal address for Business Entity Data (BED) B.V." ;
+	fibo-fnd-plc-adr:hasAddressLine1 "Prins Bernhardplein 200" ;
+	fibo-fnd-plc-adr:hasPostalCode "1097 JB" ;
+	cmns-loc:hasCountry lcc-3166-1:Netherlands ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:Amsterdam ;
+	.
+
+fibo-fbc-fct-eufseind:BusinessEntityDataLegalEntityIdentifierRegistryEntry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistryEntry
+		;
+	rdfs:label "Business Entity Data (BED) B.V. legal entity identifier registry entry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal entity identifier Global LEI Index registry entry for Business Entity Data (BED) B.V." ;
+	fibo-fbc-fct-breg:hasInitialRegistrationDate "2012-06-06T15:54:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationRevisionDate "2021-09-15T15:32:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationStatus fibo-fbc-fct-breg:IssuedStatus ;
+	fibo-fbc-fct-breg:hasRenewalDate "2022-08-05T19:16:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasValidationLevel fibo-fbc-fct-breg:EntityValidationLevelFullyCorroborated ;
+	cmns-col:comprises <https://rdf.gleif.org/L1/L-EVK05KS7XY1DEII3R011-LEI> ;
+	.
+
+fibo-fbc-fct-eufseind:Clearstream
+	a
+		owl:NamedIndividual ,
+		fibo-be-fct-pub:Publisher ,
+		fibo-fbc-fct-fse:CentralCounterpartyClearingHouse ,
+		fibo-fbc-fct-fse:CentralSecuritiesDepository ,
+		fibo-fbc-fct-fse:ClearingBank ,
+		cmns-ra:RegistrationAuthority
+		;
+	rdfs:label "Clearstream Banking" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	rdfs:seeAlso <http://www.clearstream.com/clearstream-en/about-clearstream> ;
+	skos:definition "Clearstream functional entity, which is an international central securities depository (ICSD) based in Luxembourg, providing post-trade infrastructure and securities services for the international market and 56 domestic markets worldwide" ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:ClearstreamBankingSA ;
+	.
+
+fibo-fbc-fct-eufseind:ClearstreamBankingHeadquartersAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "Clearstream Banking S.A. headquarters address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "headquarters address for Clearstream Banking S.A." ;
+	fibo-fnd-plc-adr:hasAddressLine1 "42, Avenue J.F. Kennedy" ;
+	fibo-fnd-plc-adr:hasPostalCode "L-1855" ;
+	cmns-loc:hasCountry lcc-3166-1:Luxembourg ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:Luxembourg ;
+	.
+
+fibo-fbc-fct-eufseind:ClearstreamBankingLegalAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "Clearstream Banking S.A. legal address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal address for Clearstream Banking S.A." ;
+	fibo-fnd-plc-adr:hasAddressLine1 "42, Avenue J.F. Kennedy" ;
+	fibo-fnd-plc-adr:hasPostalCode "L-1855" ;
+	cmns-loc:hasCountry lcc-3166-1:Luxembourg ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:Luxembourg ;
+	.
+
+fibo-fbc-fct-eufseind:ClearstreamBankingLegalEntityIdentifierRegistryEntry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistryEntry
+		;
+	rdfs:label "Clearstream Banking S.A. legal entity identifier registry entry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal entity identifier Global LEI Index registry entry for Clearstream Banking S.A." ;
+	fibo-fbc-fct-breg:hasInitialRegistrationDate "2015-01-09T22:33:24.097000"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationRevisionDate "2025-04-09T04:03:40-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationStatus fibo-fbc-fct-breg:IssuedStatus ;
+	fibo-fbc-fct-breg:hasRenewalDate "2026-06-06T17:00:00-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasValidationLevel fibo-fbc-fct-breg:EntityValidationLevelFullyCorroborated ;
+	cmns-col:comprises <https://rdf.gleif.org/L1/L-549300OL514RA0SXJJ44-LEI> ;
+	.
+
+fibo-fbc-fct-eufseind:ClearstreamBankingSA
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-cb:StockCorporation
+		;
+	rdfs:label "Clearstream Banking S.A." ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	rdfs:seeAlso <https://www.euroclear.com/about/en/ourgovernancestructure.html> ;
+	skos:definition "Euroclear legal entity that provides post-trade infrastructure and securities services in Europe and internationally" ;
+	fibo-be-le-fbo:hasHeadquartersAddress fibo-fbc-fct-eufseind:ClearstreamBankingHeadquartersAddress ;
+	fibo-be-le-lei:hasLegalAddress fibo-fbc-fct-eufseind:ClearstreamBankingLegalAddress ;
+	fibo-be-le-lei:hasLegalFormAbbreviation "Societe Anonyme" ;
+	fibo-be-oac-cctl:hasSubsidiary fibo-fbc-fct-eufseind:LuxCSD ;
+	fibo-fbc-fct-breg:hasPriorLegalName "Cedel Bank S.A." ;
+	fibo-fnd-rel-rel:hasLegalName "Clearstream Banking S.A." ;
+	cmns-av:explanatoryNote "The company offers asset services, cash and banking services, connectivity, global securities financing, investment fund services, issuance, IT solutions, settlement, and market coverage services. It also provides post-trade infrastructure services for the German securities industry; and manages, safe keeps, and administers the securities that it holds on behalf of its customers. Clearstream Banking S.A was formerly known as Cedel Bank S.A. and changed its name to Clearstream Banking S.A. in March 2002. The company was founded in 1970 and is based in Luxembourg." ;
+	.
+
+fibo-fbc-fct-eufseind:Commerzbank
+	a
+		owl:NamedIndividual ,
+		fibo-der-drc-bsc:IntroducingBroker ,
+		fibo-der-drc-swp:SwapDealer ,
+		fibo-fbc-fct-fse:BrokerageFirm ,
+		fibo-fbc-fct-fse:CommercialBank ,
+		fibo-fbc-fct-fse:CommodityTradingAdvisor
+		;
+	owl:sameAs fibo-fbc-fct-mkti:ServiceProvider-L-851WYGNLUQLFZBSYGB56 ;
+	rdfs:label "Commerzbank" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "Commerzbank functional entity, a multinational bank based in Germany, supporting retail and commercial customers, focused on digitalised banking with personal advice, consistent customer focus, and sustainability" ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:CommerzbankAG ;
+	cmns-rlcmp:isRegulatedBy
+		fibo-fbc-fct-eurga:EuropeanBankingAuthorityRegulator ,
+		fibo-fbc-fct-eurga:EuropeanBankingRegulatoryAgencyAndCentralBank ,
+		fibo-fbc-fct-eurga:FinancialConductAuthority
+		;
+	.
+
+fibo-fbc-fct-eufseind:CommerzbankAG
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-cb:StockCorporation
+		;
+	rdfs:label "Commerzbank AG" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "Commerzbank Aktiengesellschaft legal entity that is a stock corporation in Germany" ;
+	fibo-be-le-fbo:hasHeadquartersAddress fibo-fbc-fct-eufseind:CommerzbankAGHeadquartersAddress ;
+	fibo-be-le-lei:hasLegalAddress fibo-fbc-fct-eufseind:CommerzbankAGLegalAddress ;
+	fibo-be-le-lei:hasLegalFormAbbreviation "Aktiengesellschaft, 6QQB"@de ;
+	fibo-fnd-rel-rel:hasLegalName "Commerzbank AG" ;
+	.
+
+fibo-fbc-fct-eufseind:CommerzbankAGHeadquartersAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "Commerzbank AG headquarters address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "headquarters address for Commerzbank AG" ;
+	fibo-fnd-plc-adr:hasAddressLine1 "Kaiserstraße 16"@de ;
+	fibo-fnd-plc-adr:hasPostalCode "60311" ;
+	cmns-loc:hasCountry lcc-3166-1:Germany ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:Frankfurt ;
+	.
+
+fibo-fbc-fct-eufseind:CommerzbankAGLegalAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "Commerzbank AG legal address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal address for Commerzbank AG" ;
+	fibo-fnd-plc-adr:hasAddressLine1 "Kaiserstraße 16"@de ;
+	fibo-fnd-plc-adr:hasPostalCode "60311" ;
+	cmns-loc:hasCountry lcc-3166-1:Germany ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:Frankfurt ;
+	.
+
+fibo-fbc-fct-eufseind:CommerzbankAGLegalEntityIdentifierRegistryEntry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistryEntry
+		;
+	rdfs:label "Commerzbank AG legal entity identifier registry entry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal entity identifier Global LEI Index registry entry for Commerzbank AG" ;
+	fibo-fbc-fct-breg:hasInitialRegistrationDate "2012-06-06T06:54:00-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationRevisionDate "2026-02-24T07:06:18-08:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationStatus fibo-fbc-fct-breg:IssuedStatus ;
+	fibo-fbc-fct-breg:hasRenewalDate "2027-04-24T06:33:51-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasValidationLevel fibo-fbc-fct-breg:EntityValidationLevelFullyCorroborated ;
+	cmns-col:comprises <https://rdf.gleif.org/L1/L-851WYGNLUQLFZBSYGB56-LEI> ;
+	.
+
+fibo-fbc-fct-eufseind:Euroclear
+	a
+		owl:NamedIndividual ,
+		fibo-be-fct-pub:Publisher ,
+		fibo-fbc-fct-fse:CentralCounterpartyClearingHouse ,
+		fibo-fbc-fct-fse:CentralSecuritiesDepository ,
+		fibo-fbc-fct-fse:ClearingBank ,
+		cmns-ra:RegistrationAuthority
+		;
+	rdfs:label "Euroclear" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	rdfs:seeAlso <https://www.euroclear.com/en.html> ;
+	skos:definition "Euroclear functional entity, which is a global clearing house, central securities depository, and custodian that specializes in the settlement of securities transactions as well as the safekeeping and asset servicing of these securities" ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:EuroclearSANV ;
+	.
+
+fibo-fbc-fct-eufseind:EuroclearHeadquartersAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "Euroclear SA/NV headquarters address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "headquarters address for Euroclear SA/NV" ;
+	fibo-fnd-plc-adr:hasAddressLine1 "Boulevard du Roi Albert II 1"@fr ;
+	fibo-fnd-plc-adr:hasAddressLine2 "Saint-Josse-ten-Noode" ;
+	fibo-fnd-plc-adr:hasPostalCode "1210" ;
+	cmns-loc:hasCountry lcc-3166-1:Belgium ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:Brussels ;
+	.
+
+fibo-fbc-fct-eufseind:EuroclearLegalAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "Euroclear SA/NV legal address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal address for Euroclear SA/NV" ;
+	fibo-fnd-plc-adr:hasAddressLine1 "Boulevard du Roi Albert II 1"@fr ;
+	fibo-fnd-plc-adr:hasAddressLine2 "Saint-Josse-ten-Noode" ;
+	fibo-fnd-plc-adr:hasPostalCode "1210" ;
+	cmns-loc:hasCountry lcc-3166-1:Belgium ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:Brussels ;
+	.
+
+fibo-fbc-fct-eufseind:EuroclearLegalEntityIdentifierRegistryEntry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistryEntry
+		;
+	rdfs:label "Euroclear SA/NV legal entity identifier registry entry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal entity identifier Global LEI Index registry entry for Euroclear SA/NV" ;
+	fibo-fbc-fct-breg:hasInitialRegistrationDate "2014-01-06T19:04:00-08:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationRevisionDate "2025-03-14T07:09:41-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationStatus fibo-fbc-fct-breg:IssuedStatus ;
+	fibo-fbc-fct-breg:hasRenewalDate "2026-04-27T17:00:00-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasValidationLevel fibo-fbc-fct-breg:EntityValidationLevelFullyCorroborated ;
+	cmns-col:comprises <https://rdf.gleif.org/L1/L-549300CBNW05DILT6870-LEI> ;
+	.
+
+fibo-fbc-fct-eufseind:EuroclearSANV
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-cb:StockCorporation
+		;
+	rdfs:label "Euroclear SA/NV" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	rdfs:seeAlso <https://www.euroclear.com/en/about/our-structure.html> ;
+	skos:definition "Euroclear legal entity that is the parent company of the international and national central securities depositories ((I)CSDs) of the Euroclear group of companies; it owns the group's shared securities processing platforms and delivers a range of services to the group's depositories" ;
+	fibo-be-le-fbo:hasHeadquartersAddress fibo-fbc-fct-eufseind:ClearstreamBankingHeadquartersAddress ;
+	fibo-be-le-lei:hasLegalAddress fibo-fbc-fct-eufseind:ClearstreamBankingLegalAddress ;
+	fibo-be-le-lei:hasLegalFormAbbreviation "Societe Anonyme/Naamloze Vennootschap" ;
+	fibo-fnd-rel-rel:hasLegalName "Euroclear SA/NV" ;
+	.
+
+fibo-fbc-fct-eufseind:EuropeanBankingFederation
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-fbo:NotForProfitOrganization
+		;
+	rdfs:label "European Banking Federation" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "international non-profit association founded in 1960 that is the voice of the European banking sector, uniting 32 national banking associations in Europe that together represent some 4,500 banks - large and small, wholesale and retail, local and international - employing about 2.1 million people" ;
+	cmns-av:abbreviation "EBF" ;
+	cmns-av:adaptedFrom "http://www.ebf.eu/about-us/"^^xsd:anyURI ;
+	.
+
+fibo-fbc-fct-eufseind:EuropeanMoneyMarketsInstitute
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-fbo:NotForProfitOrganization
+		;
+	rdfs:label "European Money Markets Institute" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "international non-profit association under Belgian law founded in 1999 with the launch of the Euro and based in Brussels (56, Ave des Arts, 1000 Brussels)" ;
+	cmns-av:abbreviation "EMMI" ;
+	cmns-av:adaptedFrom "http://www.emmi-benchmarks.eu/"^^xsd:anyURI ;
+	cmns-av:explanatoryNote "Its members are national banking associations in the Member States of the European Union which are involved in the Eurozone." ;
+	.
+
+fibo-fbc-fct-eufseind:HerausgebergemeinschaftWertpapier-MitteilungenKepplerLehmann
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LocalOperatingUnit
+		;
+	rdfs:label "Herausgebergemeinschaft Wertpapier-Mitteilungen Keppler, Lehmann" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	rdfs:seeAlso <https://www.wm-leiportal.org/?lang=en> ;
+	skos:definition "subdivision of Herausgebergemeinschaft Wertpapier-Mitteilungen Keppler, Lehmann that operates the WM Datenservice, Europe's largest registry for the Legal Entity Identifier (LEI)" ;
+	cmns-org:manages fibo-fbc-fct-eufseind:WMDatenserviceEntityIdentifierRegistry ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:HerausgebergemeinschaftWertpapier-MitteilungenKepplerLehmannGmbHAndCoKG-DE ;
+	.
+
+fibo-fbc-fct-eufseind:HerausgebergemeinschaftWertpapier-MitteilungenKepplerLehmannGmbHAndCoKG-DE
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-cb:PrivatelyHeldCompany
+		;
+	rdfs:label "Herausgebergemeinschaft Wertpapier-Mitteilungen Keppler, Lehmann GmbH & Co. KG" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	rdfs:seeAlso <https://www.wmgruppe.de/index.php> ;
+	skos:definition "Herausgebergemeinschaft Wertpapier-Mitteilungen Keppler, Lehmann GmbH & Co. KG legal entity that is a privately held company in Germany" ;
+	fibo-be-le-fbo:hasHeadquartersAddress fibo-fbc-fct-eufseind:WMGruppeHeadquartersAndLegalAddress ;
+	fibo-be-le-lei:hasLegalAddress fibo-fbc-fct-eufseind:WMGruppeHeadquartersAndLegalAddress ;
+	fibo-be-le-lei:hasLegalFormAbbreviation "Gesellschaft mit beschränkter Haftung & Compagnie Kommanditgesellschaft"@de ;
+	fibo-fbc-fct-breg:hasTradingOrOperationalName "WM Gruppe" ;
+	fibo-fnd-rel-rel:hasLegalName "Herausgebergemeinschaft Wertpapier-Mitteilungen Keppler, Lehmann GmbH & Co. KG"@de ;
+	.
+
+fibo-fbc-fct-eufseind:INGBank
+	a
+		owl:NamedIndividual ,
+		fibo-der-drc-bsc:IntroducingBroker ,
+		fibo-der-drc-swp:SwapDealer ,
+		fibo-fbc-fct-fse:BrokerageFirm ,
+		fibo-fbc-fct-fse:CommercialBank ,
+		fibo-fbc-fct-fse:CommodityTradingAdvisor
+		;
+	owl:sameAs fibo-fbc-fct-mkti:ServiceProvider-L-3TK20IVIUJ8J3ZU0QE75 ;
+	rdfs:label "ING Bank" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "ING Bank functional entity, a global, multinational banking and financial services corporation based in the Netherlands" ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:INGBankNV ;
+	cmns-rlcmp:isRegulatedBy
+		fibo-fbc-fct-eurga:EuropeanBankingAuthorityRegulator ,
+		fibo-fbc-fct-eurga:EuropeanBankingRegulatoryAgencyAndCentralBank ,
+		fibo-fbc-fct-eurga:FinancialConductAuthority ,
+		fibo-fbc-fct-eurga:PrudentialRegulatoryAuthority
+		;
+	.
+
+fibo-fbc-fct-eufseind:INGBankNV
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-cb:Corporation
+		;
+	rdfs:label "ING Bank N.V." ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "ING Bank N.V. legal entity that is a public limited company in the Netherlands" ;
+	fibo-be-le-fbo:hasHeadquartersAddress fibo-fbc-fct-eufseind:INGBankNVHeadquartersAddress ;
+	fibo-be-le-lei:hasLegalAddress fibo-fbc-fct-eufseind:INGBankNVLegalAddress ;
+	fibo-be-le-lei:hasLegalFormAbbreviation "naamloze vennootschap, B5PM"@nl ;
+	fibo-fnd-rel-rel:hasLegalName "ING Bank N.V." ;
+	.
+
+fibo-fbc-fct-eufseind:INGBankNVHeadquartersAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "ING Bank N.V. headquarters address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "headquarters address for ING Bank N.V." ;
+	fibo-fnd-plc-adr:hasAddressLine1 "BIJLMERDREEF 106"@nl ;
+	fibo-fnd-plc-adr:hasPostalCode "1102 CT" ;
+	cmns-loc:hasCountry lcc-3166-1:Netherlands ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:Amsterdam ;
+	.
+
+fibo-fbc-fct-eufseind:INGBankNVLegalAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "ING Bank N.V. legal address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal address for ING Bank N.V." ;
+	fibo-fnd-plc-adr:hasAddressLine1 "BIJLMERDREEF 106"@nl ;
+	fibo-fnd-plc-adr:hasPostalCode "1102 CT" ;
+	cmns-loc:hasCountry lcc-3166-1:Netherlands ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:Amsterdam ;
+	.
+
+fibo-fbc-fct-eufseind:INGBankNVLegalEntityIdentifierRegistryEntry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistryEntry
+		;
+	rdfs:label "ING Bank N.V. legal entity identifier registry entry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal entity identifier Global LEI Index registry entry for ING Bank N.V." ;
+	fibo-fbc-fct-breg:hasInitialRegistrationDate "2012-06-06T08:54:00-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationRevisionDate "2025-10-07T04:50:28-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationStatus fibo-fbc-fct-breg:IssuedStatus ;
+	fibo-fbc-fct-breg:hasRenewalDate "2026-11-29T16:00:00-08:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasValidationLevel fibo-fbc-fct-breg:EntityValidationLevelFullyCorroborated ;
+	cmns-col:comprises <https://rdf.gleif.org/L1/L-3TK20IVIUJ8J3ZU0QE75-LEI> ;
+	.
+
+fibo-fbc-fct-eufseind:JPMorganSecurities
+	a
+		owl:NamedIndividual ,
+		fibo-der-drc-bsc:IntroducingBroker ,
+		fibo-der-drc-swp:SwapDealer ,
+		fibo-fbc-fct-fse:BrokerageFirm ,
+		fibo-fbc-fct-fse:CommercialBank ,
+		fibo-fbc-fct-fse:CommodityTradingAdvisor ,
+		fibo-fbc-fct-fse:InsuranceCompany ,
+		fibo-fbc-fct-fse:InvestmentBank
+		;
+	rdfs:label "JP Morgan Securities" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "JP Morgan Securities functional entity, a global, multinational financial services corporation and subsidiary of JP Morgan Chase & Co. that provides commercial banking, global corporate banking, investment banking and other services to its clients" ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:JPMorganSecuritiesPlc ;
+	cmns-rlcmp:isRegulatedBy
+		fibo-fbc-fct-eurga:EuropeanBankingAuthorityRegulator ,
+		fibo-fbc-fct-eurga:EuropeanBankingRegulatoryAgencyAndCentralBank ,
+		fibo-fbc-fct-eurga:FinancialConductAuthority ,
+		fibo-fbc-fct-eurga:PrudentialRegulatoryAuthority
+		;
+	.
+
+fibo-fbc-fct-eufseind:JPMorganSecuritiesPlc
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-cb:Corporation
+		;
+	rdfs:label "JP Morgan Securities" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "JP Morgan Securities legal entity that is a public limited company in the United Kingdom" ;
+	fibo-be-le-fbo:hasHeadquartersAddress fibo-fbc-fct-eufseind:JPMorganSecuritiesPlcHeadquartersAddress ;
+	fibo-be-le-lei:hasLegalAddress fibo-fbc-fct-eufseind:JPMorganSecuritiesPlcLegalAddress ;
+	fibo-be-le-lei:hasLegalFormAbbreviation "Public Limited Company (en), Cwmni Cyfyngedig Cyhoeddus (cy), B6ES" ;
+	fibo-fnd-rel-rel:hasLegalName "JP Morgan Securities Plc" ;
+	.
+
+fibo-fbc-fct-eufseind:JPMorganSecuritiesPlcHeadquartersAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "JP Morgan Securities Plc headquarters address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "headquarters address for JP Morgan Securities Plc" ;
+	fibo-fnd-plc-adr:hasAddressLine1 "25 Bank Street" ;
+	fibo-fnd-plc-adr:hasAddressLine2 "Canary Wharf" ;
+	fibo-fnd-plc-adr:hasPostalCode "E14 5JP" ;
+	cmns-loc:hasCountry lcc-3166-1:UnitedKingdomOfGreatBritainAndNorthernIreland ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:London ;
+	.
+
+fibo-fbc-fct-eufseind:JPMorganSecuritiesPlcLegalAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "JP Morgan Securities Plc legal address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal address for JP Morgan Securities Plc" ;
+	fibo-fnd-plc-adr:hasAddressLine1 "25 Bank Street" ;
+	fibo-fnd-plc-adr:hasAddressLine2 "Canary Wharf" ;
+	fibo-fnd-plc-adr:hasPostalCode "E14 5JP" ;
+	cmns-loc:hasCountry lcc-3166-1:UnitedKingdomOfGreatBritainAndNorthernIreland ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:London ;
+	.
+
+fibo-fbc-fct-eufseind:JPMorganSecuritiesPlcLegalEntityIdentifierRegistryEntry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistryEntry
+		;
+	rdfs:label "JP Morgan Securities legal entity identifier registry entry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal entity identifier Global LEI Index registry entry for JP Morgan Securities" ;
+	fibo-fbc-fct-breg:hasInitialRegistrationDate "2012-06-06T08:53:00-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationRevisionDate "2025-12-12T06:54:59-08:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationStatus fibo-fbc-fct-breg:IssuedStatus ;
+	fibo-fbc-fct-breg:hasRenewalDate "2026-12-28T07:20:38-08:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasValidationLevel fibo-fbc-fct-breg:EntityValidationLevelFullyCorroborated ;
+	cmns-col:comprises <https://rdf.gleif.org/L1/L-K6Q0W1PS1L1O4IQL9C32-LEI> ;
+	.
+
+fibo-fbc-fct-eufseind:LondonStockExchange
+	a
+		owl:NamedIndividual ,
+		fibo-be-fct-pub:Publisher ,
+		fibo-fbc-pas-fpas:FinancialServiceProvider ,
+		cmns-ra:RegistrationAuthority
+		;
+	rdfs:label "London Stock Exchange" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	rdfs:seeAlso <http://www.londonstockexchange.com/home/homepage.htm> ;
+	skos:definition "London Stock Exchange functional entity, which is a global business and financial information services and news provider, a securities exchange, and the SEDOL code issuer and registration authority" ;
+	cmns-av:abbreviation "LSE" ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:LondonStockExchangePlc ;
+	.
+
+fibo-fbc-fct-eufseind:LondonStockExchangeAsLocalOperatingUnit
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LocalOperatingUnit
+		;
+	rdfs:label "London Stock Exchange as local operating unit" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	rdfs:seeAlso <http://www.londonstockexchange.com/home/homepage.htm> ;
+	skos:definition "London Stock Exchange functional entity that is an LEI Local Operating Unit (LOU) registrar" ;
+	cmns-org:manages fibo-fbc-fct-eufseind:LondonStockExchangeUnaVistaRegistry ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:LondonStockExchangePlc ;
+	.
+
+fibo-fbc-fct-eufseind:LondonStockExchangeHeadquartersAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "London Stock Exchange plc. headquarters address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "headquarters address for London Stock Exchange plc." ;
+	fibo-fnd-plc-adr:hasAddressLine1 "10 Paternoster Square" ;
+	fibo-fnd-plc-adr:hasPostalCode "EC4M 7LS" ;
+	cmns-loc:hasCountry lcc-3166-1:UnitedKingdomOfGreatBritainAndNorthernIreland ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:London ;
+	.
+
+fibo-fbc-fct-eufseind:LondonStockExchangeLegalAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "London Stock Exchange plc. legal address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal address for London Stock Exchange plc." ;
+	fibo-fnd-plc-adr:hasAddressLine1 "10 Paternoster Square" ;
+	fibo-fnd-plc-adr:hasPostalCode "EC4M 7LS" ;
+	cmns-loc:hasCountry lcc-3166-1:UnitedKingdomOfGreatBritainAndNorthernIreland ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:London ;
+	.
+
+fibo-fbc-fct-eufseind:LondonStockExchangeLegalEntityIdentifierRegistryEntry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistryEntry
+		;
+	rdfs:label "London Stock Exchange plc. legal entity identifier registry entry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal entity identifier Global LEI Index registry entry for London Stock Exchange plc." ;
+	fibo-fbc-fct-breg:hasInitialRegistrationDate "2013-09-12T17:00:00-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationRevisionDate "2025-07-22T02:51:53-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationStatus fibo-fbc-fct-breg:IssuedStatus ;
+	fibo-fbc-fct-breg:hasRenewalDate "2026-09-17T17:00:00-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasValidationLevel fibo-fbc-fct-breg:EntityValidationLevelFullyCorroborated ;
+	cmns-col:comprises <https://rdf.gleif.org/L1/L-213800D1EI4B9WTWWD28-LEI> ;
+	.
+
+fibo-fbc-fct-eufseind:LondonStockExchangePlc
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-cb:Corporation
+		;
+	rdfs:label "London Stock Exchange plc." ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	rdfs:seeAlso <http://www.londonstockexchange.com/home/homepage.htm> ;
+	skos:definition "London Stock Exchange plc. legal entity" ;
+	fibo-be-le-fbo:hasHeadquartersAddress fibo-fbc-fct-eufseind:LondonStockExchangeHeadquartersAddress ;
+	fibo-be-le-lei:hasLegalAddress fibo-fbc-fct-eufseind:LondonStockExchangeLegalAddress ;
+	fibo-be-le-lei:hasLegalFormAbbreviation "Public Limited Company" ;
+	fibo-fnd-rel-rel:hasLegalName "London Stock Exchange plc." ;
+	.
+
+fibo-fbc-fct-eufseind:LondonStockExchangeUnaVistaRegistry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistry
+		;
+	rdfs:label "London Stock Exchange UnaVista Registry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	rdfs:seeAlso <https://www.lseg.com/LEI> ;
+	skos:definition "UnaVista registry service provided by the London Stock Exchange supporting LEI registration" ;
+	.
+
+fibo-fbc-fct-eufseind:LuxCSD
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-fse:CentralSecuritiesDepository
+		;
+	rdfs:label "Lux CSD" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	rdfs:seeAlso <http://www.luxcsd.com/luxcsd-en/> ;
+	skos:definition "Lux CSD functional entity, which provides Luxembourg's financial community with issuing and central bank settlement as well as custody services for a wide range of securities including investment funds" ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:LuxCSDSA ;
+	.
+
+fibo-fbc-fct-eufseind:LuxCSDAsLocalOperatingUnit
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LocalOperatingUnit
+		;
+	rdfs:label "Lux CSD" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	rdfs:seeAlso <http://www.luxcsd.com/luxcsd-en/> ;
+	skos:definition "Lux CSD functional entity that is an LEI Local Operating Unit (LOU) registrar" ;
+	cmns-org:manages fibo-fbc-fct-eufseind:LuxCSDLEIRegistry ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:LuxCSDSA ;
+	.
+
+fibo-fbc-fct-eufseind:LuxCSDLEIRegistry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistry
+		;
+	rdfs:label "Lux CSD LEI Registry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	rdfs:seeAlso <http://www.luxcsd.com/luxcsd-en/products-and-services/luxembourg-lei-service> ;
+	skos:definition "LuxCDS LEI registry; LuxCSD has been issuing ISO 17442:2012 compliant LEIs with the prefix 2221 since September 2014" ;
+	.
+
+fibo-fbc-fct-eufseind:LuxCSDLegalEntityIdentifierRegistryEntry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistryEntry
+		;
+	rdfs:label "LuxCSD S.A. legal entity identifier registry entry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal entity identifier Global LEI Index registry entry for LuxCSD S.A." ;
+	fibo-fbc-fct-breg:hasInitialRegistrationDate "2014-06-03T01:45:01.523000"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationRevisionDate "2021-03-09T13:03:09.110000"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationStatus fibo-fbc-fct-breg:IssuedStatus ;
+	fibo-fbc-fct-breg:hasRenewalDate "2022-03-13T00:00:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasValidationLevel fibo-fbc-fct-breg:EntityValidationLevelFullyCorroborated ;
+	cmns-col:comprises <https://rdf.gleif.org/L1/L-222100T6ICDIY8V4VX70-LEI> ;
+	.
+
+fibo-fbc-fct-eufseind:LuxCSDSA
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-cb:StockCorporation
+		;
+	rdfs:label "LuxCSD S.A." ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	rdfs:seeAlso <http://www.luxcsd.com/luxcsd-en/> ;
+	skos:definition "Lux CSD legal entity" ;
+	fibo-be-le-fbo:hasHeadquartersAddress fibo-fbc-fct-eufseind:ClearstreamBankingHeadquartersAddress ;
+	fibo-be-le-lei:hasLegalAddress fibo-fbc-fct-eufseind:ClearstreamBankingLegalAddress ;
+	fibo-be-le-lei:hasLegalFormAbbreviation "Societe Anonyme" ;
+	fibo-fnd-rel-rel:hasLegalName "LuxCSD S.A." ;
+	cmns-av:explanatoryNote "The European Central Bank (ECB) approved LuxCSD for its Securities Settlement System (SSS)." ;
+	.
+
+fibo-fbc-fct-eufseind:MorganStanleyAndCoInternational
+	a
+		owl:NamedIndividual ,
+		fibo-der-drc-bsc:IntroducingBroker ,
+		fibo-der-drc-swp:SwapDealer ,
+		fibo-fbc-fct-fse:BrokerageFirm ,
+		fibo-fbc-fct-fse:CommodityTradingAdvisor ,
+		fibo-fbc-fct-fse:InvestmentBank
+		;
+	owl:sameAs fibo-fbc-fct-mkti:ServiceProvider-L-4PQUHN3JPFGFNF3BB653 ;
+	rdfs:label "Morgan Stanley & Co. International" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "Morgan Stanley & Co. International functional entity, an international financial services corporation and subsidiary of Morgan Stanley that provides investment banking, brokerage and other services to its clients" ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:MorganStanleyAndCoInternationalPlc ;
+	cmns-rlcmp:isRegulatedBy
+		fibo-fbc-fct-eurga:FinancialConductAuthority ,
+		fibo-fbc-fct-eurga:PrudentialRegulatoryAuthority
+		;
+	.
+
+fibo-fbc-fct-eufseind:MorganStanleyAndCoInternationalPlc
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-cb:Corporation
+		;
+	rdfs:label "Morgan Stanley & Co. International Plc" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "Morgan Stanley & Co. International Plc legal entity that is a public limited company in the United Kingdom" ;
+	fibo-be-le-fbo:hasHeadquartersAddress fibo-fbc-fct-eufseind:MorganStanleyAndCoInternationalPlcHeadquartersAddress ;
+	fibo-be-le-lei:hasLegalAddress fibo-fbc-fct-eufseind:MorganStanleyAndCoInternationalPlcLegalAddress ;
+	fibo-be-le-lei:hasLegalFormAbbreviation "Public Limited Company (en), Cwmni Cyfyngedig Cyhoeddus (cy), B6ES" ;
+	fibo-fnd-rel-rel:hasLegalName "Morgan Stanley & Co. International Plc" ;
+	.
+
+fibo-fbc-fct-eufseind:MorganStanleyAndCoInternationalPlcHeadquartersAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "Morgan Stanley & Co. International Plc headquarters address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "headquarters address for Morgan Stanley & Co. International Plc" ;
+	fibo-fnd-plc-adr:hasAddressLine1 "Legal Department" ;
+	fibo-fnd-plc-adr:hasAddressLine2 "25 Cabot Square" ;
+	fibo-fnd-plc-adr:hasAddressLine3 "Canary Wharf" ;
+	fibo-fnd-plc-adr:hasPostalCode "E14 4QA" ;
+	cmns-loc:hasCountry lcc-3166-1:UnitedKingdomOfGreatBritainAndNorthernIreland ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:London ;
+	.
+
+fibo-fbc-fct-eufseind:MorganStanleyAndCoInternationalPlcLegalAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "Morgan Stanley & Co. International Plc legal address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal address for Morgan Stanley & Co. International Plc" ;
+	fibo-fnd-plc-adr:hasAddressLine1 "Legal Department" ;
+	fibo-fnd-plc-adr:hasAddressLine2 "25 Cabot Square" ;
+	fibo-fnd-plc-adr:hasAddressLine3 "Canary Wharf" ;
+	fibo-fnd-plc-adr:hasPostalCode "E14 4QA" ;
+	cmns-loc:hasCountry lcc-3166-1:UnitedKingdomOfGreatBritainAndNorthernIreland ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:London ;
+	.
+
+fibo-fbc-fct-eufseind:MorganStanleyAndCoInternationalPlcLegalEntityIdentifierRegistryEntry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistryEntry
+		;
+	rdfs:label "Morgan Stanley & Co. International Plc legal entity identifier registry entry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal entity identifier Global LEI Index registry entry for Morgan Stanley & Co. International Plc" ;
+	fibo-fbc-fct-breg:hasInitialRegistrationDate "2012-06-06T08:54:00-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationRevisionDate "2025-10-15T08:23:11-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationStatus fibo-fbc-fct-breg:IssuedStatus ;
+	fibo-fbc-fct-breg:hasRenewalDate "2026-11-15T00:32:00-08:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasValidationLevel fibo-fbc-fct-breg:EntityValidationLevelFullyCorroborated ;
+	cmns-col:comprises <https://rdf.gleif.org/L1/L-4PQUHN3JPFGFNF3BB653-LEI> ;
+	.
+
+fibo-fbc-fct-eufseind:NasdaqOMXGroup
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-cb:Corporation
+		;
+	rdfs:label "Nasdaq OMX Group" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "corporation that is a subsidiary of Nasdaq, Inc. that manages Nasdaq exchanges in Helsinki, Copenhagen, Stockholm, Iceland, Riga, Tallinn and Vilnius" ;
+	.
+
+fibo-fbc-fct-eufseind:NatWestMarkets
+	a
+		owl:NamedIndividual ,
+		fibo-der-drc-bsc:IntroducingBroker ,
+		fibo-der-drc-swp:SwapDealer ,
+		fibo-fbc-fct-fse:BrokerageFirm ,
+		fibo-fbc-fct-fse:CommodityTradingAdvisor ,
+		fibo-fbc-fct-fse:InvestmentBank
+		;
+	owl:sameAs fibo-fbc-fct-mkti:ServiceProvider-L-RR3QWICWWIPCS8A4S074 ;
+	rdfs:label "NatWest Markets" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "NatWest Markets functional entity that is the investment banking arm of the Royal Bank of Scotland, offering financing, risk management and trading solutions to UK and Western Europe customers and financial institutions" ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:NatWestMarketsPlc ;
+	cmns-rlcmp:isRegulatedBy
+		fibo-fbc-fct-eurga:FinancialConductAuthority ,
+		fibo-fbc-fct-eurga:PrudentialRegulatoryAuthority
+		;
+	.
+
+fibo-fbc-fct-eufseind:NatWestMarketsPlc
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-cb:Corporation
+		;
+	rdfs:label "NatWest Markets Plc" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "NatWest Markets Plc legal entity that is a public limited company in the United Kingdom" ;
+	fibo-be-le-fbo:hasHeadquartersAddress fibo-fbc-fct-eufseind:NatWestMarketsPlcHeadquartersAddress ;
+	fibo-be-le-lei:hasLegalAddress fibo-fbc-fct-eufseind:NatWestMarketsPlcLegalAddress ;
+	fibo-be-le-lei:hasLegalFormAbbreviation "Public Limited Company (en), Cwmni Cyfyngedig Cyhoeddus (cy), B6ES" ;
+	fibo-fnd-rel-rel:hasLegalName "NatWest Markets Plc" ;
+	.
+
+fibo-fbc-fct-eufseind:NatWestMarketsPlcHeadquartersAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "NatWest Markets Plc headquarters address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "headquarters address for NatWest Markets Plc" ;
+	fibo-fnd-plc-adr:hasAddressLine1 "36 St Andrew Square" ;
+	fibo-fnd-plc-adr:hasPostalCode "EH2 2YB" ;
+	cmns-loc:hasCountry lcc-3166-1:UnitedKingdomOfGreatBritainAndNorthernIreland ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:Edinburgh ;
+	.
+
+fibo-fbc-fct-eufseind:NatWestMarketsPlcLegalAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "NatWest Markets Plc legal address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal address for NatWest Markets Plc" ;
+	fibo-fnd-plc-adr:hasAddressLine1 "36 St Andrew Square" ;
+	fibo-fnd-plc-adr:hasPostalCode "EH2 2YB" ;
+	cmns-loc:hasCountry lcc-3166-1:UnitedKingdomOfGreatBritainAndNorthernIreland ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:Edinburgh ;
+	.
+
+fibo-fbc-fct-eufseind:NatWestMarketsPlcLegalEntityIdentifierRegistryEntry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistryEntry
+		;
+	rdfs:label "NatWest Markets Plc legal entity identifier registry entry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal entity identifier Global LEI Index registry entry for NatWest Markets Plc" ;
+	fibo-fbc-fct-breg:hasInitialRegistrationDate "2012-06-06T08:52:28-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationRevisionDate "2025-09-10T08:02:10-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationStatus fibo-fbc-fct-breg:IssuedStatus ;
+	fibo-fbc-fct-breg:hasRenewalDate "2026-10-26T17:00:00-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasValidationLevel fibo-fbc-fct-breg:EntityValidationLevelFullyCorroborated ;
+	cmns-col:comprises <https://rdf.gleif.org/L1/L-RR3QWICWWIPCS8A4S074-LEI> ;
+	.
+
+fibo-fbc-fct-eufseind:SIXFinancialInformation
+	a
+		owl:NamedIndividual ,
+		fibo-be-fct-pub:Publisher ,
+		fibo-fbc-pas-fpas:FinancialServiceProvider ,
+		cmns-ra:RegistrationAuthority
+		;
+	rdfs:label "SIX Financial Information" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "SIX Financial Information functional entity, which provides market data gathered from the world's major trading venues directly and in real-time, and is the Valoren issuer and registration authority as well as the national numbering agency (NNA) for Switzerland, Belgium, and Liechtenstein, and the former TELEKURS ID financial instrument identifier issuer and registration authority" ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:SIXFinancialInformationAG ;
+	.
+
+fibo-fbc-fct-eufseind:SIXFinancialInformationAG
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-cb:Corporation
+		;
+	rdfs:label "SIX Financial Information AG" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	rdfs:seeAlso <https://www.six-group.com/en/home.html> ;
+	skos:definition "SIX Financial Information AG legal entity" ;
+	fibo-be-le-fbo:hasHeadquartersAddress fibo-fbc-fct-eufseind:SIXGroupAGHeadquartersAddress ;
+	fibo-be-le-lei:hasLegalFormAbbreviation "Public Limited Company" ;
+	fibo-be-oac-cctl:hasGlobalUltimateParent fibo-fbc-fct-eufseind:SIXGroup ;
+	fibo-fbc-fct-breg:hasPriorLegalName
+		"Telekurs AG" ,
+		"Telekurs Holding AG" ,
+		"Telekurs Holding Ltd." ,
+		"Telekurs Holding SA" ,
+		"Telekurs Ltd" ,
+		"Telekurs SA"
+		;
+	fibo-fbc-fct-breg:hasTradingOrOperationalName
+		"SIX Financial Information Ltd" ,
+		"SIX SIX Financial Information SA"
+		;
+	fibo-fnd-rel-rel:hasLegalName "SIX Financial Information AG" ;
+	cmns-av:explanatoryNote "The company name SIX is an abbreviation and stands for Swiss Infrastructure and Exchange." ;
+	.
+
+fibo-fbc-fct-eufseind:SIXFinancialInformationAGLegalEntityIdentifierRegistryEntry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistryEntry
+		;
+	rdfs:label "SIX Financial Information AG legal entity identifier registry entry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal entity identifier registry entry for SIX Financial Information AG" ;
+	fibo-fbc-fct-breg:hasInitialRegistrationDate "2019-06-16T17:00:00-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationRevisionDate "2025-06-12T08:09:00-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationStatus fibo-fbc-fct-breg:IssuedStatus ;
+	fibo-fbc-fct-breg:hasRenewalDate "2026-07-14T17:00:00-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasValidationLevel fibo-fbc-fct-breg:EntityValidationLevelFullyCorroborated ;
+	cmns-col:comprises <https://rdf.gleif.org/L1/L-506700D369548LQDC335-LEI> ;
+	.
+
+fibo-fbc-fct-eufseind:SIXFinancialInformationAsLocalOperatingUnit
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LocalOperatingUnit
+		;
+	rdfs:label "SIX Financial Information" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "SIX Financial Information functional entity that is an LEI Local Operating Unit (LOU) registrar" ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:SIXFinancialInformationAG ;
+	.
+
+fibo-fbc-fct-eufseind:SIXGroup
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-pas-fpas:FinancialServiceProvider
+		;
+	rdfs:label "SIX Group" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "SIX Group functional entity, which offers exchange services, financial information and banking services with the aim of increasing efficiency, quality and innovative capacity along the entire Swiss banking value chain" ;
+	cmns-av:abbreviation "SIX" ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:SIXGroupAG ;
+	.
+
+fibo-fbc-fct-eufseind:SIXGroupAG
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-cb:Corporation
+		;
+	rdfs:label "SIX Group AG" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	rdfs:seeAlso <https://www.six-group.com/en/home.html> ;
+	skos:definition "SIX Group AG legal entity" ;
+	fibo-be-le-fbo:hasHeadquartersAddress fibo-fbc-fct-eufseind:SIXGroupAGHeadquartersAddress ;
+	fibo-be-le-lei:hasLegalFormAbbreviation "Public Limited Company" ;
+	fibo-be-oac-cctl:hasSubsidiary fibo-fbc-fct-eufseind:SIXFinancialInformation ;
+	fibo-fbc-fct-breg:hasTradingOrOperationalName
+		"SIX Group Ltd" ,
+		"SIX Group SA"
+		;
+	fibo-fnd-rel-rel:hasLegalName "SIX Group AG" ;
+	cmns-av:explanatoryNote "The company name SIX is an abbreviation and stands for Swiss Infrastructure and Exchange." ;
+	.
+
+fibo-fbc-fct-eufseind:SIXGroupAGHeadquartersAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "SIX Group AG headquarters address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "headquarters address for SIX Group AG" ;
+	fibo-fnd-plc-adr:hasAddressLine1 "Hardturmstrasse 201" ;
+	fibo-fnd-plc-adr:hasPostalCode "8005" ;
+	cmns-loc:hasCountry lcc-3166-1:Switzerland ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:Zurich ;
+	.
+
+fibo-fbc-fct-eufseind:SIXGroupAGLegalEntityIdentifierRegistryEntry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistryEntry
+		;
+	rdfs:label "SIX Group AG legal entity identifier registry entry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal entity identifier registry entry for SIX Group AG" ;
+	fibo-fbc-fct-breg:hasInitialRegistrationDate "2013-12-09T00:40:03-08:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationRevisionDate "2024-12-19T04:22:23-08:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationStatus fibo-fbc-fct-breg:IssuedStatus ;
+	fibo-fbc-fct-breg:hasRenewalDate "2026-02-06T15:00:00-08:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasValidationLevel fibo-fbc-fct-breg:EntityValidationLevelFullyCorroborated ;
+	cmns-col:comprises <https://rdf.gleif.org/L1/L-529900ZMNQFCPP762W05-LEI> ;
+	.
+
+fibo-fbc-fct-eufseind:SocieteGenerale
+	a
+		owl:NamedIndividual ,
+		fibo-der-drc-bsc:IntroducingBroker ,
+		fibo-der-drc-swp:SwapDealer ,
+		fibo-fbc-fct-fse:BrokerageFirm ,
+		fibo-fbc-fct-fse:CommercialBank ,
+		fibo-fbc-fct-fse:CommodityTradingAdvisor ,
+		fibo-fbc-fct-fse:InsuranceCompany ,
+		fibo-fbc-fct-fse:InvestmentBank
+		;
+	rdfs:label "Société Générale"@fr ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "Société Générale functional entity, a French multinational universal bank and financial services company" ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:SocieteGeneraleEntity ;
+	cmns-rlcmp:isRegulatedBy
+		fibo-fbc-fct-eurga:EuropeanBankingAuthorityRegulator ,
+		fibo-fbc-fct-eurga:EuropeanBankingRegulatoryAgencyAndCentralBank ,
+		fibo-fbc-fct-eurga:FinancialConductAuthority ,
+		fibo-fbc-fct-eurga:PrudentialRegulatoryAuthority
+		;
+	.
+
+fibo-fbc-fct-eufseind:SocieteGeneraleEntity
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-cb:Corporation
+		;
+	rdfs:label "Société Générale entité"@fr ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "Société Générale legal entity that is a public limited company with a board of directors" ;
+	fibo-be-le-fbo:hasHeadquartersAddress fibo-fbc-fct-eufseind:SocieteGeneraleHeadquartersAddress ;
+	fibo-be-le-lei:hasLegalAddress fibo-fbc-fct-eufseind:SocieteGeneraleLegalAddress ;
+	fibo-be-le-lei:hasLegalFormAbbreviation "SA à conseil d'administration (s.a.i.) (fr), K65D"@fr ;
+	fibo-fnd-rel-rel:hasLegalName "Société Générale" ;
+	.
+
+fibo-fbc-fct-eufseind:SocieteGeneraleHeadquartersAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "Société Générale headquarters address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "headquarters address for Société Générale" ;
+	fibo-fnd-plc-adr:hasAddressLine1 "29 Boulevard Haussmann"@fr ;
+	fibo-fnd-plc-adr:hasPostalCode "75009" ;
+	cmns-loc:hasCountry lcc-3166-1:France ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:Paris ;
+	.
+
+fibo-fbc-fct-eufseind:SocieteGeneraleLegalAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "Société Générale legal address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal address for Société Générale" ;
+	fibo-fnd-plc-adr:hasAddressLine1 "One Bank Street, Canary Wharf" ;
+	fibo-fnd-plc-adr:hasPostalCode "E14 4SG" ;
+	cmns-loc:hasCountry lcc-3166-1:UnitedKingdomOfGreatBritainAndNorthernIreland ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:London ;
+	.
+
+fibo-fbc-fct-eufseind:SocieteGeneraleLegalEntityIdentifierRegistryEntry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistryEntry
+		;
+	rdfs:label "Société Générale legal entity identifier registry entry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal entity identifier Global LEI Index registry entry for Société Générale" ;
+	fibo-fbc-fct-breg:hasInitialRegistrationDate "2022-03-09T16:00:00-08:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationRevisionDate "2026-01-09T05:47:59-08:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationStatus fibo-fbc-fct-breg:IssuedStatus ;
+	fibo-fbc-fct-breg:hasRenewalDate "2027-03-09T16:00:00-08:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasValidationLevel fibo-fbc-fct-breg:EntityValidationLevelFullyCorroborated ;
+	cmns-col:comprises <https://rdf.gleif.org/L1/L-213800O66553ESU7RD35-LEI> ;
+	.
+
+fibo-fbc-fct-eufseind:StandardCharteredBank
+	a
+		owl:NamedIndividual ,
+		fibo-der-drc-bsc:IntroducingBroker ,
+		fibo-der-drc-swp:SwapDealer ,
+		fibo-fbc-fct-fse:BrokerageFirm ,
+		fibo-fbc-fct-fse:CommercialBank ,
+		fibo-fbc-fct-fse:CommodityTradingAdvisor ,
+		fibo-fbc-fct-fse:InsuranceCompany ,
+		fibo-fbc-fct-fse:InvestmentBank
+		;
+	rdfs:label "Standard Chartered Bank" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "Standard Chartered Bank functional entity, a global bank connecting corporate, institutional and affluent clients to sustainable growth opportunities across Asia, Africa and the Middle East" ;
+	cmns-rlcmp:isPlayedBy fibo-fbc-fct-eufseind:StandardCharteredBankEntity ;
+	cmns-rlcmp:isRegulatedBy
+		fibo-fbc-fct-eurga:FinancialConductAuthority ,
+		fibo-fbc-fct-eurga:PrudentialRegulatoryAuthority
+		;
+	.
+
+fibo-fbc-fct-eufseind:StandardCharteredBankEntity
+	a
+		owl:NamedIndividual ,
+		fibo-be-le-cb:Corporation
+		;
+	rdfs:label "Standard Chartered Bank entity" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "Standard Chartered Bank legal entity that is an unregistered company in the United Kingdom" ;
+	fibo-be-le-fbo:hasHeadquartersAddress fibo-fbc-fct-eufseind:StandardCharteredBankHeadquartersAddress ;
+	fibo-be-le-lei:hasLegalAddress fibo-fbc-fct-eufseind:StandardCharteredBankLegalAddress ;
+	fibo-be-le-lei:hasLegalFormAbbreviation "Unregistered Company (en), Q0M5" ;
+	fibo-fnd-rel-rel:hasLegalName "Standard Chartered Bank" ;
+	.
+
+fibo-fbc-fct-eufseind:StandardCharteredBankHeadquartersAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "Standard Chartered Bank headquarters address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "headquarters address for Standard Chartered Bank" ;
+	fibo-fnd-plc-adr:hasAddressLine1 "1 Basinghall Avenue" ;
+	fibo-fnd-plc-adr:hasPostalCode "EC2V 5DD" ;
+	cmns-loc:hasCountry lcc-3166-1:UnitedKingdomOfGreatBritainAndNorthernIreland ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:London ;
+	.
+
+fibo-fbc-fct-eufseind:StandardCharteredBankLegalAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "Standard Chartered Bank legal address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal address for Standard Chartered Bank" ;
+	fibo-fnd-plc-adr:hasAddressLine1 "1 Basinghall Avenue" ;
+	fibo-fnd-plc-adr:hasPostalCode "EC2V 5DD" ;
+	cmns-loc:hasCountry lcc-3166-1:UnitedKingdomOfGreatBritainAndNorthernIreland ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:London ;
+	.
+
+fibo-fbc-fct-eufseind:StandardCharteredBankLegalEntityIdentifierRegistryEntry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistryEntry
+		;
+	rdfs:label "Standard Chartered Bank legal entity identifier registry entry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal entity identifier Global LEI Index registry entry for Standard Chartered Bank" ;
+	fibo-fbc-fct-breg:hasInitialRegistrationDate "2012-06-06T08:53:00-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationRevisionDate "2025-09-01T05:24:07-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationStatus fibo-fbc-fct-breg:IssuedStatus ;
+	fibo-fbc-fct-breg:hasRenewalDate "2026-10-26T17:00:00-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasValidationLevel fibo-fbc-fct-breg:EntityValidationLevelFullyCorroborated ;
+	cmns-col:comprises <https://rdf.gleif.org/L1/L-RILFO74KP1CM8P6PCT96-LEI> ;
+	.
+
+fibo-fbc-fct-eufseind:SwedishBankersAssociation
+	a
+		owl:NamedIndividual ,
+		cmns-org:FormalOrganization
+		;
+	rdfs:label "Swedish Bankers' Association" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "association that represents banks and financial institutions established in Sweden that contributes to a sound and efficient regulatory framework that facilitates for banks to help create economic wealth for customers and society" ;
+	cmns-av:adaptedFrom "https://www.swedishbankers.se/en-us/about/about-us/about-us/"^^xsd:anyURI ;
+	cmns-col:isMemberOf fibo-fbc-fct-eufseind:EuropeanBankingFederation ;
+	.
+
+fibo-fbc-fct-eufseind:WMDatenserviceEntityIdentifierRegistry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistry
+		;
+	rdfs:label "WM Datenservice Registry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "WM Datenservice LEI registry" ;
+	.
+
+fibo-fbc-fct-eufseind:WMGruppeHeadquartersAndLegalAddress
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-plc-adr:ConventionalStreetAddress
+		;
+	rdfs:label "Herausgebergemeinschaft Wertpapier-Mitteilungen Keppler, Lehmann (WM Gruppe) headquarters address" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "headquarters and legal address for Herausgebergemeinschaft Wertpapier-Mitteilungen Keppler, Lehmann (WM Gruppe)" ;
+	fibo-fnd-plc-adr:hasAddressLine1 "Duesseldorfer Strasse 16" ;
+	fibo-fnd-plc-adr:hasPostalCode "60329" ;
+	cmns-loc:hasCountry lcc-3166-1:Germany ;
+	cmns-loc:hasMunicipality fibo-fbc-fct-bci:Frankfurt ;
+	.
+
+fibo-fbc-fct-eufseind:WMGruppeLegalEntityIdentifierRegistryEntry
+	a
+		owl:NamedIndividual ,
+		fibo-fbc-fct-breg:LegalEntityIdentifierRegistryEntry
+		;
+	rdfs:label "Herausgebergemeinschaft Wertpapier-Mitteilungen Keppler, Lehmann GmbH & Co. KG legal entity identifier registry entry" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EuropeanFinancialServicesEntitiesIndividuals/> ;
+	skos:definition "legal entity identifier registry entry for Herausgebergemeinschaft Wertpapier-Mitteilungen Keppler, Lehmann GmbH & Co. KG" ;
+	fibo-fbc-fct-breg:hasInitialRegistrationDate "2013-04-03T04:47:18-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationRevisionDate "2025-02-27T07:07:45-08:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasRegistrationStatus fibo-fbc-fct-breg:IssuedStatus ;
+	fibo-fbc-fct-breg:hasRenewalDate "2026-04-14T01:44:35-07:00"^^xsd:dateTime ;
+	fibo-fbc-fct-breg:hasValidationLevel fibo-fbc-fct-breg:EntityValidationLevelFullyCorroborated ;
+	cmns-col:comprises <https://rdf.gleif.org/L1/L-5299000J2N45DDNE4Y28-LEI> ;
+	.
+
+fibo-fbc-fct-usfsind:DTCC-US-DE
+	a owl:NamedIndividual ;
+	fibo-be-oac-cctl:hasSubsidiary fibo-fbc-fct-eufseind:BusinessEntityData ;
+	.
+

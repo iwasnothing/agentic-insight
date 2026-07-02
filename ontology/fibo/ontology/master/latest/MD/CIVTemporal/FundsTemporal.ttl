@@ -1,0 +1,275 @@
+# baseURI: https://spec.edmcouncil.org/fibo/ontology/master/latest/MD/CIVTemporal/FundsTemporal/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/OwnershipAndControl/OwnershipParties/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FinancialInstruments/InstrumentPricing/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/GoalsAndObjectives/Objectives/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/SEC/Funds/CollectiveInvestmentVehicles/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/SEC/Funds/Funds/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/SEC/Securities/Pools/
+# imports: https://www.omg.org/spec/Commons/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/ContextualDesignators/
+# imports: https://www.omg.org/spec/Commons/DatesAndTimes/
+
+@base <https://spec.edmcouncil.org/fibo/ontology/master/latest/MD/CIVTemporal/FundsTemporal/> .
+@prefix cmns-av: <https://www.omg.org/spec/Commons/AnnotationVocabulary/> .
+@prefix cmns-cxtdsg: <https://www.omg.org/spec/Commons/ContextualDesignators/> .
+@prefix cmns-dt: <https://www.omg.org/spec/Commons/DatesAndTimes/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fibo-be-oac-opty: <https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/> .
+@prefix fibo-fbc-fi-ip: <https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/InstrumentPricing/> .
+@prefix fibo-fnd-gao-obj: <https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/> .
+@prefix fibo-fnd-utl-av: <https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/> .
+@prefix fibo-md-civx-fun: <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> .
+@prefix fibo-sec-fund-civ: <https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/> .
+@prefix fibo-sec-fund-fund: <https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/> .
+@prefix fibo-sec-sec-pls: <https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/>
+	a owl:Ontology ;
+	rdfs:label "FundsTemporal"@en ;
+	dcterms:abstract "Terms which have a time component (either real time, intra-day or dated terms). These include Net Present Value (NPV) and related analytics." ;
+	dcterms:license """Copyright (c) 2013-2025 EDM Council, Inc.
+Copyright (c) 2013-2025 Object Management Group, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+		See https://opensource.org/licenses/MIT.""" ;
+	owl:imports
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/OwnershipAndControl/OwnershipParties/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FinancialInstruments/InstrumentPricing/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/GoalsAndObjectives/Objectives/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/SEC/Funds/CollectiveInvestmentVehicles/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/SEC/Funds/Funds/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/SEC/Securities/Pools/> ,
+		<https://www.omg.org/spec/Commons/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/ContextualDesignators/> ,
+		<https://www.omg.org/spec/Commons/DatesAndTimes/>
+		;
+	owl:versionIRI <https://spec.edmcouncil.org/fibo/ontology/master/latest/MD/CIVTemporal/FundsTemporal/> ;
+	fibo-fnd-utl-av:hasMaturityLevel fibo-fnd-utl-av:Provisional ;
+	cmns-av:copyright "Copyright (c) 2013-2025 EDM Council, Inc." ;
+	.
+
+fibo-md-civx-fun:AccruedFees
+	a owl:Class ;
+	rdfs:label "accrued fees"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	.
+
+fibo-md-civx-fun:AccruedIncome
+	a owl:Class ;
+	rdfs:label "accrued income"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	.
+
+fibo-md-civx-fun:AccruedTaxes
+	a owl:Class ;
+	rdfs:label "accrued taxes"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	.
+
+fibo-md-civx-fun:AnnualizedPerformanceDeterminationMethod
+	a owl:Class ;
+	rdfs:subClassOf fibo-md-civx-fun:PerformanceDeterminationMethod ;
+	rdfs:label "annualized performance determination method"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	skos:definition "Annualized performance determination."@en ;
+	.
+
+fibo-md-civx-fun:FeePayable
+	a owl:Class ;
+	rdfs:label "fee payable"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	.
+
+fibo-md-civx-fun:FundPrice
+	a owl:Class ;
+	rdfs:subClassOf fibo-fbc-fi-ip:SecurityPrice ;
+	rdfs:label "fund price"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	.
+
+fibo-md-civx-fun:FundUnitPerformance
+	a owl:Class ;
+	rdfs:label "fund unit performance"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	.
+
+fibo-md-civx-fun:FundsTax
+	a owl:Class ;
+	rdfs:subClassOf [
+		a owl:Restriction ;
+		owl:onProperty cmns-cxtdsg:appliesTo ;
+		owl:someValuesFrom fibo-be-oac-opty:Investor ;
+	] ;
+	rdfs:label "funds tax"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	.
+
+fibo-md-civx-fun:GrossOfFeePerformanceDeterminationMethod
+	a owl:Class ;
+	rdfs:subClassOf fibo-md-civx-fun:PerformanceDeterminationMethod ;
+	rdfs:label "gross of fee performance determination method"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	skos:definition "Performance determined gross of fee. Review: Is this mutually exclusive with the other listed method? It sounds like it is not."@en ;
+	.
+
+fibo-md-civx-fun:MoneyWeightedRateOfReturnPerformanceDeterminationMethod
+	a owl:Class ;
+	rdfs:subClassOf fibo-md-civx-fun:PerformanceDeterminationMethod ;
+	rdfs:label "money weighted rate of return performance determination method"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	skos:definition "Money weighted rate of return."@en ;
+	.
+
+fibo-md-civx-fun:PerformanceDeterminationMethod
+	a owl:Class ;
+	rdfs:subClassOf fibo-fnd-gao-obj:Method ;
+	rdfs:label "performance determination method"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	skos:definition "A method for performance determination (e.g. Time weighted and money weighted, annualized, gross of fee) along with the time frame in which this is determined. PLUS Performances NamePeriod"@en ;
+	.
+
+fibo-md-civx-fun:SigmaValueOfHoldings
+	a owl:Class ;
+	rdfs:label "sigma value of holdings"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	.
+
+fibo-md-civx-fun:Swing
+	a owl:Class ;
+	rdfs:label "swing"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	.
+
+fibo-md-civx-fun:SwingPrice
+	a owl:Class ;
+	rdfs:subClassOf fibo-md-civx-fun:FundPrice ;
+	rdfs:label "swing price"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	.
+
+fibo-md-civx-fun:TimeWeightedRateOfReturnPerformanceDeterminationMethod
+	a owl:Class ;
+	rdfs:subClassOf fibo-md-civx-fun:PerformanceDeterminationMethod ;
+	rdfs:label "time weighted rate of return performance determination method"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	skos:definition "Time weighted rate of return."@en ;
+	.
+
+fibo-md-civx-fun:determinationDate.1
+	a owl:ObjectProperty ;
+	rdfs:label "determination date"@en ;
+	rdfs:domain fibo-md-civx-fun:FundUnitPerformance ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	rdfs:range cmns-dt:Date ;
+	.
+
+fibo-md-civx-fun:determinationPeriod
+	a owl:ObjectProperty ;
+	rdfs:label "determination period"@en ;
+	rdfs:domain fibo-md-civx-fun:FundUnitPerformance ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	rdfs:range cmns-dt:DatePeriod ;
+	skos:definition "THe period for which the performance is determined"@en ;
+	.
+
+fibo-md-civx-fun:determines
+	a owl:ObjectProperty ;
+	rdfs:label "determines"@en ;
+	rdfs:domain fibo-sec-sec-pls:CollectiveInvestmentVehicle ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	rdfs:range fibo-md-civx-fun:FeePayable ;
+	.
+
+fibo-md-civx-fun:hasPerformance
+	a owl:ObjectProperty ;
+	rdfs:label "has performance"@en ;
+	rdfs:domain fibo-sec-fund-fund:FundUnit ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	rdfs:range fibo-md-civx-fun:FundUnitPerformance ;
+	.
+
+fibo-md-civx-fun:hasPerformanceDeterminationMethod
+	a owl:ObjectProperty ;
+	rdfs:label "has performance determination method"@en ;
+	rdfs:domain fibo-sec-sec-pls:CollectiveInvestmentVehicle ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	rdfs:range fibo-md-civx-fun:PerformanceDeterminationMethod ;
+	.
+
+fibo-md-civx-fun:incurs
+	a owl:ObjectProperty ;
+	rdfs:label "incurs"@en ;
+	rdfs:domain fibo-sec-fund-civ:FundPortfolio ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	rdfs:range fibo-md-civx-fun:FundsTax ;
+	.
+
+fibo-md-civx-fun:incursFees
+	a owl:ObjectProperty ;
+	rdfs:label "incurs fees"@en ;
+	rdfs:domain fibo-be-oac-opty:Investor ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	rdfs:range fibo-md-civx-fun:FeePayable ;
+	.
+
+fibo-md-civx-fun:incursFees.1
+	a owl:ObjectProperty ;
+	rdfs:label "incurs fees"@en ;
+	rdfs:domain fibo-sec-fund-fund:FundUnit ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	rdfs:range fibo-md-civx-fun:FeePayable ;
+	.
+
+fibo-md-civx-fun:incursTax
+	a owl:ObjectProperty ;
+	rdfs:label "incurs tax"@en ;
+	rdfs:domain fibo-be-oac-opty:Investor ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	rdfs:range fibo-md-civx-fun:FundsTax ;
+	.
+
+fibo-md-civx-fun:incursTax.1
+	a owl:ObjectProperty ;
+	rdfs:label "incurs tax"@en ;
+	rdfs:domain fibo-sec-fund-fund:FundUnit ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	rdfs:range fibo-md-civx-fun:FundsTax ;
+	.
+
+fibo-md-civx-fun:incursTransactionFee
+	a owl:ObjectProperty ;
+	rdfs:label "incurs transaction fee"@en ;
+	rdfs:domain fibo-sec-fund-civ:FundPortfolio ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	rdfs:range fibo-md-civx-fun:FeePayable ;
+	.
+
+fibo-md-civx-fun:netOrGrossOfFees
+	a owl:DatatypeProperty ;
+	rdfs:label "net or gross of fees"@en ;
+	rdfs:domain fibo-md-civx-fun:FundUnitPerformance ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	rdfs:range xsd:string ;
+	.
+
+fibo-md-civx-fun:performanceDeterminationTimeframe
+	a owl:ObjectProperty ;
+	rdfs:label "performance determination timeframe"@en ;
+	rdfs:domain fibo-md-civx-fun:PerformanceDeterminationMethod ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/> ;
+	rdfs:range cmns-dt:DatePeriod ;
+	skos:definition "The timeframe on which the performance is reported (e.g. 1month, 1 year, YTD)."@en ;
+	.
+

@@ -1,0 +1,81 @@
+# baseURI: https://spec.edmcouncil.org/fibo/ontology/master/latest/SEC/Funds/MetadataSECFunds/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/AnnotationVocabulary/
+
+@base <https://spec.edmcouncil.org/fibo/ontology/master/latest/SEC/Funds/MetadataSECFunds/> .
+@prefix cmns-av: <https://www.omg.org/spec/Commons/AnnotationVocabulary/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fibo-fnd-utl-av: <https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/> .
+@prefix fibo-sec-fnd-mod: <https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/MetadataSECFunds/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/MetadataSECFunds/>
+	a owl:Ontology ;
+	rdfs:label "Metadata SEC Funds Module" ;
+	dcterms:abstract "This module contains ontologies of funds concepts covering fund structure, definition and involved parties, along with concepts for tradable fund units." ;
+	dcterms:issued "2018-03-31T18:00:00"^^xsd:dateTime ;
+	dcterms:license "http://opensource.org/licenses/MIT"^^xsd:anyURI ;
+	dcterms:modified "2023-02-03T18:00:00"^^xsd:dateTime ;
+	owl:imports
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/AnnotationVocabulary/>
+		;
+	owl:versionIRI <https://spec.edmcouncil.org/fibo/ontology/master/latest/SEC/Funds/MetadataSECFunds/> ;
+	cmns-av:copyright
+		"Copyright (c) 2020-2023 EDM Council, Inc." ,
+		"Copyright (c) 2020-2023 Object Management Group, Inc."
+		;
+	.
+
+fibo-sec-fnd-mod:FundsModule
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-utl-av:Module
+		;
+	rdfs:label "funds module" ;
+	dcterms:abstract "This module contains ontologies of funds concepts covering fund structure, definition and involved parties, along with concepts for tradable fund units." ;
+	dcterms:contributor
+		"Adaptive, Inc." ,
+		"BIAN" ,
+		"Bloomberg LP" ,
+		"Citigroup" ,
+		"Credit Suisse" ,
+		"Dassault Systemes / No Magic" ,
+		"Deutsche Bank" ,
+		"Exprentis" ,
+		"Federated Knowledge LLC" ,
+		"Goldman Sachs" ,
+		"HP Enterprise / Mphasis" ,
+		"John F. Gemski" ,
+		"John F. Tierney" ,
+		"Mizuho" ,
+		"Nordea Bank AB" ,
+		"Office of Financial Research (US Dept of the Treasury)" ,
+		"Quarule" ,
+		"State Street Bank and Trust" ,
+		"Statistics Canada" ,
+		"Tahoe Blue Ltd" ,
+		"Thematix Partners LLC" ,
+		"Wells Fargo Bank, N.A." ,
+		"agnos.ai U.K. Ltd"
+		;
+	dcterms:hasPart
+		<https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/>
+		;
+	dcterms:license "http://opensource.org/licenses/MIT"^^xsd:anyURI ;
+	dcterms:title
+		"EDMC Financial Industry Business Ontology (FIBO) Securities (SEC) Domain Funds Module" ,
+		"FIBO SEC Funds Module"
+		;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/MetadataSECFunds/> ;
+	rdfs:seeAlso <https://spec.edmcouncil.org/fibo/> ;
+	cmns-av:copyright
+		"Copyright (c) 2020-2023 EDM Council, Inc." ,
+		"Copyright (c) 2020-2023 Object Management Group, Inc."
+		;
+	.
+

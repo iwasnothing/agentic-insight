@@ -1,0 +1,262 @@
+# baseURI: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Organizations/FormalOrganizations/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/AgentsAndPeople/People/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/GoalsAndObjectives/Objectives/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/Collections/
+# imports: https://www.omg.org/spec/Commons/Locations/
+# imports: https://www.omg.org/spec/Commons/Organizations/
+# imports: https://www.omg.org/spec/Commons/PartiesAndSituations/
+# imports: https://www.omg.org/spec/Commons/RolesAndCompositions/
+
+@base <https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Organizations/FormalOrganizations/> .
+@prefix cmns-av: <https://www.omg.org/spec/Commons/AnnotationVocabulary/> .
+@prefix cmns-col: <https://www.omg.org/spec/Commons/Collections/> .
+@prefix cmns-loc: <https://www.omg.org/spec/Commons/Locations/> .
+@prefix cmns-org: <https://www.omg.org/spec/Commons/Organizations/> .
+@prefix cmns-pts: <https://www.omg.org/spec/Commons/PartiesAndSituations/> .
+@prefix cmns-rlcmp: <https://www.omg.org/spec/Commons/RolesAndCompositions/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fibo-fnd-aap-ppl: <https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/> .
+@prefix fibo-fnd-gao-obj: <https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/> .
+@prefix fibo-fnd-org-fm: <https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/> .
+@prefix fibo-fnd-utl-av: <https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/>
+	a owl:Ontology ;
+	rdfs:label "Formal Organizations Ontology" ;
+	dcterms:abstract "This ontology extends the Commons concept of a formal organization, which is purposefully underspecified to facilitate mapping to other organization ontologies, such as the W3C organization ontology, or others defined for specific business and financial services standards. It also defines general concepts related to employment by a formal organization." ;
+	dcterms:license """Copyright (c) 2013-2025 EDM Council, Inc.
+Copyright (c) 2013-2025 Object Management Group, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+		
+		See https://opensource.org/licenses/MIT.""" ;
+	owl:imports
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/AgentsAndPeople/People/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/GoalsAndObjectives/Objectives/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/Collections/> ,
+		<https://www.omg.org/spec/Commons/Locations/> ,
+		<https://www.omg.org/spec/Commons/Organizations/> ,
+		<https://www.omg.org/spec/Commons/PartiesAndSituations/> ,
+		<https://www.omg.org/spec/Commons/RolesAndCompositions/>
+		;
+	owl:versionIRI <https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Organizations/FormalOrganizations/> ;
+	skos:changeNote
+		"The http://www.omg.org/spec/EDMC-FIBO/FND/20130801/Organizations/FormalOrganizations.rdf version of this ontology was modified per the issue resolutions identified in the FIBO FND 1.0 FTF report and in http://www.omg.org/spec/EDMC-FIBO/FND/1.0/AboutFND-1.0/. It was further revised in the FTF in advance of the Long Beach meeting, resulting in http://www.omg.org/spec/EDMC-FIBO/FND/20141101/Organizations/FormalOrganizations/." ,
+		"The http://www.omg.org/spec/EDMC-FIBO/FND/20141101/Organizations/FormalOrganizations.rdf version of this ontology was modified per the FIBO 2.0 RFC to integrate concepts from LCC." ,
+		"""The http://www.omg.org/spec/FIBO/Foundations/20130601/Organizations/FormalOrganizations.owl version of the ontology was revised in advance of the September 2013 New Brunswick, NJ meeting, as follows:
+	(1) to use slash style URI/IRIss (also called 303 URIs, vs. hash style) as required to support server side processing 
+	(2) to use version-independent IRIs for all definitions internally as opposed to version-specific IRIs
+	(3) to change the file suffix from .owl to .rdf to increase usability in RDF tools
+	(4) to use 4-level abbreviations and corresponding namespace prefixes for all FIBO ontologies, reflecting a family/specification/module/ontology structure
+	(5) to incorporate changes to the specification metadata to support documentation at the family, specification, module, and ontology level, similar to the abbreviations.""" ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations.rdf version of the ontology was modified to eliminate elements that have been deprecated for more than 3 quarters (FND-399)." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations.rdf version of the ontology was modified to replace additional content that is now available in the OMG Commons Ontology Library (Commons) v1.2 (FND-389)." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations.rdf version of the ontology was modified to use the Commons Ontology Library (Commons) Annotation Vocabulary rather than the OMG's Specification Metadata vocabulary." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations.rdf version of this ontology was modified to loosen the domain of 'is domiciled in' to include organization sub-units, such as branches and divisions." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations.rdf version of this ontology was modified to replace content that is now available in the OMG Commons Ontology Library (Commons) v1.1 (FND-380)." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations.rdf version of this ontology was modified to use the Commons Ontology Library (Commons) rather than the OMG's Languages, Countries and Codes (LCC), eliminating redundancies in FIBO as appropriate." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations.rdf version of this ontology was revised to address hygiene issues with respect to text formatting." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations.rdf version of this ontology was revised to incorporate the concept of employment, required to support regulatory reporting." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations.rdf version of this ontology was revised to loosen the constraints on the range of isDomiciledIn, allow for multiple values, update definitions to be ISO 704 compliant, and eliminate duplication with concepts in LCC."
+		;
+	fibo-fnd-utl-av:hasMaturityLevel fibo-fnd-utl-av:Release ;
+	cmns-av:copyright
+		"Copyright (c) 2013-2025 EDM Council, Inc." ,
+		"Copyright (c) 2013-2025 Object Management Group, Inc."
+		;
+	.
+
+fibo-fnd-org-fm:Employee
+	a owl:Class ;
+	rdfs:subClassOf
+		cmns-org:OrganizationMember ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-org-fm:isEmployedIn ;
+			owl:someValuesFrom fibo-fnd-org-fm:Employment ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-org-fm:isEmployeeOf ;
+			owl:someValuesFrom fibo-fnd-org-fm:Employer ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-rlcmp:isPlayedBy ;
+			owl:someValuesFrom fibo-fnd-aap-ppl:Person ;
+		]
+		;
+	rdfs:label "employee" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/> ;
+	rdfs:seeAlso <https://www.bls.gov/opub/mlr/2002/01/art1full.pdf> ;
+	skos:definition "person in the service of another under any contract of hire, express or implied, oral or written, where the employer has the right to control and direct that person in the material details of how the work is to be performed" ;
+	.
+
+fibo-fnd-org-fm:Employer
+	a owl:Class ;
+	rdfs:subClassOf
+		cmns-org:MemberBearingOrganization ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-org-fm:hasEmployee ;
+			owl:someValuesFrom fibo-fnd-org-fm:Employee ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-org-fm:isEmployingParty ;
+			owl:someValuesFrom fibo-fnd-org-fm:Employment ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-rlcmp:isPlayedBy ;
+			owl:someValuesFrom cmns-org:LegalPerson ;
+		]
+		;
+	rdfs:label "employer" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/> ;
+	skos:definition "party that provides compensation, including wages or a salary and potentially other benefits, in exchange for work performed by one or more people, and that has the right to control and direct the employee in the material details of how the work is to be performed" ;
+	.
+
+fibo-fnd-org-fm:Employment
+	a owl:Class ;
+	rdfs:subClassOf
+		cmns-org:Membership ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-org-fm:hasEmployedParty ;
+			owl:someValuesFrom fibo-fnd-org-fm:Employee ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-org-fm:hasEmployingParty ;
+			owl:someValuesFrom fibo-fnd-org-fm:Employer ;
+		]
+		;
+	rdfs:label "employment"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/> ;
+	skos:definition "situation representing the state of being employed, i.e., the relationship that holds between an employer and employee for some period of time" ;
+	skos:scopeNote "This definition does not include workers in contingent arrangements, such as independent contractors, leased employees, temporary employees, on-call workers, and others that do not have a direct contractual relationship with the employer. The distinction is important for legal reasons, particularly for regulatory reporting with respect to responsible parties such as corporate officers, lending officers, others authorized or licensed to perform certain tasks, and traders, for example." ;
+	cmns-av:explanatoryNote "In the broadest sense, employment is the situation in which someone is fully engaged in doing something that they want to do. From a FIBO perspective, however, employment is understood to be more specific. It is the relationship between two parties, evidenced by an implicit or explicit contract, in which work is compensated and in which one party, a legal person, typically a formal organization, acts as the employer and the other, typically a legally capable natural person, as the employee." ;
+	.
+
+fibo-fnd-org-fm:Group
+	a owl:Class ;
+	rdfs:subClassOf
+		cmns-col:Collection ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-col:hasMember ;
+			owl:allValuesFrom cmns-pts:Agent ;
+		]
+		;
+	rdfs:label "group" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/> ;
+	skos:definition "collection of agents (people, organizations, software agents, etc.) that are considered as a unit" ;
+	.
+
+fibo-fnd-org-fm:employs
+	a owl:ObjectProperty ;
+	rdfs:subPropertyOf cmns-pts:playsActiveRoleThatDirectlyAffects ;
+	rdfs:label "employs" ;
+	rdfs:domain cmns-org:LegalPerson ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/> ;
+	rdfs:range fibo-fnd-aap-ppl:Person ;
+	skos:definition "indicates someone that is employed by the legal person" ;
+	.
+
+fibo-fnd-org-fm:hasEmployedParty
+	a owl:ObjectProperty ;
+	rdfs:subPropertyOf cmns-org:hasOrganizationMember ;
+	rdfs:label "has employed party" ;
+	rdfs:domain fibo-fnd-org-fm:Employment ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/> ;
+	rdfs:range fibo-fnd-org-fm:Employee ;
+	owl:inverseOf fibo-fnd-org-fm:isEmployedIn ;
+	skos:definition "identifies the employee in an employment situation" ;
+	.
+
+fibo-fnd-org-fm:hasEmployee
+	a owl:ObjectProperty ;
+	rdfs:subPropertyOf cmns-pts:actsOn ;
+	rdfs:label "has employee" ;
+	rdfs:domain fibo-fnd-org-fm:Employer ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/> ;
+	rdfs:range fibo-fnd-org-fm:Employee ;
+	owl:inverseOf fibo-fnd-org-fm:isEmployeeOf ;
+	skos:definition "indicates an employee that is employed by the employer" ;
+	.
+
+fibo-fnd-org-fm:hasEmployingParty
+	a owl:ObjectProperty ;
+	rdfs:subPropertyOf cmns-org:hasMembership ;
+	rdfs:label "has employing party" ;
+	rdfs:domain fibo-fnd-org-fm:Employment ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/> ;
+	rdfs:range fibo-fnd-org-fm:Employer ;
+	owl:inverseOf fibo-fnd-org-fm:isEmployingParty ;
+	skos:definition "identifies employer in an employment situation" ;
+	.
+
+fibo-fnd-org-fm:isEmployedBy
+	a owl:ObjectProperty ;
+	rdfs:subPropertyOf cmns-pts:experiencesDirectly ;
+	rdfs:label "is employed by" ;
+	rdfs:domain fibo-fnd-aap-ppl:Person ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/> ;
+	rdfs:range cmns-org:LegalPerson ;
+	skos:definition "indicates the party (legal person or formal organization) that employs someone" ;
+	.
+
+fibo-fnd-org-fm:isEmployedIn
+	a owl:ObjectProperty ;
+	rdfs:subPropertyOf cmns-org:isOrganizationMember ;
+	rdfs:label "is employed in" ;
+	rdfs:domain fibo-fnd-org-fm:Employee ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/> ;
+	rdfs:range fibo-fnd-org-fm:Employment ;
+	skos:definition "indicates the context of employment in which someone is employed" ;
+	.
+
+fibo-fnd-org-fm:isEmployeeOf
+	a owl:ObjectProperty ;
+	rdfs:subPropertyOf cmns-pts:isAffectedBy ;
+	rdfs:label "is employee of" ;
+	rdfs:domain fibo-fnd-org-fm:Employee ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/> ;
+	rdfs:range fibo-fnd-org-fm:Employer ;
+	skos:definition "identifies the formal organization for which the employee works" ;
+	.
+
+fibo-fnd-org-fm:isEmployingParty
+	a owl:ObjectProperty ;
+	rdfs:subPropertyOf cmns-org:isMembershipPartyIn ;
+	rdfs:label "is employing party" ;
+	rdfs:domain fibo-fnd-org-fm:Employer ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/> ;
+	rdfs:range fibo-fnd-org-fm:Employment ;
+	skos:definition "relates a party in the role of employer to the context of employment" ;
+	.
+
+cmns-org:Organization
+	a owl:Class ;
+	rdfs:subClassOf [
+		a owl:Restriction ;
+		owl:onProperty fibo-fnd-gao-obj:hasGoal ;
+		owl:onClass fibo-fnd-gao-obj:Goal ;
+		owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+	] ;
+	.
+

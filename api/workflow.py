@@ -14,7 +14,7 @@ import os
 import logging
 import uuid
 import duckdb
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, AsyncGenerator
 from pydantic import BaseModel, Field
 
 from google.adk.agents import LlmAgent
@@ -111,9 +111,10 @@ async def run_agentic_workflow(
     max_sql_iterations: int = 5,
     lines_threshold: int = 500,
     context_size_limit: int = 10000
-) -> Dict[str, Any]:
+) -> AsyncGenerator[Dict[str, Any], None]:
     """
-    Orchestrates the multi-step agentic search and audit workflow.
+    Orchestrates the multi-step agentic search and audit workflow, yielding intermediate
+    progress updates, sub-query executions, token analysis chunks, and the final report.
 
     Args:
         objective (str): Analysis objective.
@@ -130,10 +131,11 @@ async def run_agentic_workflow(
         lines_threshold (int): Lines threshold for triggering condensation.
         context_size_limit (int): Word limit target for condensed context.
 
-    Returns:
-        Dict[str, Any]: Run metadata and results.
+    Yields:
+        Dict[str, Any]: Progress events containing 'event' type and 'data' payload.
     """
     logger.info(f"Starting agentic search workflow for objective: '{objective}'")
+    yield {"event": "start", "data": {"objective": objective}}
     
     # Verification & Sanitization of the semantic mapping file against actual DuckDB schemas
     logger.info(f"Sanitizing semantic mapping file {semantic_mapping_path} against schema in {mappings_db_path}")
@@ -158,8 +160,10 @@ async def run_agentic_workflow(
     while iteration < max_iterations:
         iteration += 1
         logger.info(f"=== Workflow Iteration {iteration}/{max_iterations} ===")
+        yield {"event": "iteration_start", "data": {"iteration": iteration, "max_iterations": max_iterations}}
 
         # Step 1: Planning - objective analysis and decomposition
+        yield {"event": "planning_start", "data": {"iteration": iteration}}
         semantic_map = get_semantic_mapping(semantic_mapping_path)
         concept_sum = get_concept_summary(doc_db_path)
         
@@ -177,7 +181,7 @@ async def run_agentic_workflow(
             planning_prompt = f"""You are a master financial database researcher. Analyze the objective and the background context to generate an action plan.
 Objective:
 {objective}
-
+ 
 Background Context:
 {condensed_bg}
 
@@ -246,6 +250,7 @@ Rules:
 
         action_plan_steps = plan_dict.get("steps", [])
         logger.info(f"Action plan generated with {len(action_plan_steps)} steps.")
+        yield {"event": "planning_done", "data": {"iteration": iteration, "action_plan": action_plan_steps}}
         accumulated_action_plans.append(plan_dict)
 
         # Step 2: Execute Plan
@@ -254,6 +259,7 @@ Rules:
             tool = step["tool"]
             q_str = step["query_string"]
             logger.info(f"Executing Action Plan Step {step_idx+1}: {tool}('{q_str}')")
+            yield {"event": "sub_query_start", "data": {"iteration": iteration, "step_index": step_idx, "tool": tool, "query": q_str}}
 
             retrieved_data = ""
             if tool == "doc_context_retrieval":
@@ -275,6 +281,7 @@ Rules:
                 )
             else:
                 logger.warning(f"Unrecognized tool requested: {tool}")
+                retrieved_data = f"Error: Unrecognized tool '{tool}'"
 
             # Append retrieved context
             step_header = f"### Retrieved using {tool} for query: '{q_str}'\n"
@@ -282,6 +289,7 @@ Rules:
             
             # Mark action item as done
             step["status"] = "done"
+            yield {"event": "sub_query_done", "data": {"iteration": iteration, "step_index": step_idx, "tool": tool, "query": q_str, "result": retrieved_data}}
 
         # Update accumulated context
         new_retrieved = "\n\n".join(plan_results_text)
@@ -299,6 +307,7 @@ Rules:
         )
 
         # Step 3: Analysis
+        yield {"event": "analysis_start", "data": {"iteration": iteration}}
         analysis_prompt = f"""You are a principal financial data auditor. Your objective is:
 {objective}
 
@@ -318,22 +327,30 @@ Perform a comprehensive analysis and provide clear recommendations in Markdown f
         
         new_message = types.Content(parts=[types.Part(text=analysis_prompt)])
         anal_events = []
+        analysis_text = ""
         async for event in runner_analysis.run_async(user_id="user", session_id=analysis_sess, new_message=new_message):
             anal_events.append(event)
             if event.error_message:
                 raise ValueError(f"Analysis agent failed: {event.error_message}")
-
-        analysis_text = ""
-        for event in reversed(anal_events):
             if event.content and event.content.role == 'model' and event.content.parts:
-                analysis_text = "".join(p.text for p in event.content.parts if p.text and not getattr(p, "thought", False))
-                break
+                current_total_text = "".join(p.text for p in event.content.parts if p.text and not getattr(p, "thought", False))
+                if current_total_text:
+                    if current_total_text.startswith(analysis_text):
+                        delta = current_total_text[len(analysis_text):]
+                        if delta:
+                            yield {"event": "analysis_chunk", "data": {"iteration": iteration, "chunk": delta}}
+                            analysis_text = current_total_text
+                    else:
+                        yield {"event": "analysis_chunk", "data": {"iteration": iteration, "chunk": current_total_text}}
+                        analysis_text += current_total_text
 
         last_analysis = analysis_text
         accumulated_analysis.append(last_analysis)
         logger.info("Analysis and recommendations generated successfully.")
+        yield {"event": "analysis_done", "data": {"iteration": iteration, "analysis": last_analysis}}
 
         # Step 4: Evaluation
+        yield {"event": "evaluation_start", "data": {"iteration": iteration}}
         eval_prompt = f"""You are an independent quality assurance evaluator. Compare the generated analysis against the objective.
 Objective:
 {objective}
@@ -378,8 +395,11 @@ Evaluate if the analysis fully achieves the objective. Rate your confidence from
         confidence_score = eval_dict.get("confidence_score", 0)
         evaluation_explanation = eval_dict.get("explanation", "")
         logger.info(f"Evaluation completed. Confidence Score: {confidence_score}/100. Explanation: {evaluation_explanation}")
+        yield {"event": "evaluation_done", "data": {"iteration": iteration, "confidence_score": confidence_score, "explanation": evaluation_explanation}}
 
         # Step 5: Conditional branch
+        loop_back = confidence_score < 90 and iteration < max_iterations
+        yield {"event": "loop_decision", "data": {"iteration": iteration, "confidence_score": confidence_score, "loop_back": loop_back}}
         if confidence_score >= 90:
             logger.info(f"Confidence score {confidence_score} meets or exceeds target (90). Exiting loop.")
             break
@@ -421,7 +441,7 @@ Evaluate if the analysis fully achieves the objective. Rate your confidence from
     except Exception as e:
         logger.error(f"Error saving report to markdown file: {e}")
 
-    return {
+    final_result_dict = {
         "status": "success",
         "iterations": iteration,
         "confidence_score": confidence_score,
@@ -429,3 +449,4 @@ Evaluate if the analysis fully achieves the objective. Rate your confidence from
         "report_path": output_md_path,
         "analysis": last_analysis
     }
+    yield {"event": "final_report", "data": {"report": report_content, "result": final_result_dict}}

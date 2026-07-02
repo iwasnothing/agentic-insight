@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Audit lending records and documentation using multi-threaded agent workflows and streaming analytics with SSE.">
+  <title>Agentic Search Audit Dashboard</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <!-- Load Marked library for Markdown rendering from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar: Input Parameters Configuration -->
+    <aside class="sidebar">
+      <header class="logo-section">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <h1>Antigravity</h1>
+          <span>Lending Auditor</span>
+        </div>
+      </header>
+
+      <section>
+        <h2>Audit Configuration</h2>
+        <form id="audit-form">
+          <div class="form-group">
+            <label for="input-objective">Search Objective</label>
+            <textarea id="input-objective" class="form-input" rows="4" required placeholder="Describe what you want to audit... (e.g. Find all loans with interest rate > 12% and verify co-signer info)">Verify compliance of debt-to-income and interest rate rules in the dataset</textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="input-ontology-folder">Ontology Folder</label>
+            <input type="text" id="input-ontology-folder" class="form-input" value="./ontology">
+          </div>
+
+          <div class="form-group">
+            <label for="input-dataset-folder">Dataset Folder</label>
+            <input type="text" id="input-dataset-folder" class="form-input" value="./dataset">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="input-doc-db">Document DB</label>
+              <input type="text" id="input-doc-db" class="form-input" value="./wiki.db">
+            </div>
+            <div class="form-group">
+              <label for="input-mappings-db">Mappings DB</label>
+              <input type="text" id="input-mappings-db" class="form-input" value="./mappings.db">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="input-semantic-mapping">Semantic Mapping File</label>
+            <input type="text" id="input-semantic-mapping" class="form-input" value="./mapping.yaml">
+          </div>
+
+          <div class="form-group">
+            <label for="input-output-md">Output MD Path</label>
+            <input type="text" id="input-output-md" class="form-input" value="./report.md">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="input-max-iterations">Max Iterations</label>
+              <input type="number" id="input-max-iterations" class="form-input" value="3">
+            </div>
+            <div class="form-group">
+              <label for="input-top-n">Rerank Limit (Top N)</label>
+              <input type="number" id="input-top-n" class="form-input" value="100">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="input-row-limit">Row Limit</label>
+              <input type="number" id="input-row-limit" class="form-input" value="100">
+            </div>
+            <div class="form-group">
+              <label for="input-max-sql-iterations">Max SQL Fixes</label>
+              <input type="number" id="input-max-sql-iterations" class="form-input" value="5">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="input-lines-threshold">Condense Line Count</label>
+              <input type="number" id="input-lines-threshold" class="form-input" value="500">
+            </div>
+            <div class="form-group">
+              <label for="input-context-size">Word Size Target</label>
+              <input type="number" id="input-context-size" class="form-input" value="10000">
+            </div>
+          </div>
+
+          <button type="submit" id="btn-submit" class="btn-primary">
+            <svg style="width: 18px; height: 18px;" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M8 5v14l11-7z"/>
+            </svg>
+            Run Audit Workflow
+          </button>
+        </form>
+      </section>
+    </aside>
+
+    <!-- Main workspace containing dynamic outputs -->
+    <main class="workspace">
+      <header class="top-bar">
+        <h2>Agentic Search Multi-Threaded Audit</h2>
+        <div class="status-badge">
+          <span id="status-dot" class="status-dot"></span>
+          <span id="status-text">Disconnected</span>
+        </div>
+      </header>
+
+      <!-- Panel grid splitting Console Logs and Markdown Report Visualizer -->
+      <div class="panel-grid">
+        <!-- Left Panel: Large Conversation & Progress stream -->
+        <section id="panel-console" class="panel-card">
+          <header class="panel-header">
+            <h3>
+              <svg style="width: 16px; height: 16px;" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M20 17.17L18.83 16H4V4h16v13.17M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2z"/>
+              </svg>
+              Intermediate Progress
+            </h3>
+            <span id="iter-badge" style="font-size: 11px; background: rgba(255,255,255,0.06); padding: 4px 8px; border-radius: 4px; display: none;"></span>
+          </header>
+          <div id="console-body" class="panel-body">
+            <div class="console-log" id="console-log-container">
+              <!-- Log entries will be inserted here dynamically -->
+              <div class="log-entry info" id="initial-log">
+                <div class="log-header">System</div>
+                <div style="color: var(--text-secondary)">Specify parameter values on the sidebar and launch the workflow. Intermediate execution events (planning steps, sub-queries, execution logs) will stream in real time here.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Right Panel: Live Markdown Report Render -->
+        <section id="panel-report" class="panel-card">
+          <header class="panel-header">
+            <h3>
+              <svg style="width: 16px; height: 16px;" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/>
+              </svg>
+              Live Analysis Report
+            </h3>
+            <div style="display: flex; gap: 8px;">
+              <span id="score-badge" style="font-size: 11px; background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); color: var(--success); padding: 4px 8px; border-radius: 4px; display: none; font-weight: 600;"></span>
+            </div>
+          </header>
+          <div id="report-body" class="panel-body markdown-body">
+            <p style="color: var(--text-muted); font-style: italic;">No report generated yet. When the analyst agent runs, you will see the generated markdown report stream and render here.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

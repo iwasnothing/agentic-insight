@@ -1,0 +1,255 @@
+# baseURI: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Places/RealProperty/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Accounting/AccountingEquity/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Arrangements/Assessments/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/DatesAndTimes/Occurrences/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/OwnershipAndControl/Ownership/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Places/Addresses/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Relations/Relations/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/Collections/
+# imports: https://www.omg.org/spec/Commons/ContextualDesignators/
+# imports: https://www.omg.org/spec/Commons/ContextualIdentifiers/
+# imports: https://www.omg.org/spec/Commons/Documents/
+# imports: https://www.omg.org/spec/Commons/Identifiers/
+# imports: https://www.omg.org/spec/Commons/Locations/
+# imports: https://www.omg.org/spec/Commons/Organizations/
+# imports: https://www.omg.org/spec/Commons/PartiesAndSituations/
+# imports: https://www.omg.org/spec/Commons/RegulatoryAgencies/
+# imports: https://www.omg.org/spec/Commons/SitesAndFacilities/
+
+@base <https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Places/RealProperty/> .
+@prefix cmns-av: <https://www.omg.org/spec/Commons/AnnotationVocabulary/> .
+@prefix cmns-col: <https://www.omg.org/spec/Commons/Collections/> .
+@prefix cmns-cxtdsg: <https://www.omg.org/spec/Commons/ContextualDesignators/> .
+@prefix cmns-cxtid: <https://www.omg.org/spec/Commons/ContextualIdentifiers/> .
+@prefix cmns-doc: <https://www.omg.org/spec/Commons/Documents/> .
+@prefix cmns-id: <https://www.omg.org/spec/Commons/Identifiers/> .
+@prefix cmns-org: <https://www.omg.org/spec/Commons/Organizations/> .
+@prefix cmns-pts: <https://www.omg.org/spec/Commons/PartiesAndSituations/> .
+@prefix cmns-rga: <https://www.omg.org/spec/Commons/RegulatoryAgencies/> .
+@prefix cmns-sfc: <https://www.omg.org/spec/Commons/SitesAndFacilities/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fibo-fnd-acc-aeq: <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/> .
+@prefix fibo-fnd-arr-asmt: <https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/> .
+@prefix fibo-fnd-dt-oc: <https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/> .
+@prefix fibo-fnd-oac-own: <https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/> .
+@prefix fibo-fnd-plc-adr: <https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/> .
+@prefix fibo-fnd-plc-rp: <https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/> .
+@prefix fibo-fnd-rel-rel: <https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/> .
+@prefix fibo-fnd-utl-av: <https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/>
+	a owl:Ontology ;
+	rdfs:label "Real Property Ontology"@en ;
+	dcterms:abstract "This ontology defines concepts including real and personal property from a legal perspective, as well as assessments of those assets, for reference for taxation, lending, and related purposes." ;
+	dcterms:license """Copyright (c) 2024-2025 EDM Council, Inc.
+Copyright (c) 2024-2025 Object Management Group, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+		
+		See https://opensource.org/licenses/MIT.""" ;
+	owl:imports
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Accounting/AccountingEquity/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Arrangements/Assessments/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/DatesAndTimes/Occurrences/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/OwnershipAndControl/Ownership/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Places/Addresses/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Relations/Relations/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/Collections/> ,
+		<https://www.omg.org/spec/Commons/ContextualDesignators/> ,
+		<https://www.omg.org/spec/Commons/ContextualIdentifiers/> ,
+		<https://www.omg.org/spec/Commons/Documents/> ,
+		<https://www.omg.org/spec/Commons/Identifiers/> ,
+		<https://www.omg.org/spec/Commons/Locations/> ,
+		<https://www.omg.org/spec/Commons/Organizations/> ,
+		<https://www.omg.org/spec/Commons/PartiesAndSituations/> ,
+		<https://www.omg.org/spec/Commons/RegulatoryAgencies/> ,
+		<https://www.omg.org/spec/Commons/SitesAndFacilities/>
+		;
+	owl:versionIRI <https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Places/RealProperty/> ;
+	skos:changeNote
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty.rdf version of the ontology was modified to replace additional content that is now available in the OMG Commons Ontology Library (Commons) v1.2 (FND-389)." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty.rdf version of the ontology was modified to replace additional content that is now available in the OMG Commons Ontology Library (Commons) v1.3 (FND-399)."
+		;
+	fibo-fnd-utl-av:hasMaturityLevel fibo-fnd-utl-av:Release ;
+	cmns-av:copyright
+		"Copyright (c) 2024-2025 EDM Council, Inc." ,
+		"Copyright (c) 2024-2025 Object Management Group, Inc."
+		;
+	.
+
+fibo-fnd-plc-rp:PersonalProperty
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-fnd-oac-own:Asset ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-rel-rel:isEvaluatedBy ;
+			owl:onClass fibo-fnd-arr-asmt:Appraisal ;
+			owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+		]
+		;
+	rdfs:label "personal property"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/> ;
+	owl:disjointWith fibo-fnd-plc-rp:RealProperty ;
+	skos:definition "asset that is a movable item or possession not fixed to land"@en ;
+	cmns-av:explanatoryNote "Personal property may include tangible assets, such as machinery, furniture, vehicles, artwork, and jewelry, regardless of whether such assets are owned by a person or organization, and intangible assets, including but not limited to intellectual property and financial instruments."@en ;
+	.
+
+fibo-fnd-plc-rp:PropertyInspection
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-fnd-arr-asmt:AssessmentEvent ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-dt-oc:hasOutput ;
+			owl:onClass fibo-fnd-plc-rp:PropertyInspectionReport ;
+			owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-rel-rel:evaluates ;
+			owl:someValuesFrom fibo-fnd-plc-rp:RealProperty ;
+		]
+		;
+	rdfs:label "property inspection" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/> ;
+	skos:definition "event that involves analyzing one or more aspects of a real property" ;
+	cmns-av:explanatoryNote "The concept of a property inspection is separate from conducting an overarching appraisal. Examples are termite inspections, construction inspections, evaluation for completion of some milestone, improvement, correction, etc." ;
+	.
+
+fibo-fnd-plc-rp:PropertyInspectionReport
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-fnd-arr-asmt:AssessmentReport ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-doc:isAbout ;
+			owl:someValuesFrom fibo-fnd-plc-rp:RealProperty ;
+		]
+		;
+	rdfs:label "property inspection report" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/> ;
+	skos:definition "report covering the findings of a property inspection" ;
+	.
+
+fibo-fnd-plc-rp:RealEstate
+	a owl:Class ;
+	rdfs:subClassOf fibo-fnd-oac-own:Asset ;
+	rdfs:label "real estate"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/> ;
+	skos:definition "real property, interests in mortgages on real property (including interests in mortgages on leaseholds of land or improvements thereon), and shares in qualified real estate investment trusts"@en ;
+	cmns-av:adaptedFrom "https://www.law.cornell.edu/cfr/text/26/1.856-3"^^xsd:anyURI ;
+	cmns-av:explanatoryNote "The term 'mortgages on real property' includes deeds of trust on real property. Note that interpretation of the term 'real estate' is context-dependent - this broader interpretation is used in tax law in the US and elsewhere."@en ;
+	cmns-av:synonym "real estate asset"@en ;
+	.
+
+fibo-fnd-plc-rp:RealProperty
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-fnd-acc-aeq:PhysicalAsset ,
+		fibo-fnd-plc-rp:RealEstate ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-rel-rel:isEvaluatedBy ;
+			owl:onClass fibo-fnd-plc-rp:RealPropertyAppraisal ;
+			owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+		]
+		;
+	rdfs:label "real property"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/> ;
+	rdfs:seeAlso <https://www.investopedia.com/terms/r/real-property.asp> ;
+	skos:definition "physical asset defined as land together with any structures that are permanently attached to that land, such as houses, trees, fences and improvements"@en ;
+	cmns-av:adaptedFrom "https://www.law.cornell.edu/cfr/text/10/600.101"^^xsd:anyURI ;
+	cmns-av:explanatoryNote
+		"Real property may be classified according to its general use as residential, commercial, agricultural, industrial, or special purpose. This term is sometimes used synonymously with 'real estate', though not in all circumstances under US law."@en ,
+		"Real property typically encompasses both the physical land and everything that lies above, below, or on its surface, including any fixed structures, natural resources, and rights or interests (e.g., mineral rights). There are cases, such as condominiums, in which the interior of the structure is owned by a party that may not own the land. There are also cases in which certain long-term leases have similar characteristics to ownership, but are time-bound."@en
+		;
+	cmns-av:synonym "parcel"@en ;
+	.
+
+fibo-fnd-plc-rp:RealPropertyAppraisal
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-fnd-arr-asmt:Appraisal ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-dt-oc:hasInput ;
+			owl:onClass fibo-fnd-plc-rp:PropertyInspectionReport ;
+			owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-rel-rel:evaluates ;
+			owl:someValuesFrom fibo-fnd-plc-rp:RealProperty ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-org:isProvidedBy ;
+			owl:someValuesFrom fibo-fnd-arr-asmt:Appraiser ;
+		]
+		;
+	rdfs:label "real property appraisal" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/> ;
+	skos:definition "value assessment that estimates the amount of money some real property is worth" ;
+	cmns-av:explanatoryNote "The valuation uses one or more methodologies and is conducted by an appraiser or technology with a logical model that performs the same function." ;
+	.
+
+fibo-fnd-plc-rp:RealPropertyIdentifier
+	a owl:Class ;
+	rdfs:subClassOf
+		cmns-cxtid:ContextualIdentifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cxtdsg:isApplicableIn ;
+			owl:onClass cmns-rga:Jurisdiction ;
+			owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-id:identifies ;
+			owl:onClass fibo-fnd-plc-rp:RealProperty ;
+			owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+		]
+		;
+	rdfs:label "real property identifier" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/> ;
+	skos:definition "unique identifier given to identify a specific real property in some jurisidiction" ;
+	.
+
+fibo-fnd-plc-rp:TractIdentifier
+	a owl:Class ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/> ;
+	owl:deprecated "true"^^xsd:boolean ;
+	owl:equivalentClass cmns-sfc:TractIdentifier ;
+	.
+
+fibo-fnd-plc-rp:TractOfLand
+	a owl:Class ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/> ;
+	owl:deprecated "true"^^xsd:boolean ;
+	owl:equivalentClass cmns-sfc:TractOfLand ;
+	.
+
+cmns-sfc:TractOfLand
+	a owl:Class ;
+	rdfs:subClassOf [
+		a owl:Restriction ;
+		owl:onProperty fibo-fnd-plc-adr:hasAddress ;
+		owl:onClass fibo-fnd-plc-adr:PhysicalAddress ;
+		owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+	] ;
+	.
+

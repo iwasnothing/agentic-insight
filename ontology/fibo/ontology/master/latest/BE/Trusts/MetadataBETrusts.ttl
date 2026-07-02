@@ -1,0 +1,53 @@
+# baseURI: https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/Trusts/MetadataBETrusts/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/AnnotationVocabulary/
+
+@base <https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/Trusts/MetadataBETrusts/> .
+@prefix cmns-av: <https://www.omg.org/spec/Commons/AnnotationVocabulary/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fibo-be-tr-mod: <https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/MetadataBETrusts/> .
+@prefix fibo-fnd-utl-av: <https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/MetadataBETrusts/>
+	a owl:Ontology ;
+	rdfs:label "Metadata about the EDMC-FIBO Business Entities (BE) Trusts Module" ;
+	dcterms:abstract "The trusts module defines types of trusts as formally constituted organizations with specific parties as set down in law for trusts (trustor, trustee and beneficiary), each of these being signatories to a trust agreement." ;
+	dcterms:issued "2018-08-27T18:00:00"^^xsd:dateTime ;
+	dcterms:license "http://opensource.org/licenses/MIT"^^xsd:anyURI ;
+	dcterms:modified "2023-01-27T18:00:00"^^xsd:dateTime ;
+	owl:imports
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/AnnotationVocabulary/>
+		;
+	owl:versionIRI <https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/Trusts/MetadataBETrusts/> ;
+	cmns-av:copyright
+		"Copyright (c) 2015-2023 EDM Council, Inc." ,
+		"Copyright (c) 2015-2023 Object Management Group, Inc."
+		;
+	.
+
+fibo-be-tr-mod:TrustsModule
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-utl-av:Module
+		;
+	rdfs:label "trusts module" ;
+	dcterms:abstract "The trusts module defines types of trusts as formally constituted organizations with specific parties as set down in law for trusts (trustor, trustee and beneficiary), each of these being signatories to a trust agreement." ;
+	dcterms:hasPart <https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/> ;
+	dcterms:license "http://opensource.org/licenses/MIT"^^xsd:anyURI ;
+	dcterms:title
+		"FIBO BE Trusts Module" ,
+		"Financial Industry Business Ontology (FIBO) Business Entities (BE) Trusts Module"
+		;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/MetadataBETrusts/> ;
+	rdfs:seeAlso <https://spec.edmcouncil.org/fibo/> ;
+	cmns-av:copyright
+		"Copyright (c) 2015-2023 EDM Council, Inc." ,
+		"Copyright (c) 2015-2023 Object Management Group, Inc."
+		;
+	.
+

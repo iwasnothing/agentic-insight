@@ -1,0 +1,105 @@
+=========================================
+            COVERAGE REPORT              
+=========================================
+
+--- Concepts by Type ---
+AmortizationType: 1
+AutomatedUnderwritingSystem: 1
+BorrowerAssessment: 1
+BorrowerDisclosureRequirement: 2
+BorrowerRight: 1
+ClosedEndMortgageLoan: 1
+CollateralValuation: 1
+CommercialLoan: 1
+Concept Type: ConsumerProtectionLaw: 1
+Concept Type: LoanSecuredByRealEstate: 1
+ConstructionLoan: 2
+ConsumerCreditRequirement: 2
+ConsumerProtectionAgency: 1
+ConsumerProtectionLaw: 2
+CreditRiskAssessment: 1
+DataProtectionRequirement: 1
+DisclosureRequirement: 1
+HMDA-CoveredLoanContract: 1
+HomeEquityLineOfCredit: 1
+IncomeVerificationReport: 1
+IndividualPersonCreditRating: 1
+LineItem: 1
+Loan: 1
+LoanApplication: 1
+LoanApplicationPhase: 1
+LoanApplicationStatus: 1
+LoanDefaultProceeding: 1
+LoanProduct: 1
+LoanProductRepresentations: 3
+LoanRegulatoryRequirement: 7
+LoanSecuredByRealEstate: 3
+LoanToValueRatio: 3
+Mortgage: 1
+MortgageIndemnityGuarantee: 1
+MortgageIndemnityGuarantor: 1
+MortgageIndemnityInsurancePolicy: 1
+MortgageLoanPurpose: 1
+MortgageProduct: 1
+OpenEndCredit: 1
+OpenEndReverseMortgage: 1
+ReverseMortgageLoan: 1
+SecuredLoan: 1
+Servicer: 1
+TotalDebtExpenseRatio: 1
+UnderwritingAutomation: 1
+UniversalLoanIdentifier: 1
+
+--- Concepts with > 1 Source Segments by Type ---
+AmortizationType: 0
+AutomatedUnderwritingSystem: 0
+BorrowerAssessment: 1
+BorrowerDisclosureRequirement: 1
+BorrowerRight: 0
+ClosedEndMortgageLoan: 1
+CollateralValuation: 1
+CommercialLoan: 0
+Concept Type: ConsumerProtectionLaw: 0
+Concept Type: LoanSecuredByRealEstate: 0
+ConstructionLoan: 1
+ConsumerCreditRequirement: 0
+ConsumerProtectionAgency: 0
+ConsumerProtectionLaw: 0
+CreditRiskAssessment: 1
+DataProtectionRequirement: 0
+DisclosureRequirement: 0
+HMDA-CoveredLoanContract: 0
+HomeEquityLineOfCredit: 1
+IncomeVerificationReport: 1
+IndividualPersonCreditRating: 0
+LineItem: 0
+Loan: 1
+LoanApplication: 1
+LoanApplicationPhase: 0
+LoanApplicationStatus: 1
+LoanDefaultProceeding: 1
+LoanProduct: 1
+LoanProductRepresentations: 2
+LoanRegulatoryRequirement: 2
+LoanSecuredByRealEstate: 1
+LoanToValueRatio: 2
+Mortgage: 0
+MortgageIndemnityGuarantee: 1
+MortgageIndemnityGuarantor: 0
+MortgageIndemnityInsurancePolicy: 0
+MortgageLoanPurpose: 1
+MortgageProduct: 0
+OpenEndCredit: 0
+OpenEndReverseMortgage: 0
+ReverseMortgageLoan: 0
+SecuredLoan: 0
+Servicer: 0
+TotalDebtExpenseRatio: 1
+UnderwritingAutomation: 0
+UniversalLoanIdentifier: 0
+
+--- File Line Coverage ---
+File: wiki/Residential mortgage underwriting practices and procedures  Guideline 2017.md
+  Total Lines: 1296
+  Lines Covered: 1181
+  Coverage: 91.13%

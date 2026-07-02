@@ -1,0 +1,94 @@
+# baseURI: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/OwnershipAndControl/OwnershipAndControl/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/OwnershipAndControl/Control/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/OwnershipAndControl/Ownership/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Relations/Relations/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/PartiesAndSituations/
+
+@base <https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/OwnershipAndControl/OwnershipAndControl/> .
+@prefix cmns-av: <https://www.omg.org/spec/Commons/AnnotationVocabulary/> .
+@prefix cmns-pts: <https://www.omg.org/spec/Commons/PartiesAndSituations/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fibo-fnd-oac-ctl: <https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/> .
+@prefix fibo-fnd-oac-oac: <https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/OwnershipAndControl/> .
+@prefix fibo-fnd-oac-own: <https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/> .
+@prefix fibo-fnd-rel-rel: <https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/> .
+@prefix fibo-fnd-utl-av: <https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/OwnershipAndControl/>
+	a owl:Ontology ;
+	rdfs:label "Ownership and Control Ontology" ;
+	dcterms:abstract "This ontology brings the concepts of ownership and control together, in cases where the combined semantics are applicable, such as for a wholly owned subsidiary." ;
+	dcterms:license "https://opensource.org/licenses/MIT"^^xsd:anyURI ;
+	owl:imports
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/OwnershipAndControl/Control/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/OwnershipAndControl/Ownership/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Relations/Relations/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/PartiesAndSituations/>
+		;
+	owl:versionIRI <https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/OwnershipAndControl/OwnershipAndControl/> ;
+	skos:changeNote
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/OwnershipAndControl.rdf version of the ontology was modified to address hygiene issues with respect to text formatting." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/OwnershipAndControl.rdf version of the ontology was modified to better integrate it with the situation pattern and eliminate circular definitions." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/OwnershipAndControl.rdf version of the ontology was modified to integrate the properties defined herein with the ownership and control patterns." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/OwnershipAndControl.rdf version of the ontology was modified to replace content that is now available in the OMG Commons Ontology Library (Commons) v1.1 (FND-380)." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/OwnershipAndControl.rdf version of the ontology was modified to use the Commons Ontology Library (Commons) Annotation Vocabulary rather than the OMG's Specification Metadata vocabulary." ,
+		"This ontology was added to Foundations in advance of the December 2014 Long Beach meeting in support of the issue resolutions identified in the FIBO FND 1.0 FTF report and in https://spec.edmcouncil.org/fibo/ontology/FND/1.0/AboutFND-1.0/."
+		;
+	fibo-fnd-utl-av:hasMaturityLevel fibo-fnd-utl-av:Release ;
+	cmns-av:copyright
+		"Copyright (c) 2013-2024 EDM Council, Inc." ,
+		"Copyright (c) 2013-2024 Object Management Group, Inc."
+		;
+	.
+
+fibo-fnd-oac-oac:OwnershipControlSituation
+	a owl:Class ;
+	rdfs:subClassOf cmns-pts:Situation ;
+	rdfs:label "ownership control situation" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/OwnershipAndControl/> ;
+	owl:equivalentClass [
+		a owl:Class ;
+		owl:intersectionOf (
+			fibo-fnd-oac-ctl:Control
+			fibo-fnd-oac-own:Ownership
+		) ;
+	] ;
+	skos:definition "situation in which some party owns and controls something" ;
+	.
+
+fibo-fnd-oac-oac:isOwnedAndControlledBy
+	a owl:ObjectProperty ;
+	rdfs:subPropertyOf
+		fibo-fnd-oac-own:isOwnedBy ,
+		fibo-fnd-rel-rel:isControlledBy
+		;
+	rdfs:label "is owned and controlled by" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/OwnershipAndControl/> ;
+	rdfs:range cmns-pts:Party ;
+	skos:definition "relates something to the party that owns, influences, manages and directs it" ;
+	.
+
+fibo-fnd-oac-oac:ownsAndControls
+	a owl:ObjectProperty ;
+	rdfs:subPropertyOf
+		fibo-fnd-oac-own:owns ,
+		fibo-fnd-rel-rel:controls
+		;
+	rdfs:label "owns and controls" ;
+	rdfs:domain cmns-pts:Party ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/OwnershipAndControl/> ;
+	owl:inverseOf fibo-fnd-oac-oac:isOwnedAndControlledBy ;
+	skos:definition "directs and exercises authoritative or dominating influence over some thing that is also owned" ;
+	skos:editorialNote """basic rule: if x controls y and x owns y then x owns and controls y
+SWRL rule: controls(?x, ?y), owns(?x, ?y) -> ownsAndControls(?x, ?y)""" ;
+	.
+

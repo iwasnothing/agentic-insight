@@ -1,0 +1,644 @@
+# baseURI: https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/IssuanceProcess/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/DebtIssuance/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/IssuanceDocuments/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/MuniIssuance/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FinancialInstruments/FinancialInstruments/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Accounting/CurrencyAmount/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/AgentsAndPeople/Agents/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Agreements/Contracts/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/DatesAndTimes/Occurrences/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/GoalsAndObjectives/Objectives/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/ProductsAndServices/PaymentsAndSchedules/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Relations/Relations/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/SEC/Securities/SecuritiesIssuance/
+# imports: https://www.omg.org/spec/Commons/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/Collections/
+# imports: https://www.omg.org/spec/Commons/ContextualDesignators/
+# imports: https://www.omg.org/spec/Commons/DatesAndTimes/
+# imports: https://www.omg.org/spec/Commons/Documents/
+# imports: https://www.omg.org/spec/Commons/Identifiers/
+# imports: https://www.omg.org/spec/Commons/PartiesAndSituations/
+
+@base <https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/IssuanceProcess/> .
+@prefix cmns-av: <https://www.omg.org/spec/Commons/AnnotationVocabulary/> .
+@prefix cmns-col: <https://www.omg.org/spec/Commons/Collections/> .
+@prefix cmns-cxtdsg: <https://www.omg.org/spec/Commons/ContextualDesignators/> .
+@prefix cmns-doc: <https://www.omg.org/spec/Commons/Documents/> .
+@prefix cmns-dt: <https://www.omg.org/spec/Commons/DatesAndTimes/> .
+@prefix cmns-id: <https://www.omg.org/spec/Commons/Identifiers/> .
+@prefix cmns-pts: <https://www.omg.org/spec/Commons/PartiesAndSituations/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fibo-bp-iss-dbti: <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/> .
+@prefix fibo-bp-iss-doc: <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceDocuments/> .
+@prefix fibo-bp-iss-muni: <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/MuniIssuance/> .
+@prefix fibo-bp-iss-prc: <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> .
+@prefix fibo-fbc-fi-fi: <https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/> .
+@prefix fibo-fnd-agr-ctr: <https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/> .
+@prefix fibo-fnd-dt-oc: <https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/> .
+@prefix fibo-fnd-gao-obj: <https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/> .
+@prefix fibo-fnd-pas-psch: <https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/PaymentsAndSchedules/> .
+@prefix fibo-fnd-rel-rel: <https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/> .
+@prefix fibo-fnd-utl-av: <https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/> .
+@prefix fibo-sec-sec-iss: <https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/>
+	a owl:Ontology ;
+	rdfs:label "Issuance Process"@en ;
+	dcterms:abstract "General ontology for the process by which securities are issued. Contains the process features common to all or most securities issuance. These are extended in the process ontologies that are specific to particular types of issuance" ;
+	dcterms:license "https://opensource.org/licenses/MIT"^^xsd:anyURI ;
+	owl:imports
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/DebtIssuance/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/IssuanceDocuments/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/MuniIssuance/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/FinancialInstruments/FinancialInstruments/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Accounting/CurrencyAmount/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/AgentsAndPeople/Agents/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Agreements/Contracts/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/DatesAndTimes/Occurrences/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/GoalsAndObjectives/Objectives/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/ProductsAndServices/PaymentsAndSchedules/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Relations/Relations/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/SEC/Securities/SecuritiesIssuance/> ,
+		<https://www.omg.org/spec/Commons/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/Collections/> ,
+		<https://www.omg.org/spec/Commons/ContextualDesignators/> ,
+		<https://www.omg.org/spec/Commons/DatesAndTimes/> ,
+		<https://www.omg.org/spec/Commons/Documents/> ,
+		<https://www.omg.org/spec/Commons/Identifiers/> ,
+		<https://www.omg.org/spec/Commons/PartiesAndSituations/>
+		;
+	owl:versionIRI <https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	fibo-fnd-utl-av:hasMaturityLevel fibo-fnd-utl-av:Provisional ;
+	cmns-av:copyright "Copyright (c) 2013-2024 EDM Council, Inc." ;
+	.
+
+fibo-bp-iss-prc:AllotmentInformation
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-bp-iss-prc:TradedInstrumentIssuanceProcessInformation ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-prc:describesAllotmentOf ;
+			owl:someValuesFrom fibo-fbc-fi-fi:Security ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-col:comprises ;
+			owl:someValuesFrom fibo-bp-iss-prc:SubscriptionClosingInformation ;
+		]
+		;
+	rdfs:label "allotment information"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	skos:definition "Information about the allotment of quantities of the issue to different subscribers. This relates a single instrument allotment against the subscription amounts allotted to each Subscriber."@en ;
+	.
+
+fibo-bp-iss-prc:Announcement
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-bp-iss-dbti:IssuanceProcessActivity ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-muni:offeringRequestor ;
+			owl:someValuesFrom fibo-bp-iss-prc:PotentialIssuer ;
+		]
+		;
+	rdfs:label "announcement"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	.
+
+fibo-bp-iss-prc:CompetitiveSaleMethod
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-iss-prc:SecurityOfferingSaleMethod ;
+	rdfs:label "competitive sale method"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	skos:definition "No definition"@en ;
+	.
+
+fibo-bp-iss-prc:IssuanceProcessActivity
+	a owl:Class ;
+	rdfs:subClassOf fibo-fnd-dt-oc:OccurrenceKind ;
+	rdfs:label "issuance process activity"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	.
+
+fibo-bp-iss-prc:IssuanceProgramme
+	a owl:Class ;
+	rdfs:subClassOf [
+		a owl:Restriction ;
+		owl:onProperty cmns-col:comprises ;
+		owl:someValuesFrom fibo-sec-sec-iss:SecuritiesOffering ;
+	] ;
+	rdfs:label "issuance programme"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	skos:definition "A series of issuances over time."@en ;
+	cmns-av:explanatoryNote "See for example MTN."@en ;
+	.
+
+fibo-bp-iss-prc:IssueSubscriptionInformation
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-iss-prc:TradedInstrumentIssuanceProcessInformation ;
+	rdfs:label "issue subscription information"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	skos:definition "Information relating to the subscription of the issue."@en ;
+	.
+
+fibo-bp-iss-prc:IssuedSecurityIssueInformation
+	a owl:Class ;
+	rdfs:subClassOf
+		cmns-doc:Document ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-prc:hasPartiallyPaidIssuanceSchedule ;
+			owl:allValuesFrom fibo-fnd-pas-psch:PaymentSchedule ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-doc:isAbout ;
+			owl:someValuesFrom fibo-fbc-fi-fi:Security ;
+		]
+		;
+	rdfs:label "issued security issue information"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	skos:definition
+		'FIBIM: "Elements relating to issue preparation/bringing to market (also known as primary market or Initial Public Offering (IPO) issuance) through to issue date."'@en ,
+		"Information about the Issuance of a Security, which is maintained throughout the life of the Security."@en
+		;
+	.
+
+fibo-bp-iss-prc:NegotiatedSaleMethod
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-iss-prc:SecurityOfferingSaleMethod ;
+	rdfs:label "negotiated sale method"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	skos:definition "No definition"@en ;
+	.
+
+fibo-bp-iss-prc:OfferingProcess
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-bp-iss-dbti:IssuanceProcessActivity ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-prc:hasDistributionType ;
+			owl:someValuesFrom fibo-bp-iss-prc:SecurityOfferingDistributionMethod ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-prc:hasSaleMethod ;
+			owl:someValuesFrom fibo-bp-iss-prc:SecurityOfferingSaleMethod ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-prc:requiredToMakeEligible ;
+			owl:someValuesFrom fibo-sec-sec-iss:OfferingDocument ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-muni:givesRiseTo ;
+			owl:someValuesFrom fibo-bp-iss-prc:IssuedSecurityIssueInformation ;
+		]
+		;
+	rdfs:label "offering"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	skos:definition "The process step of offering a security for issue. This is the making available of a new securities issue through an underwriting."@en ;
+	cmns-av:explanatoryNote "It is assumed that this exists for all security types as the precise issuance process is defined among the Offering terms. Terms which only exist for specific types of instrument are given as specialized variants of this class of Thing."@en ;
+	.
+
+fibo-bp-iss-prc:PotentialIssuer
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-bp-iss-prc:SecuritiesIssuanceProcessActor ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-prc:isPotentialIssuer ;
+			owl:someValuesFrom fibo-bp-iss-prc:SecuritiesIssuanceProcess ;
+		]
+		;
+	rdfs:label "potential issuer"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	.
+
+fibo-bp-iss-prc:PotentialUnderwriter
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-iss-prc:SecuritiesIssuanceProcessActor ;
+	rdfs:label "potential underwriter"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	skos:definition "The entity which will become the underwriter for an issue. Term origin:MBS PoC Reviews"@en ;
+	.
+
+fibo-bp-iss-prc:PrimaryIdentifierIssuer
+	a owl:Class ;
+	rdfs:subClassOf fibo-fnd-agr-ctr:ContractThirdParty ;
+	rdfs:label "primary identifier issuer"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	skos:definition "The party which formally issues the primary security identifier to the security. Term origin:MBS PoC Reviews"@en ;
+	.
+
+fibo-bp-iss-prc:PrimarySecurityOfferingDistribution
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-iss-prc:SecurityOfferingDistributionMethod ;
+	rdfs:label "primary security offering distribution"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	skos:definition "The original sale of a company's securities, in which the proceeds from the sale are received directly by the company."@en ;
+	.
+
+fibo-bp-iss-prc:RegistrationInformation
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-iss-prc:TradedInstrumentIssuanceProcessInformation ;
+	rdfs:label "registration information"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	skos:definition "Information relating to the registration of a registered security."@en ;
+	.
+
+fibo-bp-iss-prc:SecondarySecurityOfferingDistribution
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-iss-prc:SecurityOfferingDistributionMethod ;
+	rdfs:label "secondary security offering distribution"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	skos:definition "An Offering of a security which has been previously issued."@en ;
+	.
+
+fibo-bp-iss-prc:SecuritiesIssuanceProcess
+	a owl:Class ;
+	rdfs:subClassOf
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-muni:hasIssuanceGuarantor ;
+			owl:someValuesFrom fibo-bp-iss-prc:SecurityIssuanceGuarantor ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-muni:hasPotentialIssuer ;
+			owl:someValuesFrom fibo-bp-iss-prc:PotentialIssuer ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-muni:subscriber.1 ;
+			owl:someValuesFrom fibo-bp-iss-prc:Subscriber ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-rel-rel:produces ;
+			owl:someValuesFrom fibo-bp-iss-prc:TradedInstrumentIssuanceProcessInformation ;
+		]
+		;
+	rdfs:label "securities issuance process"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	skos:definition "The process by which a financial security is issued."@en ;
+	.
+
+fibo-bp-iss-prc:SecuritiesIssuanceProcessActor
+	a owl:Class ;
+	rdfs:subClassOf cmns-pts:AgentRole ;
+	rdfs:label "securities issuance process actor"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	.
+
+fibo-bp-iss-prc:SecurityIssuanceGuarantor
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-bp-iss-prc:SecuritiesIssuanceProcessActor ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-prc:isIssuanceGuarantor ;
+			owl:someValuesFrom fibo-bp-iss-prc:SecuritiesIssuanceProcess ;
+		]
+		;
+	rdfs:label "security issuance guarantor"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	.
+
+fibo-bp-iss-prc:SecurityOfferingDistributionMethod
+	a owl:Class ;
+	rdfs:subClassOf fibo-fnd-gao-obj:DistributionStrategy ;
+	rdfs:label "security offering distribution method"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	skos:definition "The distribution type of a securities Offering."@en ;
+	.
+
+fibo-bp-iss-prc:SecurityOfferingSaleMethod
+	a owl:Class ;
+	rdfs:subClassOf fibo-fnd-gao-obj:SalesStrategy ;
+	rdfs:label "security offering sale method"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	skos:definition "Method for sale of a new security offering."@en ;
+	.
+
+fibo-bp-iss-prc:Subscriber
+	a owl:Class ;
+	rdfs:subClassOf
+		cmns-pts:AgentRole ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-muni:subscribesTo ;
+			owl:someValuesFrom fibo-bp-iss-muni:SecuritiesUnderwritingIssuanceProcess ;
+		]
+		;
+	rdfs:label "subscriber"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	.
+
+fibo-bp-iss-prc:SubscriptionClosingInformation
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-bp-iss-prc:TradedInstrumentIssuanceProcessInformation ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cxtdsg:appliesTo ;
+			owl:someValuesFrom fibo-bp-iss-prc:Subscriber ;
+		]
+		;
+	rdfs:label "subscription closing information"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	.
+
+fibo-bp-iss-prc:TradedInstrumentIssuanceProcessInformation
+	a owl:Class ;
+	rdfs:subClassOf
+		cmns-doc:Document ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-col:isPartOf ;
+			owl:someValuesFrom fibo-bp-iss-prc:IssuedSecurityIssueInformation ;
+		]
+		;
+	rdfs:label "traded instrument issuance process information"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	skos:definition "Information on one Security issue, arising from the Issuance Process. Note that one Issuance Process (Offering) may relate to more than on Issue, which itself may be the issue of more than one Traded Security."@en ;
+	.
+
+fibo-bp-iss-prc:UnderwriterTakedown
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-bp-iss-prc:UnderwritingProcessDetails ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-prc:underwriterTakedownShares ;
+			owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+			owl:onDataRange xsd:integer ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-prc:takenDownBy ;
+			owl:someValuesFrom fibo-bp-iss-dbti:MuniIssueUnderwriter ;
+		]
+		;
+	rdfs:label "underwriter takedown"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	skos:definition "Infomation on Takedown quantity of the security handled by the underwriter (that will be brought into DTC)."@en ;
+	skos:editorialNote 'Question: Do securities issued through processes other than the one formally identified as "Underwriting Process", have Underwriters? Our research would indicate that agency and non agency MBS issuance processes are not "Underwriting" processes as defined for the DTCC Muni unwriting process, but they do have a step which involves identifying and appointing an underwriter, so the issue is underwritten. It may be that these two processes should be defined as types of (variants on) a more general Underwriting Process, which is itself more general than the one captured separately for DTCC Muni Issuance, which is where this term now lives. Modeling Note: Definition is too DTC specific, from DTCC earliy reviews on Muni process. Need to have a global definition and understanding of this term.'@en ;
+	.
+
+fibo-bp-iss-prc:UnderwritingProcessDetails
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-iss-prc:TradedInstrumentIssuanceProcessInformation ;
+	rdfs:label "underwriting process details"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	skos:definition "Information specific to the Underwriting of the Issue."@en ;
+	.
+
+fibo-bp-iss-prc:actualClosingDate
+	a owl:ObjectProperty ;
+	rdfs:label "actual closing date"@en ;
+	rdfs:domain fibo-bp-iss-prc:IssuedSecurityIssueInformation ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range cmns-dt:Date ;
+	skos:definition "The Closing Date for the Issue, recorded after the event."@en ;
+	.
+
+fibo-bp-iss-prc:announcementDate
+	a owl:ObjectProperty ;
+	rdfs:label "announcement date"@en ;
+	rdfs:domain fibo-bp-iss-prc:IssuedSecurityIssueInformation ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range cmns-dt:Date ;
+	skos:definition "Date/time, as announced by the issuer, at which the securities were to be issued and subsequently were issued."@en ;
+	.
+
+fibo-bp-iss-prc:describesAllotmentOf
+	a owl:ObjectProperty ;
+	rdfs:subPropertyOf cmns-doc:isAbout ;
+	rdfs:label "describes allotment of"@en ;
+	rdfs:domain fibo-bp-iss-prc:AllotmentInformation ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range fibo-fbc-fi-fi:Security ;
+	.
+
+fibo-bp-iss-prc:expectedClosingDate
+	a owl:ObjectProperty ;
+	rdfs:label "expected closing date"@en ;
+	rdfs:domain fibo-bp-iss-prc:OfferingProcess ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range cmns-dt:Date ;
+	skos:definition "The date on which the transfer of positions to underwriters is expected to take place. This date is provided by underwriters as part of an announcement."@en ;
+	.
+
+fibo-bp-iss-prc:finalStateDescribedIn
+	a owl:ObjectProperty ;
+	rdfs:label "final state described in"@en ;
+	rdfs:domain fibo-sec-sec-iss:SecuritiesOffering ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range fibo-bp-iss-doc:FinalProspectus ;
+	.
+
+fibo-bp-iss-prc:firstTradeDate
+	a owl:ObjectProperty ;
+	rdfs:label "first trade date"@en ;
+	rdfs:domain fibo-bp-iss-prc:IssuedSecurityIssueInformation ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range cmns-dt:Date ;
+	skos:definition "The date of the first trade of the security in the secondary market."@en ;
+	.
+
+fibo-bp-iss-prc:firstTradeDateAndTime
+	a owl:ObjectProperty ;
+	rdfs:label "first trade date and time"@en ;
+	rdfs:domain fibo-bp-iss-prc:OfferingProcess ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range cmns-dt:DateTime ;
+	skos:definition "First Date and Time a trade may be executed for this security. All times in Eastern Time Zone only. NOTE: This is a date in the future tense at the time of the Offering."@en ;
+	.
+
+fibo-bp-iss-prc:firstTradeSettlementDate
+	a owl:ObjectProperty ;
+	rdfs:label "first trade settlement date"@en ;
+	rdfs:domain fibo-bp-iss-prc:IssuedSecurityIssueInformation ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range cmns-dt:Date ;
+	skos:definition "The date the Issuer and Underwriter exchange money for bonds."@en ;
+	.
+
+fibo-bp-iss-prc:formalAwardDateAndTime
+	a owl:ObjectProperty ;
+	rdfs:label "formal award date and time"@en ;
+	rdfs:domain fibo-bp-iss-prc:OfferingProcess ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range cmns-dt:DateTime ;
+	skos:definition "Date and time the issuer formally accepts a bid for Competitive Issues or, the Date and Time the Bond Purchase Agreement is executed for Negotiated Issues. Time Zone: Include in date/time data or add a term for it?"@en ;
+	.
+
+fibo-bp-iss-prc:hasDistributionType
+	a owl:ObjectProperty ;
+	rdfs:label "has distribution type" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	.
+
+fibo-bp-iss-prc:hasPartiallyPaidIssuanceSchedule
+	a owl:ObjectProperty ;
+	rdfs:label "has partially paid issuance schedule"@en ;
+	rdfs:domain fibo-bp-iss-prc:IssuedSecurityIssueInformation ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range fibo-fnd-pas-psch:PaymentSchedule ;
+	skos:definition "Partially paid issue: Schedule of partial payments and dates."@en ;
+	.
+
+fibo-bp-iss-prc:hasSaleMethod
+	a owl:ObjectProperty ;
+	rdfs:label "has sale method"@en ;
+	rdfs:domain fibo-bp-iss-prc:OfferingProcess ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range fibo-bp-iss-prc:SecurityOfferingSaleMethod ;
+	skos:definition "Sale Method of the security."@en ;
+	.
+
+fibo-bp-iss-prc:isIssuanceGuarantor
+	a owl:ObjectProperty ;
+	rdfs:label "is issuance guarantor"@en ;
+	rdfs:domain fibo-bp-iss-prc:SecurityIssuanceGuarantor ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range fibo-bp-iss-prc:SecuritiesIssuanceProcess ;
+	.
+
+fibo-bp-iss-prc:isPotentialIssuer
+	a owl:ObjectProperty ;
+	rdfs:label "is potential issuer"@en ;
+	rdfs:domain fibo-bp-iss-prc:PotentialIssuer ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range fibo-bp-iss-prc:SecuritiesIssuanceProcess ;
+	.
+
+fibo-bp-iss-prc:issueNominalNumberOfUnits
+	a owl:DatatypeProperty ;
+	rdfs:label "issue nominal number of units"@en ;
+	rdfs:domain fibo-bp-iss-prc:IssuedSecurityIssueInformation ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range xsd:integer ;
+	skos:definition "Total original quantity of securities issued."@en ;
+	.
+
+fibo-bp-iss-prc:issueOfferingUnits
+	a owl:DatatypeProperty ;
+	rdfs:label "issue offering units"@en ;
+	rdfs:domain fibo-sec-sec-iss:SecuritiesOffering ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range xsd:integer ;
+	skos:definition "Quantity of all securities that is offered in an equity or Corporate Bond issue."@en ;
+	.
+
+fibo-bp-iss-prc:minimumIssueSubscription
+	a owl:DatatypeProperty ;
+	rdfs:label "minimum issue subscription"@en ;
+	rdfs:domain fibo-bp-iss-prc:IssueSubscriptionInformation ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range xsd:decimal ;
+	skos:definition "Minimum or incremental denomination required for the transfer or change of ownership of a security."@en ;
+	.
+
+fibo-bp-iss-prc:offerIssueSeries
+	a owl:DatatypeProperty ;
+	rdfs:label "series"@en ;
+	rdfs:domain fibo-sec-sec-iss:SecuritiesOffering ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range xsd:string ;
+	skos:definition "Uniquely identified collection of securities within an Issue with same Expected Closing Date. The text gives the Series Identifier within the Issuance process. There may be one or more Series within one Issue."@en ;
+	.
+
+fibo-bp-iss-prc:overAlloted
+	a owl:DatatypeProperty ;
+	rdfs:label "over alloted"@en ;
+	rdfs:domain fibo-bp-iss-prc:SubscriptionClosingInformation ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range xsd:boolean ;
+	skos:definition "Whether the subscriber has been over-alloted the requested number of units. REVIEW: Not seen in data terms but implied elsewhere."@en ;
+	.
+
+fibo-bp-iss-prc:requiredToMakeEligible
+	a owl:ObjectProperty ;
+	rdfs:label "required to make eligible"@en ;
+	rdfs:domain fibo-bp-iss-prc:OfferingProcess ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range fibo-sec-sec-iss:OfferingDocument ;
+	.
+
+fibo-bp-iss-prc:series
+	a owl:DatatypeProperty ;
+	rdfs:label "series"@en ;
+	rdfs:domain fibo-bp-iss-prc:IssuedSecurityIssueInformation ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range xsd:string ;
+	skos:definition "Series identification for the individual Traded Financial Security."@en ;
+	.
+
+fibo-bp-iss-prc:subscriptionAmount
+	a owl:DatatypeProperty ;
+	rdfs:label "subscription amount"@en ;
+	rdfs:domain fibo-bp-iss-prc:SubscriptionClosingInformation ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range xsd:integer ;
+	skos:definition "Number of units of the issue that an individual subscriber is allocated."@en ;
+	.
+
+fibo-bp-iss-prc:subscriptionPeriod
+	a owl:ObjectProperty ;
+	rdfs:label "subscription period"@en ;
+	rdfs:domain fibo-bp-iss-prc:IssueSubscriptionInformation ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range cmns-dt:DatePeriod ;
+	skos:definition "Period during which the security can be subscribed to."@en ;
+	.
+
+fibo-bp-iss-prc:takenDownBy
+	a owl:ObjectProperty ;
+	rdfs:label "taken down by"@en ;
+	rdfs:domain fibo-bp-iss-prc:UnderwriterTakedown ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range fibo-bp-iss-dbti:MuniIssueUnderwriter ;
+	.
+
+fibo-bp-iss-prc:underwriterTakedownShares
+	a owl:DatatypeProperty ;
+	rdfs:label "underwriter takedown shares"@en ;
+	rdfs:domain fibo-bp-iss-prc:UnderwriterTakedown ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> ;
+	rdfs:range xsd:integer ;
+	skos:definition "Takedown quantity of the security handled by the underwriter (that will be brought into DTC)."@en ;
+	.
+
+fibo-sec-sec-iss:SecuritiesOffering
+	a owl:Class ;
+	rdfs:subClassOf
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-prc:finalStateDescribedIn ;
+			owl:someValuesFrom fibo-bp-iss-doc:FinalProspectus ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-prc:offerIssueSeries ;
+			owl:someValuesFrom xsd:string ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-id:isIdentifiedBy ;
+			owl:someValuesFrom <https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/ListedSecurityIdentifier> ;
+		]
+		;
+	.
+

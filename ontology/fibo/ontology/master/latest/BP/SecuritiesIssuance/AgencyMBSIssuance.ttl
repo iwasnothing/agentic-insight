@@ -1,0 +1,603 @@
+# baseURI: https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/AgencyMBSIssuance/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/DebtIssuance/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/IssuanceDocuments/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/IssuanceProcess/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/MBSIssuance/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/DebtAndEquities/CreditRatings/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Accounting/CurrencyAmount/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Agreements/Contracts/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Arrangements/Lifecycles/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Parties/Parties/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Relations/Relations/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/LOAN/RealEstateLoans/Mortgages/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/SEC/Debt/Bonds/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/SEC/Debt/MortgageBackedSecurities/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/SEC/Debt/PoolBackedSecurities/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/SEC/Securities/SecuritiesIssuance/
+# imports: https://www.omg.org/spec/Commons/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/DatesAndTimes/
+# imports: https://www.omg.org/spec/Commons/Documents/
+
+@base <https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/AgencyMBSIssuance/> .
+@prefix cmns-av: <https://www.omg.org/spec/Commons/AnnotationVocabulary/> .
+@prefix cmns-doc: <https://www.omg.org/spec/Commons/Documents/> .
+@prefix cmns-dt: <https://www.omg.org/spec/Commons/DatesAndTimes/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fibo-bp-iss-ambs: <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> .
+@prefix fibo-bp-iss-dbti: <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/> .
+@prefix fibo-bp-iss-doc: <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceDocuments/> .
+@prefix fibo-bp-iss-mbs: <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/MBSIssuance/> .
+@prefix fibo-bp-iss-pmbs: <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/> .
+@prefix fibo-bp-iss-prc: <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/> .
+@prefix fibo-fbc-dae-crt: <https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/> .
+@prefix fibo-fnd-acc-cur: <https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/> .
+@prefix fibo-fnd-agr-ctr: <https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/> .
+@prefix fibo-fnd-arr-lif: <https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/> .
+@prefix fibo-fnd-rel-rel: <https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/> .
+@prefix fibo-fnd-utl-av: <https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/> .
+@prefix fibo-loan-reln-mtg: <https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/Mortgages/> .
+@prefix fibo-sec-dbt-bnd: <https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/Bonds/> .
+@prefix fibo-sec-dbt-mbs: <https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/MortgageBackedSecurities/> .
+@prefix fibo-sec-sec-iss: <https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/>
+	a owl:Ontology ;
+	rdfs:label "AgencyMBSIssuance"@en ;
+	dcterms:abstract "Process ontology for the process of issuance (securitization) of mortgage backed securities by government agencies. Based on US government agency MBS issuance process." ;
+	dcterms:license "https://opensource.org/licenses/MIT"^^xsd:anyURI ;
+	owl:imports
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/DebtIssuance/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/IssuanceDocuments/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/IssuanceProcess/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/MBSIssuance/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/DebtAndEquities/CreditRatings/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Accounting/CurrencyAmount/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Agreements/Contracts/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Arrangements/Lifecycles/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Parties/Parties/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Relations/Relations/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/LOAN/RealEstateLoans/Mortgages/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/SEC/Debt/Bonds/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/SEC/Debt/MortgageBackedSecurities/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/SEC/Debt/PoolBackedSecurities/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/SEC/Securities/SecuritiesIssuance/> ,
+		<https://www.omg.org/spec/Commons/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/DatesAndTimes/> ,
+		<https://www.omg.org/spec/Commons/Documents/>
+		;
+	owl:versionIRI <https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	fibo-fnd-utl-av:hasMaturityLevel fibo-fnd-utl-av:Provisional ;
+	cmns-av:copyright "Copyright (c) 2013-2023 EDM Council, Inc." ;
+	.
+
+fibo-bp-iss-ambs:AcquireMortgage
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-bp-iss-prc:IssuanceProcessActivity ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-ambs:purchase ;
+			owl:someValuesFrom fibo-loan-reln-mtg:LoanSecuredByRealEstate ;
+		]
+		;
+	rdfs:label "acquire mortgage"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	.
+
+fibo-bp-iss-ambs:AddMortgageToPool
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-bp-iss-prc:IssuanceProcessActivity ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-ambs:addsToPool ;
+			owl:someValuesFrom fibo-loan-reln-mtg:LoanSecuredByRealEstate ;
+		]
+		;
+	rdfs:label "add mortgage to pool"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	.
+
+fibo-bp-iss-ambs:AgencyMortgagePoolCreationProcess
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-bp-iss-dbti:RetailAssetPoolCreationProcess ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-dt:hasEndDate ;
+			owl:someValuesFrom cmns-dt:Date ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-dt:hasStartDate ;
+			owl:someValuesFrom cmns-dt:Date ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-dt:precedes ;
+			owl:someValuesFrom fibo-bp-iss-ambs:PassThroughMBSSecuritizationProcess ;
+		]
+		;
+	rdfs:label "agency mortgage pool creation process"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	owl:disjointWith fibo-bp-iss-pmbs:NonAgencyPoolCreationProcess ;
+	.
+
+fibo-bp-iss-ambs:AllocatePrimaryIdentifier
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-iss-prc:IssuanceProcessActivity ;
+	rdfs:label "allocate primary identifier"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	.
+
+fibo-bp-iss-ambs:AssessPoolSuitablilityForIssuance
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-iss-prc:IssuanceProcessActivity ;
+	rdfs:label "assess pool suitablility for issuance"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	.
+
+fibo-bp-iss-ambs:ClassifyMortgage
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-bp-iss-prc:IssuanceProcessActivity ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-ambs:isAssessmentOf ;
+			owl:someValuesFrom fibo-loan-reln-mtg:LoanSecuredByRealEstate ;
+		]
+		;
+	rdfs:label "classify mortgage"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	.
+
+fibo-bp-iss-ambs:DefineMortgagePool
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-bp-iss-prc:IssuanceProcessActivity ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-ambs:isDefiningOf ;
+			owl:someValuesFrom fibo-bp-iss-ambs:NotYetIssuedAgencyMortgagePool ;
+		]
+		;
+	rdfs:label "define mortgage pool"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	.
+
+fibo-bp-iss-ambs:DraftPassThroughTermsheet
+	a owl:Class ;
+	rdfs:subClassOf fibo-fnd-agr-ctr:TermSheet ;
+	rdfs:label "draft pass through termsheet"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	skos:definition "Draft of set of information defining the pass thorugh security terms. These will eventually become the contractual terms of the instrument. Term origin:MBS PoC Reviews"@en ;
+	.
+
+fibo-bp-iss-ambs:DrawUpOfferingMemorandum
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-iss-prc:IssuanceProcessActivity ;
+	rdfs:label "draw up offering memorandum"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	.
+
+fibo-bp-iss-ambs:DrawUpTermsheet
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-iss-prc:IssuanceProcessActivity ;
+	rdfs:label "draw up termsheet"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	.
+
+fibo-bp-iss-ambs:FinalizePoolContent
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-iss-prc:IssuanceProcessActivity ;
+	rdfs:label "finalize pool content"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	.
+
+fibo-bp-iss-ambs:FinalizeProspectus
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-iss-prc:IssuanceProcessActivity ;
+	rdfs:label "finalize prospectus"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	.
+
+fibo-bp-iss-ambs:IdentifyConformingMortgage
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-bp-iss-prc:IssuanceProcessActivity ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-doc:refersTo ;
+			owl:someValuesFrom fibo-loan-reln-mtg:LoanSecuredByRealEstate ;
+		]
+		;
+	rdfs:label "identify conforming mortgage"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	skos:definition "Identify mortgage conforming to overall requirements for this issuer."@en ;
+	cmns-av:explanatoryNote "This does not relate to the criteria for belonging to an individual, defined mortgage pool but conforms to the requirements of the issuing organization overall. This is for Agency pools. For non-agency, the equivalent of this step is carried out at pool level with a clause to reject the mortgage."@en ;
+	.
+
+fibo-bp-iss-ambs:IdentifyUnderwriter
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-bp-iss-prc:IssuanceProcessActivity ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-ambs:resultsInAppointmentOf ;
+			owl:someValuesFrom fibo-bp-iss-ambs:PotentialPassThroughIssuanceUnderwriter ;
+		]
+		;
+	rdfs:label "identify underwriter"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	.
+
+fibo-bp-iss-ambs:InAssemblyAgencyMortgagePool
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-sec-dbt-mbs:AgencyMortgagePool ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-arr-lif:hasStage ;
+			owl:someValuesFrom fibo-bp-iss-dbti:InAssembly ;
+		]
+		;
+	rdfs:label "in assembly agency mortgage pool"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	.
+
+fibo-bp-iss-ambs:InIssuanceAgencyMortgagePool
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-sec-dbt-mbs:AgencyMortgagePool ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-arr-lif:hasStage ;
+			owl:someValuesFrom fibo-bp-iss-dbti:InIssuance ;
+		]
+		;
+	rdfs:label "in issuance agency mortgage pool"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	.
+
+fibo-bp-iss-ambs:MakeSecuritiesAvailabeInMarket
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-iss-prc:IssuanceProcessActivity ;
+	rdfs:label "make securities availabe in market"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	.
+
+fibo-bp-iss-ambs:MarketIssue
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-bp-iss-prc:IssuanceProcessActivity ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-ambs:hasResource ;
+			owl:someValuesFrom fibo-bp-iss-ambs:PassThroughMBSDraftProspectus ;
+		]
+		;
+	rdfs:label "market issue"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	.
+
+fibo-bp-iss-ambs:NotYetIssuedAgencyMortgagePool
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-sec-dbt-mbs:AgencyMortgagePool ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-arr-lif:hasStage ;
+			owl:someValuesFrom fibo-bp-iss-dbti:NotYetIssued ;
+		]
+		;
+	rdfs:label "not yet issued agency mortgage pool"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	.
+
+fibo-bp-iss-ambs:PassThroughIssueProspectusPart
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-iss-mbs:ProspectusPart ;
+	rdfs:label "pass through issue prospectus part"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	skos:definition "A part or section of a prospectus for a pass through MBS issue. Term origin:MBS PoC Reviews"@en ;
+	.
+
+fibo-bp-iss-ambs:PassThroughMBSDraftProspectus
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-bp-iss-doc:PreliminaryProspectus ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-dt:precedes ;
+			owl:someValuesFrom fibo-bp-iss-ambs:PassThroughMBSFinalProspectus ;
+		]
+		;
+	rdfs:label "pass through m b s draft prospectus"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	skos:definition "The draft prospectus for a pass through Mortgage Backed Securities issue, as determined by the issuing agency prior to marketing the issue. Certain terms in the draft prospectus will be finalized later in the issuance process to become the actual Prospectus. Term origin:MBS PoC Reviews"@en ;
+	.
+
+fibo-bp-iss-ambs:PassThroughMBSFinalProspectus
+	a owl:Class ;
+	rdfs:subClassOf fibo-sec-dbt-mbs:MortgageBackedSecurityOfferingProspectus ;
+	rdfs:label "pass through m b s final prospectus"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	skos:definition "Term origin:MBS PoC Reviews"@en ;
+	.
+
+fibo-bp-iss-ambs:PassThroughMBSFinalTermsheet
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-bp-iss-ambs:PassThroughIssueProspectusPart ,
+		fibo-fnd-agr-ctr:TermSheet ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-agr-ctr:hasContractualElement ;
+			owl:someValuesFrom fibo-sec-dbt-bnd:BondAmortizationPaymentTerms ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-agr-ctr:hasContractualElement ;
+			owl:someValuesFrom fibo-sec-dbt-bnd:CouponPaymentTerms ;
+		]
+		;
+	rdfs:label "pass through m b s final termsheet"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	skos:definition "The final termsheet for the pass through MBS issue. This defines the terms for the MBS contract itself. Term origin:MBS PoC Reviews"@en ;
+	.
+
+fibo-bp-iss-ambs:PassThroughMBSSecuritizationProcess
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-bp-iss-mbs:MBSSecuritizationProcess ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-dt:hasEndDate ;
+			owl:someValuesFrom cmns-dt:Date ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-dt:hasStartDate ;
+			owl:someValuesFrom cmns-dt:Date ;
+		]
+		;
+	rdfs:label "pass through m b s securitization process"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	owl:disjointWith fibo-bp-iss-pmbs:TranchedMBSSecuritizationProcess ;
+	.
+
+fibo-bp-iss-ambs:PassThroughOfferingMemorandum
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-sec-sec-iss:OfferingDocument ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-mbs:includesDetailsAbout ;
+			owl:someValuesFrom fibo-bp-iss-ambs:PassThroughMBSFinalTermsheet ;
+		]
+		;
+	rdfs:label "pass through offering memorandum"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	skos:definition "The offering memorandum for a pass through MBS issue, setting out basic information about a future issue, for the information of prospective investors and their agents. Term origin:MBS PoC Reviews"@en ;
+	.
+
+fibo-bp-iss-ambs:PoolConformanceCriteria
+	a owl:Class ;
+	rdfs:subClassOf [
+		a owl:Restriction ;
+		owl:onProperty fibo-bp-iss-ambs:definesCriteriaFor ;
+		owl:someValuesFrom fibo-bp-iss-ambs:NotYetIssuedAgencyMortgagePool ;
+	] ;
+	rdfs:label "pool conformance criteria"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	.
+
+fibo-bp-iss-ambs:PotentialAgencyMBSIssuer
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-bp-iss-dbti:PoolBackedSecuritySecuritizationProcessActor ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-ambs:adds ;
+			owl:someValuesFrom fibo-bp-iss-ambs:AddMortgageToPool ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-ambs:finalizes ;
+			owl:someValuesFrom fibo-bp-iss-ambs:FinalizePoolContent ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-ambs:identifies ;
+			owl:someValuesFrom fibo-bp-iss-ambs:IdentifyConformingMortgage ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-ambs:purchases ;
+			owl:someValuesFrom fibo-bp-iss-ambs:AcquireMortgage ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-bp-iss-ambs:validates ;
+			owl:someValuesFrom fibo-bp-iss-ambs:ValidateConformance ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-rel-rel:evaluates ;
+			owl:someValuesFrom fibo-bp-iss-ambs:AssessPoolSuitablilityForIssuance ;
+		] ,
+		[
+			a owl:Restriction ;
+			owl:onProperty fibo-fnd-rel-rel:evaluates ;
+			owl:someValuesFrom fibo-bp-iss-ambs:ClassifyMortgage ;
+		]
+		;
+	rdfs:label "potential agency m b s issuer"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	skos:definition "The entity which will become the issuing party for the pass through MBS Issue. This entity is the principal actor in most of the activities involved in the issue. Term origin:MBS PoC Reviews"@en ;
+	.
+
+fibo-bp-iss-ambs:PotentialPassThroughIssuanceUnderwriter
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-iss-prc:PotentialUnderwriter ;
+	rdfs:label "potential pass through issuance underwriter"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	skos:definition "The entity which will become the underwriter for the pass through MBS issue. Term origin:MBS PoC Reviews"@en ;
+	.
+
+fibo-bp-iss-ambs:RegisterSecurity
+	a owl:Class ;
+	rdfs:subClassOf fibo-bp-iss-prc:IssuanceProcessActivity ;
+	rdfs:label "register security"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	.
+
+fibo-bp-iss-ambs:SuitableForIssue
+	a owl:Class ;
+	rdfs:label "suitable for issue"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	.
+
+fibo-bp-iss-ambs:ValidateConformance
+	a owl:Class ;
+	rdfs:subClassOf
+		fibo-bp-iss-prc:IssuanceProcessActivity ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-doc:refersTo ;
+			owl:someValuesFrom fibo-bp-iss-ambs:PoolConformanceCriteria ;
+		]
+		;
+	rdfs:label "validate conformance"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	skos:definition "The mortgage is automatically validated for conformance to the requirements of the pool in which it is to be included."@en ;
+	skos:editorialNote "From review comment 6 Oct: box called validate conformance automatic eg max loan balance"@en ;
+	.
+
+fibo-bp-iss-ambs:adds
+	a owl:ObjectProperty ;
+	rdfs:label "adds"@en ;
+	rdfs:domain fibo-bp-iss-ambs:PotentialAgencyMBSIssuer ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	rdfs:range fibo-bp-iss-ambs:AddMortgageToPool ;
+	.
+
+fibo-bp-iss-ambs:addsToPool
+	a owl:ObjectProperty ;
+	rdfs:label "adds to pool"@en ;
+	rdfs:domain fibo-bp-iss-ambs:AddMortgageToPool ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	rdfs:range fibo-loan-reln-mtg:LoanSecuredByRealEstate ;
+	.
+
+fibo-bp-iss-ambs:allocatesIdentifier
+	a owl:ObjectProperty ;
+	rdfs:label "allocates identifier" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	.
+
+fibo-bp-iss-ambs:definesCriteriaFor
+	a owl:ObjectProperty ;
+	rdfs:label "defines criteria for"@en ;
+	rdfs:domain fibo-bp-iss-ambs:PoolConformanceCriteria ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	rdfs:range fibo-bp-iss-ambs:NotYetIssuedAgencyMortgagePool ;
+	.
+
+fibo-bp-iss-ambs:finalizes
+	a owl:ObjectProperty ;
+	rdfs:label "finalizes"@en ;
+	rdfs:domain fibo-bp-iss-ambs:PotentialAgencyMBSIssuer ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	rdfs:range fibo-bp-iss-ambs:FinalizePoolContent ;
+	.
+
+fibo-bp-iss-ambs:hasResource
+	a owl:ObjectProperty ;
+	rdfs:label "has resource"@en ;
+	rdfs:domain fibo-bp-iss-ambs:MarketIssue ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	rdfs:range fibo-bp-iss-ambs:PassThroughMBSDraftProspectus ;
+	.
+
+fibo-bp-iss-ambs:identifies
+	a owl:ObjectProperty ;
+	rdfs:label "identifies"@en ;
+	rdfs:domain fibo-bp-iss-ambs:PotentialAgencyMBSIssuer ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	rdfs:range fibo-bp-iss-ambs:IdentifyConformingMortgage ;
+	.
+
+fibo-bp-iss-ambs:isAssessmentOf
+	a owl:ObjectProperty ;
+	rdfs:label "is assessment of"@en ;
+	rdfs:domain fibo-bp-iss-ambs:ClassifyMortgage ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	rdfs:range fibo-loan-reln-mtg:LoanSecuredByRealEstate ;
+	.
+
+fibo-bp-iss-ambs:isDefiningOf
+	a owl:ObjectProperty ;
+	rdfs:label "is defining of"@en ;
+	rdfs:domain fibo-bp-iss-ambs:DefineMortgagePool ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	rdfs:range fibo-bp-iss-ambs:NotYetIssuedAgencyMortgagePool ;
+	.
+
+fibo-bp-iss-ambs:maximumLoanBalance
+	a owl:ObjectProperty ;
+	rdfs:label "maximum loan balance"@en ;
+	rdfs:domain fibo-bp-iss-ambs:PoolConformanceCriteria ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	rdfs:range fibo-fnd-acc-cur:MonetaryAmount ;
+	.
+
+fibo-bp-iss-ambs:minimumRating
+	a owl:ObjectProperty ;
+	rdfs:label "minimum rating"@en ;
+	rdfs:domain fibo-bp-iss-ambs:PoolConformanceCriteria ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	rdfs:range fibo-fbc-dae-crt:InvestmentCreditRating ;
+	.
+
+fibo-bp-iss-ambs:purchase
+	a owl:ObjectProperty ;
+	rdfs:label "purchase"@en ;
+	rdfs:domain fibo-bp-iss-ambs:AcquireMortgage ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	rdfs:range fibo-loan-reln-mtg:LoanSecuredByRealEstate ;
+	.
+
+fibo-bp-iss-ambs:purchases
+	a owl:ObjectProperty ;
+	rdfs:label "purchases"@en ;
+	rdfs:domain fibo-bp-iss-ambs:PotentialAgencyMBSIssuer ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	rdfs:range fibo-bp-iss-ambs:AcquireMortgage ;
+	.
+
+fibo-bp-iss-ambs:resultsInAppointmentOf
+	a owl:ObjectProperty ;
+	rdfs:label "results in appointment of"@en ;
+	rdfs:domain fibo-bp-iss-ambs:IdentifyUnderwriter ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	rdfs:range fibo-bp-iss-ambs:PotentialPassThroughIssuanceUnderwriter ;
+	.
+
+fibo-bp-iss-ambs:validates
+	a owl:ObjectProperty ;
+	rdfs:label "validates"@en ;
+	rdfs:domain fibo-bp-iss-ambs:PotentialAgencyMBSIssuer ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/> ;
+	rdfs:range fibo-bp-iss-ambs:ValidateConformance ;
+	.
+

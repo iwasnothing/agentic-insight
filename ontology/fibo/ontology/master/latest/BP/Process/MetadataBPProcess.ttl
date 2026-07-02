@@ -1,0 +1,47 @@
+# baseURI: https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/Process/MetadataBPProcess/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/AnnotationVocabulary/
+
+@base <https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/Process/MetadataBPProcess/> .
+@prefix cmns-av: <https://www.omg.org/spec/Commons/AnnotationVocabulary/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fibo-bp-prc-mod: <https://spec.edmcouncil.org/fibo/ontology/BP/Process/MetadataBPProcess/> .
+@prefix fibo-fnd-utl-av: <https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://spec.edmcouncil.org/fibo/ontology/BP/Process/MetadataBPProcess/>
+	a owl:Ontology ;
+	rdfs:label "Metadata for the EDMC-FIBO Business Process (BP) Process Module" ;
+	dcterms:abstract "This module contains ontologies of Process concepts including concepts common to a range of business processes, along with basic financial context concepts." ;
+	dcterms:issued "2018-03-01T18:00:00"^^xsd:dateTime ;
+	dcterms:license "http://opensource.org/licenses/MIT"^^xsd:anyURI ;
+	dcterms:modified "2023-01-30T18:00:00"^^xsd:dateTime ;
+	owl:imports
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/AnnotationVocabulary/>
+		;
+	owl:versionIRI <https://spec.edmcouncil.org/fibo/ontology/master/latest/BP/Process/MetadataBPProcess/> ;
+	cmns-av:copyright "Copyright (c) 2013-2023 EDM Council, Inc." ;
+	.
+
+fibo-bp-prc-mod:ProcessModule
+	a
+		owl:NamedIndividual ,
+		fibo-fnd-utl-av:Module
+		;
+	rdfs:label "process module" ;
+	dcterms:abstract "This module contains ontologies of Process concepts including concepts common to a range of business processes, along with basic financial context concepts." ;
+	dcterms:hasPart <https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/> ;
+	dcterms:license "http://opensource.org/licenses/MIT"^^xsd:anyURI ;
+	dcterms:title
+		"FIBO BP Process Module" ,
+		"Financial Industry Business Ontology (FIBO) Business Process (BP) Process Module"
+		;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BP/Process/MetadataBPProcess/> ;
+	rdfs:seeAlso <https://spec.edmcouncil.org/fibo/> ;
+	cmns-av:copyright "Copyright (c) 2013-2023 EDM Council, Inc." ;
+	.
+

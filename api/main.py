@@ -12,6 +12,8 @@ import logging
 import duckdb
 from typing import Optional, Dict, Any
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import StreamingResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 
@@ -30,6 +32,16 @@ app = FastAPI(
     version="0.1.0"
 )
 
+# Serve the static UI files from static/ directory
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+@app.get("/")
+async def read_index():
+    """
+    Serves the premium dashboard testing UI directly at the root path.
+    """
+    return FileResponse("static/index.html")
+
 class RunRequest(BaseModel):
     objective: str = Field(description="The given audit/search objective")
     ontology_folder: Optional[str] = Field(default=None, description="Path to the ontology folder")
@@ -44,14 +56,6 @@ class RunRequest(BaseModel):
     max_sql_iterations: Optional[int] = Field(default=None, description="Max self-fixing SQL iterations")
     lines_threshold: Optional[int] = Field(default=None, description="Lines threshold for context condensation")
     context_size_limit: Optional[int] = Field(default=None, description="Target size limit in words for condensation")
-
-class RunResponse(BaseModel):
-    status: str
-    iterations: int
-    confidence_score: int
-    explanation: str
-    report_path: str
-    analysis: str
 
 def load_csv_files_to_duckdb(dataset_folder: str, db_path: str) -> None:
     """
@@ -84,11 +88,11 @@ def load_csv_files_to_duckdb(dataset_folder: str, db_path: str) -> None:
     finally:
         conn.close()
 
-@app.post("/run", response_model=RunResponse)
+@app.post("/run")
 async def run_workflow(request: RunRequest):
     """
     Executes the agentic workflow using the document and tabular schemas.
-    Reads tabular CSV datasets into DuckDB tables, runs the query/analysis/eval loop, and generates a report.
+    Streams progress details (planning, sub-queries, token analysis, final report) using SSE.
     """
     # 1. Resolve paths (use request overrides or environment variables or defaults)
     ontology_folder = request.ontology_folder or os.getenv("ONTOLOGY_FOLDER", "./ontology")
@@ -116,24 +120,30 @@ async def run_workflow(request: RunRequest):
         logger.exception("Failed to load CSV files into DuckDB.")
         raise HTTPException(status_code=500, detail=f"Database initialization failed: {str(e)}")
 
-    # 3. Execute the agentic workflow
-    try:
-        results = await run_agentic_workflow(
-            objective=request.objective,
-            ontology_folder=ontology_folder,
-            dataset_folder=dataset_folder,
-            doc_db_path=doc_db_path,
-            mappings_db_path=mappings_db_path,
-            semantic_mapping_path=semantic_mapping_path,
-            output_md_path=output_md_path,
-            max_iterations=max_iterations,
-            top_n=top_n,
-            row_limit=row_limit,
-            max_sql_iterations=max_sql_iterations,
-            lines_threshold=lines_threshold,
-            context_size_limit=context_size_limit
-        )
-        return RunResponse(**results)
-    except Exception as e:
-        logger.exception("Agentic search workflow execution failed.")
-        raise HTTPException(status_code=500, detail=f"Agentic workflow failed: {str(e)}")
+    # 3. Execute the agentic workflow as a stream generator
+    async def event_generator():
+        try:
+            async for progress_event in run_agentic_workflow(
+                objective=request.objective,
+                ontology_folder=ontology_folder,
+                dataset_folder=dataset_folder,
+                doc_db_path=doc_db_path,
+                mappings_db_path=mappings_db_path,
+                semantic_mapping_path=semantic_mapping_path,
+                output_md_path=output_md_path,
+                max_iterations=max_iterations,
+                top_n=top_n,
+                row_limit=row_limit,
+                max_sql_iterations=max_sql_iterations,
+                lines_threshold=lines_threshold,
+                context_size_limit=context_size_limit
+            ):
+                import json
+                yield f"data: {json.dumps(progress_event)}\n\n"
+        except Exception as e:
+            logger.exception("Error in streaming agentic workflow.")
+            import json
+            yield f"data: {json.dumps({'event': 'error', 'data': {'detail': str(e)}})}\n\n"
+
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
+

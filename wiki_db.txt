@@ -1,0 +1,45 @@
+
+Database Schema for: /Users/kahingleung/Downloads/agentic-insight/wiki.db
+================================================================================
+
+Table: main.concept_segment_mapping (Estimated rows: 127, Columns: 2)
+--------------------------------------------------------------------------------
+  Columns:
+    - segment_id                     VARCHAR         NULL
+    - concept_name                   VARCHAR         NULL
+  Indexes: None
+
+Table: main.concepts (Estimated rows: 62, Columns: 5)
+--------------------------------------------------------------------------------
+  Columns:
+    - concept_type                   VARCHAR         NULL
+    - rationale                      VARCHAR         NULL
+    - concept_name                   VARCHAR         NOT NULL
+    - attributes_and_values          VARCHAR         NULL
+    - summary                        VARCHAR         NULL
+  Constraints:
+    - PRIMARY KEY: PRIMARY KEY(concept_name) (on columns: concept_name)
+    - NOT NULL: NOT NULL (on columns: concept_name)
+  Indexes: None
+
+Table: main.file_line_sequence (Estimated rows: 15, Columns: 3)
+--------------------------------------------------------------------------------
+  Columns:
+    - filename                       VARCHAR         NULL
+    - start_line_no                  INTEGER         NULL
+    - end_line_no                    INTEGER         NULL
+  Indexes: None
+
+Table: main.text_segments (Estimated rows: 127, Columns: 5)
+--------------------------------------------------------------------------------
+  Columns:
+    - segment_id                     VARCHAR         NOT NULL
+    - segment_text                   VARCHAR         NULL
+    - filename                       VARCHAR         NULL
+    - segment_start_line_no_global   INTEGER         NULL
+    - segment_end_line_no_global     INTEGER         NULL
+  Constraints:
+    - PRIMARY KEY: PRIMARY KEY(segment_id) (on columns: segment_id)
+    - NOT NULL: NOT NULL (on columns: segment_id)
+  Indexes: None
+================================================================================

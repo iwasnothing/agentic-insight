@@ -214,7 +214,8 @@ api/
 ```
 
 ### `api/main.py`
-- Exposes `POST /run` to trigger the search audit.
+- Exposes `POST /run` as a Server-Sent Events (SSE) streaming endpoint that yields real-time progress details (planning steps, sub-queries with results, analysis chunks, and final reports).
+- Serves a premium dashboard testing UI directly at `GET /` and hosts static assets (CSS, HTML, JS) under the `/static` mount.
 - Triggers loading of tabular CSV data into DuckDB tables dynamically before starting the search.
 
 ### `api/utils.py`
@@ -222,8 +223,10 @@ api/
 - Implements recursive chunk summarization using Google ADK LLM Agents to adhere to model context boundaries.
 
 ### `api/tools.py`
-- Implements document context retrieval agent using query planning, database fetching, segment joins, and summary generation.
-- Implements tabular data retrieval agent utilizing query planning, OLAP data cube definition, text generation and self-correcting DuckDB SQL generation, saving result tables to temp CSVs, and executing analytical syntheses.
+- Implements document context retrieval agent using query planning, parallel database fetching and selection (using a thread pool of size 5 to execute sub-queries in parallel), segment joins, and summary generation.
+- Implements tabular data retrieval agent utilizing query planning, OLAP data cube definition, text generation, and parallelized self-correcting DuckDB SQL generation and execution (using a thread pool of size 5 to execute sub-queries in parallel), saving result tables to temp CSVs, and executing analytical syntheses.
+- Enforces strict query results row count limits (default 100 rows) by instructing the LLM to output capped SQL queries with sorting, and programmatically verifies the presence of `LIMIT` using regex, appending `LIMIT {row_limit}` if omitted.
 
 ### `api/workflow.py`
 - Co-ordinates the complete 6 steps: Planning, Execution, Analysis, Evaluation, Conditional Branch looping (until confidence >= 90 or iterations count reached), and writing of markdown analysis reports.
+- Implemented as an asynchronous generator that yields structured progress updates, planning details, query outcomes, analysis tokens, evaluation outcomes, and report outputs.

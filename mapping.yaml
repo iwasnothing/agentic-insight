@@ -1,0 +1,532 @@
+ontology/fibo/ontology/LOAN/LoansGeneral/LoanApplications.ttl:
+  AllBorrowersMonthlyIncome:
+    attributes:
+      isBasedOn:
+        mapped_columns:
+        - log.annual.inc
+        sql_formula: null
+  BorrowerAssessment:
+    attributes:
+      hasGrossIncome:
+        mapped_columns:
+        - log.annual.inc
+        sql_formula: null
+      hasOriginalLoanDebtToIncomeRatio:
+        mapped_columns:
+        - dti
+        sql_formula: ''
+      isAbout:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  BorrowerMonthlyIncome:
+    attributes:
+      hasPartyRole:
+        mapped_columns:
+        - log.annual.inc
+        sql_formula: null
+  CreditRiskAssessment:
+    attributes:
+      appliesTo:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+      hasInput:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+      hasOutput:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+      usesFactor:
+        mapped_columns:
+        - fico
+        - int.rate
+        - dti
+        - log.annual.inc
+        sql_formula: null
+  IncomeVerificationReport:
+    attributes:
+      ReportMethodology:
+        mapped_columns:
+        - log.annual.inc
+        sql_formula: null
+      SupportingDocumentation:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  LoanApplication:
+    attributes:
+      comprises:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+      hasIntendedLoanPurpose:
+        mapped_columns:
+        - purpose
+        sql_formula: ''
+      isSubmittedBy:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  LoanApplicationStatus:
+    attributes:
+      Loan_Status:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+      loan application status:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  PreApprovalContract:
+    attributes:
+      hasApprovedAmount:
+        mapped_columns:
+        - installment
+        sql_formula: null
+      hasInterestRate:
+        mapped_columns:
+        - int.rate
+        sql_formula: null
+  PreApprovalRequest:
+    attributes:
+      hasBorrower:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+      hasRequestedAmount:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  PublicRecord:
+    attributes:
+      isEvidencedBy:
+        mapped_columns:
+        - pub.rec
+        sql_formula: null
+  PublicRecordCategory:
+    attributes:
+      pub.rec:
+        mapped_columns:
+        - pub.rec
+        sql_formula: null
+  TotalDebtExpenseRatio:
+    attributes:
+      TotalDebtExpenseRatio:
+        mapped_columns:
+        - dti
+        sql_formula: dti
+ontology/fibo/ontology/LOAN/LoansGeneral/LoanEvents.ttl:
+  LoanDefaultProceeding:
+    attributes:
+      hasDefaultAmount:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  LoanPaidInFull:
+    attributes:
+      Loan_ID:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+      Loan_Status:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+      credit.policy:
+        mapped_columns:
+        - credit.policy
+        sql_formula: null
+      not.fully.paid:
+        mapped_columns:
+        - not.fully.paid
+        sql_formula: null
+ontology/fibo/ontology/LOAN/LoansGeneral/Loans.ttl:
+  CollateralizedLoan:
+    attributes:
+      isCollateralizedBy:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+      isPrimaryContractFor:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  CombinedLoanToValueRatio:
+    attributes:
+      appliesTo:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+      refersTo:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  InterestPaymentTerms:
+    attributes:
+      hasFirstRateChangeTerm:
+        mapped_columns:
+        - int.rate
+        sql_formula: null
+  Loan:
+    attributes:
+      hasPrincipalAmount:
+        mapped_columns:
+        - installment
+        sql_formula: null
+  LoanPaymentSchedule:
+    attributes:
+      appliesTo:
+        mapped_columns:
+        - credit.policy
+        sql_formula: null
+  LoanSpecificCustomerAccount:
+    attributes:
+      hasLoanBalance:
+        mapped_columns:
+        - revol.bal
+        sql_formula: null
+      hasPaymentHistory:
+        mapped_columns:
+        - credit.policy
+        - delinq.2yrs
+        - pub.rec
+        - inq.last.6mths
+        sql_formula: null
+      hasPaymentSchedule:
+        mapped_columns:
+        - installment
+        - int.rate
+        sql_formula: null
+      isHeldBy:
+        mapped_columns:
+        - log.annual.inc
+        sql_formula: null
+      relatesTo:
+        mapped_columns:
+        - purpose
+        sql_formula: null
+  LoanToValueRatio:
+    attributes:
+      hasArgument:
+        mapped_columns:
+        - credit.policy
+        sql_formula: null
+  OpenEndCredit:
+    attributes:
+      hasCreditLimit:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  TotalOutstandingPrincipal:
+    attributes:
+      TotalOutstandingPrincipal:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+ontology/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory.ttl:
+  BorrowerDataProtectionRequirement:
+    attributes:
+      governs:
+        mapped_columns:
+        - not.fully.paid
+        sql_formula: null
+ontology/fibo/ontology/LOAN/LoansSpecific/CardAccounts.ttl:
+  CardAccount:
+    attributes:
+      exemplifies:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+      isDefinedIn:
+        mapped_columns:
+        - credit.policy
+        sql_formula: null
+      isIdentifiedBy:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  CardVerificationCodeValue:
+    attributes:
+      appliesTo:
+        mapped_columns:
+        - fico
+        - credit.policy
+        sql_formula: null
+      hasTag:
+        mapped_columns:
+        - purpose
+        sql_formula: purpose
+  ConsumerCreditCardAgreement:
+    attributes:
+      hasBorrower:
+        mapped_columns:
+        - log.annual.inc
+        sql_formula: null
+  CreditCard:
+    attributes:
+      isClassifiedBy:
+        mapped_columns:
+        - fico
+        sql_formula: fico
+      isEvidenceFor:
+        mapped_columns:
+        - delinq.2yrs
+        - inq.last.6mths
+        - pub.rec
+        sql_formula: null
+  CreditCardAgreement:
+    attributes:
+      hasBorrower:
+        mapped_columns:
+        - log.annual.inc
+        sql_formula: null
+      isEvidencedBy:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  DebitCardAccount:
+    attributes:
+      exemplifies:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  DebitCardProduct:
+    attributes:
+      classifies:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+      isExemplifiedBy:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  PaymentCardAgreement:
+    attributes:
+      appliesTo:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+      hasContractParty:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+      isEvidencedBy:
+        mapped_columns:
+        - purpose
+        sql_formula: null
+ontology/fibo/ontology/LOAN/LoansSpecific/CommercialLoans.ttl:
+  CommercialLoan:
+    attributes:
+      hasBusinessPurposeDescription:
+        mapped_columns:
+        - purpose
+        sql_formula: ''
+      hasObjective:
+        mapped_columns:
+        - purpose
+        sql_formula: ''
+ontology/fibo/ontology/LOAN/LoansSpecific/ConsumerLoans.ttl:
+  MotorVehicleLoan:
+    attributes:
+      isCollateralizedBy:
+        mapped_columns:
+        - purpose
+        sql_formula: ''
+  SecuredConsumerLoan:
+    attributes:
+      Loan Amount:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+      Loan Term:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+ontology/fibo/ontology/LOAN/LoansSpecific/GreenLoans.ttl:
+  AssessmentBoundary:
+    attributes:
+      hasSpatialBoundary:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  EnvironmentalProject:
+    attributes:
+      isCharacterizedBy:
+        mapped_columns:
+        - purpose
+        sql_formula: ''
+  GreenProject:
+    attributes:
+      isGovernedBy:
+        mapped_columns:
+        - purpose
+        sql_formula: ''
+  ObservedIndicatorValue:
+    attributes:
+      hasQuantityValue:
+        mapped_columns:
+        - int.rate
+        - installment
+        sql_formula: null
+  SustainabilityBusinessStrategy:
+    attributes:
+      hasObjective:
+        mapped_columns:
+        - purpose
+        sql_formula: purpose
+  SustainabilityKeyPerformanceIndicatorIdentifier:
+    attributes:
+      identifies:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  SustainabilityPerformanceTarget:
+    attributes:
+      hasMember:
+        mapped_columns:
+        - int.rate
+        - dti
+        - fico
+        sql_formula: null
+      isIdentifiedBy:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  TransitionLoan:
+    attributes:
+      hasContractualElement:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+      hasSchedule:
+        mapped_columns:
+        - installment
+        sql_formula: installment
+      hasStrategy:
+        mapped_columns:
+        - purpose
+        sql_formula: purpose
+ontology/fibo/ontology/LOAN/LoansSpecific/LoanProducts.ttl:
+  CreditCardReceivablePurpose:
+    attributes:
+      purpose:
+        mapped_columns:
+        - purpose
+        sql_formula: null
+  HomeEquityLoanPurpose:
+    attributes:
+      loan_purpose:
+        mapped_columns:
+        - purpose
+        sql_formula: purpose
+  LineItem:
+    attributes:
+      hasCost:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+      hasNumericValue:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+      refersTo:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  LoanProduct:
+    attributes:
+      isExemplifiedBy:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  LoanProductOffering:
+    attributes:
+      appliesTo:
+        mapped_columns:
+        - purpose
+        sql_formula: purpose
+      hasMember:
+        mapped_columns:
+        - credit.policy
+        sql_formula: null
+  LoanPurpose:
+    attributes:
+      purpose:
+        mapped_columns:
+        - purpose
+        sql_formula: purpose
+  MortgageProduct:
+    attributes:
+      isExemplifiedBy:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  OverdraftFacilityPurpose:
+    attributes:
+      purpose:
+        mapped_columns:
+        - purpose
+        sql_formula: purpose
+  StudentLoanPurpose:
+    attributes:
+      (No attributes defined):
+        mapped_columns:
+        - purpose
+        sql_formula: purpose
+ontology/fibo/ontology/LOAN/RealEstateLoans/ConstructionLoans.ttl:
+  ConstructionLoan:
+    attributes:
+      isCollateralizedBy:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+ontology/fibo/ontology/LOAN/RealEstateLoans/HomeMortgageDisclosureActCoveredMortgages.ttl:
+  UniversalLoanIdentifier:
+    attributes:
+      comprises:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+      identifies:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+ontology/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination.ttl:
+  MortgageLoanPurpose:
+    attributes:
+      MortgageLoanPurpose:
+        mapped_columns:
+        - purpose
+        sql_formula: null
+  RealProperty:
+    attributes:
+      isClassifiedBy:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+ontology/fibo/ontology/LOAN/RealEstateLoans/Mortgages.ttl:
+  LoanSecuredByRealEstate:
+    attributes:
+      isCollateralizedBy:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+      refersTo:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  Mortgage:
+    attributes:
+      isCollateralizedBy:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true
+  ReverseMortgageLoan:
+    attributes:
+      hasCreditLimit:
+        mapped_columns: []
+        sql_formula: null
+        not_enough_information: true

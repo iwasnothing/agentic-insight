@@ -89,14 +89,18 @@ def test_load_csv_files_to_duckdb():
 @mock.patch("api.main.load_csv_files_to_duckdb")
 def test_api_run_endpoint_success(mock_load_csv, mock_run_workflow):
     """Verify API POST /run returns success response when execution succeeds."""
-    mock_run_workflow.return_value = {
-        "status": "success",
-        "iterations": 2,
-        "confidence_score": 95,
-        "explanation": "Perfect match",
-        "report_path": "./report.md",
-        "analysis": "Analysis content"
-    }
+    async def mock_generator(*args, **kwargs):
+        yield {"event": "start", "data": {"objective": "Verify compliance in loan prediction"}}
+        yield {"event": "final_report", "data": {"report": "Analysis content", "result": {
+            "status": "success",
+            "iterations": 2,
+            "confidence_score": 95,
+            "explanation": "Perfect match",
+            "report_path": "./report.md",
+            "analysis": "Analysis content"
+        }}}
+
+    mock_run_workflow.side_effect = mock_generator
     
     payload = {
         "objective": "Verify compliance in loan prediction",
@@ -108,24 +112,53 @@ def test_api_run_endpoint_success(mock_load_csv, mock_run_workflow):
     
     response = client.post("/run", json=payload)
     assert response.status_code == 200
-    json_data = response.json()
-    assert json_data["status"] == "success"
-    assert json_data["confidence_score"] == 95
-    assert json_data["iterations"] == 2
+    assert "text/event-stream" in response.headers["content-type"]
+    
+    lines = list(response.iter_lines())
+    assert len(lines) > 0
+    
+    import json
+    parsed_events = []
+    for line in lines:
+        if line.startswith("data: "):
+            parsed_events.append(json.loads(line[6:]))
+            
+    assert len(parsed_events) == 2
+    assert parsed_events[0]["event"] == "start"
+    assert parsed_events[1]["event"] == "final_report"
+    assert parsed_events[1]["data"]["result"]["confidence_score"] == 95
     
     mock_load_csv.assert_called_once()
     mock_run_workflow.assert_called_once()
 
 @mock.patch("api.main.load_csv_files_to_duckdb")
-@mock.patch("api.main.run_agentic_workflow", side_effect=ValueError("Workflow error"))
+@mock.patch("api.main.run_agentic_workflow")
 def test_api_run_endpoint_failure(mock_run_workflow, mock_load_csv):
-    """Verify API POST /run returns 500 when workflow execution encounters an exception."""
+    """Verify API POST /run returns 200 with an error event when workflow encounters an exception during stream."""
+    async def mock_generator_fail(*args, **kwargs):
+        yield {"event": "start", "data": {"objective": "Auditing"}}
+        raise ValueError("Workflow error")
+
+    mock_run_workflow.side_effect = mock_generator_fail
+    
     payload = {
         "objective": "Auditing"
     }
     response = client.post("/run", json=payload)
-    assert response.status_code == 500
-    assert "Workflow error" in response.json()["detail"]
+    assert response.status_code == 200
+    assert "text/event-stream" in response.headers["content-type"]
+    
+    lines = list(response.iter_lines())
+    import json
+    parsed_events = []
+    for line in lines:
+        if line.startswith("data: "):
+            parsed_events.append(json.loads(line[6:]))
+            
+    assert len(parsed_events) == 2
+    assert parsed_events[0]["event"] == "start"
+    assert parsed_events[1]["event"] == "error"
+    assert "Workflow error" in parsed_events[1]["data"]["detail"]
 
 
 def test_clean_and_filter_mapping():
@@ -372,7 +405,7 @@ async def test_tabular_and_workflow_prompt_constraints():
              elif "cube_definer" in agent_name:
                  yield mock_event_cube
              elif "sql_generator" in agent_name:
-                 assert "maximum of 100 rows, not exceeding 100" in prompt_text or "LIMIT 100" in prompt_text
+                 assert "maximum of" in prompt_text or "LIMIT" in prompt_text
                  assert "Column naming rule" in prompt_text or "dots" in prompt_text
                  assert "Group By rule" in prompt_text or "aggregates" in prompt_text
                  assert "Format rule" in prompt_text or "trailing braces" in prompt_text
@@ -398,4 +431,88 @@ async def test_tabular_and_workflow_prompt_constraints():
          assert sql_verified
 
 
+@pytest.mark.anyio
+async def test_sql_limit_fallback():
+    """Verify that if generated SQL does not have a LIMIT clause, LIMIT row_limit is programmatically appended."""
+    from api.tools import tabular_data_retrieval
+    from unittest import mock
 
+    mock_model = mock.MagicMock()
+
+    with mock.patch("api.tools.LlmAgent") as mock_agent_class, \
+         mock.patch("api.tools.InMemoryRunner") as mock_runner_class, \
+         mock.patch("api.tools.open", mock.mock_open(read_data="CombinedLoanToValueRatio:\n  attributes: {}")), \
+         mock.patch("api.tools.get_duckdb_table_schemas", return_value="Table: loan_data"):
+         
+         mock_runner = mock.AsyncMock()
+         mock_runner_class.return_value = mock_runner
+         
+         mock_event_plan = mock.MagicMock()
+         mock_event_plan.error_message = None
+         mock_event_plan.output = mock.MagicMock()
+         mock_event_plan.output.model_dump.return_value = {
+             "sub_queries": [{"description": "Get high risk loans", "justification": "needed"}]
+         }
+         
+         mock_event_cube = mock.MagicMock()
+         mock_event_cube.error_message = None
+         mock_event_cube.output = mock.MagicMock()
+         mock_event_cube.output.model_dump.return_value = {
+             "measure": "COUNT(*)", "dimensions": ["loan_status"], "filtering_conditions": "",
+             "sort_order": "", "aggregation_functions": ["COUNT"]
+         }
+
+         # SQL without LIMIT clause
+         mock_event_sql = mock.MagicMock()
+         mock_event_sql.error_message = None
+         mock_event_sql.output = mock.MagicMock()
+         mock_event_sql.output.model_dump.return_value = {
+             "sql_query": "SELECT * FROM loan_data"
+         }
+
+         async def mock_run_async(*args, **kwargs):
+             call_args = mock_agent_class.call_args
+             agent_name = call_args[1].get("name") or call_args[0][1]
+             if "query_planner" in agent_name:
+                 yield mock_event_plan
+             elif "cube_definer" in agent_name:
+                 yield mock_event_cube
+             else:
+                 yield mock_event_sql
+
+         mock_runner.run_async = mock_run_async
+         
+         with mock.patch("api.tools.duckdb.connect") as mock_db_connect:
+             mock_conn = mock.MagicMock()
+             mock_db_connect.return_value = mock_conn
+             mock_conn.execute.return_value.description = [("col",)]
+             mock_conn.execute.return_value.fetchall.return_value = [("val",)]
+             
+             await tabular_data_retrieval(
+                 "test query", 
+                 semantic_mapping_path="/fake.yaml", 
+                 db_path="/fake.db", 
+                 row_limit=50, 
+                 model=mock_model
+             )
+             
+             # Verify that execute was called with LIMIT 50 appended
+             called_sql = mock_conn.execute.call_args[0][0]
+             assert "LIMIT 50" in called_sql
+
+
+def test_litellm_logging_worker_patch():
+    """Verify that LiteLLM's LoggingWorker methods are successfully patched to be no-ops."""
+    from litellm.litellm_core_utils.logging_worker import LoggingWorker, GLOBAL_LOGGING_WORKER
+    
+    # Assert that starting, enqueuing or initializing the worker does not raise errors
+    # and has no side effects (i.e. remains a no-op).
+    assert LoggingWorker.start(GLOBAL_LOGGING_WORKER) is None
+    assert LoggingWorker.enqueue(GLOBAL_LOGGING_WORKER, None) is None
+    assert LoggingWorker.ensure_initialized_and_enqueue(GLOBAL_LOGGING_WORKER, None) is None
+    assert LoggingWorker._handle_queue_full(GLOBAL_LOGGING_WORKER, None) is None
+    
+    # Check that GLOBAL_LOGGING_WORKER instance itself is patched too
+    assert GLOBAL_LOGGING_WORKER.start() is None
+    assert GLOBAL_LOGGING_WORKER.enqueue(None) is None
+    assert GLOBAL_LOGGING_WORKER.ensure_initialized_and_enqueue(None) is None

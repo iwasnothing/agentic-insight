@@ -1,0 +1,132 @@
+# baseURI: https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/FunctionalEntities/Publishers/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/Documents/
+# imports: https://www.omg.org/spec/Commons/PartiesAndSituations/
+# imports: https://www.omg.org/spec/Commons/RolesAndCompositions/
+
+@base <https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/FunctionalEntities/Publishers/> .
+@prefix cmns-av: <https://www.omg.org/spec/Commons/AnnotationVocabulary/> .
+@prefix cmns-doc: <https://www.omg.org/spec/Commons/Documents/> .
+@prefix cmns-pts: <https://www.omg.org/spec/Commons/PartiesAndSituations/> .
+@prefix cmns-rlcmp: <https://www.omg.org/spec/Commons/RolesAndCompositions/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fibo-be-fct-pub: <https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/> .
+@prefix fibo-fnd-utl-av: <https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/>
+	a owl:Ontology ;
+	rdfs:label "Publishers Ontology" ;
+	dcterms:abstract "The concept of a publisher is central to the notion of a data provider in financial markets. This ontology defines the fundamental concepts for publishers of information, including entities whose primary function is to publish, and those (whether or not they are publishers in that sense) that play the role of the publisher of some information." ;
+	dcterms:license """Copyright (c) 2013-2025 EDM Council, Inc.
+Copyright (c) 2013-2025 Object Management Group, Inc.
+		
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+		
+		See https://opensource.org/licenses/MIT.""" ;
+	owl:imports
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/Documents/> ,
+		<https://www.omg.org/spec/Commons/PartiesAndSituations/> ,
+		<https://www.omg.org/spec/Commons/RolesAndCompositions/>
+		;
+	owl:versionIRI <https://spec.edmcouncil.org/fibo/ontology/master/latest/BE/FunctionalEntities/Publishers/> ;
+	skos:changeNote
+		"The https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers.rdf version of the ontology was modified to eliminate deprecations that are more than 6 months old." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers.rdf version of the ontology was modified to loosen various constraints to better reflect use case requirements (SEC-205)." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers.rdf version of the ontology was modified to replace additional concepts from several FIBO FND ontologies with their counterparts added to the Commons Ontology Library (Commons) v1.1." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers.rdf version of the ontology was modified to replace concepts from several FIBO FND ontologies with their counterparts added to the Commons Ontology Library (Commons) v1.1." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers.rdf version of the ontology was modified to use the Commons Ontology Library (Commons) Annotation Vocabulary rather than the OMG's Specification Metadata vocabulary and revise definitions to be ISO 704 compliant as needed." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers.rdf version of this ontology was modified per the FIBO 2.0 RFC." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers.rdf version of this ontology was modified per the issue resolutions identified in the FIBO BE 1.0 FTF report." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers.rdf version of this ontology was modified to deprecate publishing house rather than having two disconnected concepts, clean up the related restrictions, and add market data provider (originally in IND)." ,
+		"The https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers.rdf version of this ontology was modified to eliminate references to external dictionary sites that no longer resolve."
+		;
+	fibo-fnd-utl-av:hasMaturityLevel fibo-fnd-utl-av:Release ;
+	cmns-av:copyright
+		"Copyright (c) 2013-2025 EDM Council, Inc." ,
+		"Copyright (c) 2013-2025 Object Management Group, Inc."
+		;
+	.
+
+fibo-be-fct-pub:MarketDataProvider
+	a owl:Class ;
+	rdfs:subClassOf fibo-be-fct-pub:Publisher ;
+	rdfs:label "market data provider" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/> ;
+	skos:definition "publisher of data relevant to financial markets" ;
+	cmns-av:explanatoryNote "Market data providers include exchanges and independent data vendors, among others. Market valuation and related control and risk processes typically require explicit documentation of the source for a given market rate, such as an interest rate benchmark, exchange rate, stock prices, and so forth." ;
+	.
+
+fibo-be-fct-pub:Publication
+	a owl:Class ;
+	rdfs:subClassOf cmns-doc:Document ;
+	rdfs:label "publication" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/> ;
+	skos:definition "document offered for general distribution and usually produced in multiple copies" ;
+	cmns-av:adaptedFrom "ISO 5127:2017, Information and documentation - Foundation and vocabulary" ;
+	cmns-av:explanatoryNote "A publication can be anything made public by print (such as a newspaper, magazine, pamphlet, letter, telegram, via computer modem or program, or in a poster, brochure or pamphlet), orally, or by broadcast (radio, television)." ;
+	.
+
+fibo-be-fct-pub:Publisher
+	a owl:Class ;
+	rdfs:subClassOf
+		cmns-pts:PartyRole ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-rlcmp:isPlayedBy ;
+			owl:onClass cmns-pts:Party ;
+			owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+		]
+		;
+	rdfs:label "publisher" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/> ;
+	skos:definition "role of person(s) or organization(s) responsible for the printing or distribution of an item, whether in digital or print (physical) form" ;
+	cmns-av:adaptedFrom "ISO 10161-1:2014(en), Information and documentation - Open Systems Interconnection - Interlibrary Loan Application Protocol Specification - Part 1: Protocol specification" ;
+	cmns-av:explanatoryNote "Publishers may also include banks, government agencies and the like." ;
+	.
+
+fibo-be-fct-pub:hasPublisher
+	a owl:ObjectProperty ;
+	rdfs:subPropertyOf
+		cmns-pts:hasPartyRole ,
+		cmns-rlcmp:manifests
+		;
+	rdfs:label "has publisher" ;
+	rdfs:domain fibo-be-fct-pub:Publication ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/> ;
+	rdfs:range fibo-be-fct-pub:Publisher ;
+	owl:inverseOf fibo-be-fct-pub:publishes ;
+	skos:definition "indicates the party in the role of issuing the information" ;
+	.
+
+fibo-be-fct-pub:isPublishedBy
+	a owl:ObjectProperty ;
+	rdfs:subPropertyOf cmns-pts:hasParty ;
+	rdfs:label "is published by" ;
+	rdfs:domain fibo-be-fct-pub:Publication ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/> ;
+	rdfs:range cmns-pts:Party ;
+	skos:definition "identifies the independent party (i.e., the individual or organization) that disseminates the material" ;
+	.
+
+fibo-be-fct-pub:publishes
+	a owl:ObjectProperty ;
+	rdfs:subPropertyOf cmns-rlcmp:isManifestedIn ;
+	rdfs:label "publishes" ;
+	rdfs:domain fibo-be-fct-pub:Publisher ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/> ;
+	rdfs:range fibo-be-fct-pub:Publication ;
+	skos:definition "prepares and issues material for public consumption" ;
+	.
+

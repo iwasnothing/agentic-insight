@@ -1,0 +1,764 @@
+# baseURI: https://spec.edmcouncil.org/fibo/ontology/master/latest/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/CAE/CorporateEvents/CorporateActions/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/CAE/CorporateEvents/SecurityRelatedCorporateActions/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/DebtAndEquities/CreditEvents/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Relations/Relations/
+# imports: https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/AnnotationVocabulary/
+# imports: https://www.omg.org/spec/Commons/Classifiers/
+# imports: https://www.omg.org/spec/Commons/Collections/
+# imports: https://www.omg.org/spec/Commons/Designators/
+
+@base <https://spec.edmcouncil.org/fibo/ontology/master/latest/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> .
+@prefix cmns-av: <https://www.omg.org/spec/Commons/AnnotationVocabulary/> .
+@prefix cmns-cls: <https://www.omg.org/spec/Commons/Classifiers/> .
+@prefix cmns-col: <https://www.omg.org/spec/Commons/Collections/> .
+@prefix cmns-dsg: <https://www.omg.org/spec/Commons/Designators/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fibo-cae-ce-15022: <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> .
+@prefix fibo-cae-ce-act: <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/> .
+@prefix fibo-cae-ce-srca: <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/> .
+@prefix fibo-fbc-dae-cre: <https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/> .
+@prefix fibo-fnd-rel-rel: <https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/> .
+@prefix fibo-fnd-utl-av: <https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/>
+	a owl:Ontology ;
+	rdfs:label "ISO 15022 Corporate Action Individuals Ontology"@en ;
+	dcterms:abstract "This ontology includes the codes for income and corporate action events as specified in ISO 15022, including extensions as of 3 September 2020. Scope excludes lower-level notification and meetings related events and message definitions associated with ISO 15022 as well as related messages covered by ISO 20022." ;
+	dcterms:license "https://opensource.org/licenses/MIT"^^xsd:anyURI ;
+	owl:imports
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/CAE/CorporateEvents/CorporateActions/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/CAE/CorporateEvents/SecurityRelatedCorporateActions/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FBC/DebtAndEquities/CreditEvents/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Relations/Relations/> ,
+		<https://spec.edmcouncil.org/fibo/ontology/master/latest/FND/Utilities/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/AnnotationVocabulary/> ,
+		<https://www.omg.org/spec/Commons/Classifiers/> ,
+		<https://www.omg.org/spec/Commons/Collections/> ,
+		<https://www.omg.org/spec/Commons/Designators/>
+		;
+	owl:versionIRI <https://spec.edmcouncil.org/fibo/ontology/master/latest/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	fibo-fnd-utl-av:hasMaturityLevel fibo-fnd-utl-av:Provisional ;
+	cmns-av:copyright "Copyright (c) 2016-2024 EDM Council, Inc." ;
+	.
+
+fibo-cae-ce-15022:BIDS
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:RepurchaseOffer ;
+		]
+		;
+	rdfs:label "BIDS"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions in which an offer is made to existing shareholders by the issuing company to repurchase equity or other securities convertible into equity"@en ;
+	fibo-fnd-rel-rel:hasTag "BIDS" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:BONU
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:BonusIssue ;
+		]
+		;
+	rdfs:label "BONU"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions in which security holders are awarded additional assets free of payment from the issuer in proportion to their holding"@en ;
+	fibo-fnd-rel-rel:hasTag "BONU" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:BPUT
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:PutRedemptionAction ;
+		]
+		;
+	rdfs:label "BPUT"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that involve early redemption of a security at the election of the holder subject to the terms and condition of the issue with no reduction in nominal value"@en ;
+	fibo-fnd-rel-rel:hasTag "BPUT" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:CAPD
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:IncomeOrientedClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:CapitalDistribution ;
+		]
+		;
+	rdfs:label "CAPD"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that pay shareholders an amount in cash issued from the issuer's capital account"@en ;
+	fibo-fnd-rel-rel:hasTag "CAPD" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:CAPG
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:IncomeOrientedClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:CapitalGainsDistribution ;
+		]
+		;
+	rdfs:label "CAPG"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that distribute profits resulting from the sale of company assets to shareholders"@en ;
+	fibo-fnd-rel-rel:hasTag "CAPG" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:CHAN
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-act:ChangeAction ;
+		]
+		;
+	rdfs:label "CHAN"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that disseminate information regarding a change further described in the corporate action details"@en ;
+	fibo-fnd-rel-rel:hasTag "CHAN" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:CLSA
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-act:ClassAction ;
+		]
+		;
+	rdfs:label "CLSA"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions involving a situation where interested parties seek restitution for financial loss"@en ;
+	fibo-fnd-rel-rel:hasTag "CLSA" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:CONS
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-act:ConsentSolicitation ;
+		]
+		;
+	rdfs:label "CONS"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that involve procedures aiming to obtain consent of holder to a proposal by the issuer or a third party without convening a meeting"@en ;
+	fibo-fnd-rel-rel:hasTag "CONS" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:CONV
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:ConversionAction ;
+		]
+		;
+	rdfs:label "CONV"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that involve conversion of securities (generally convertible bonds or preferred shares) into another form of securities (usually common shares) at a pre-stated price/ratio"@en ;
+	fibo-fnd-rel-rel:hasTag "CONV" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:DECR
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:IncomeOrientedClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:DecreaseInValueAction ;
+		]
+		;
+	rdfs:label "DECR"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that reduce the face value of a share or the value of fund assets"@en ;
+	fibo-fnd-rel-rel:hasTag "DECR" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:DFLT
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:BondDefaultAction ;
+		]
+		;
+	rdfs:label "DFLT"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that indicate a failure by the issuer to perform obligations defined as default events under the bond agreement and that have not been remedied"@en ;
+	fibo-fnd-rel-rel:hasTag "DFLT" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:DRIP
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:DividendReinvestmentAction ;
+		]
+		;
+	rdfs:label "DRIP"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that involve a dividend payment whereby holders can keep cash or have the cash reinvested into additional shares in the issuing company"@en ;
+	fibo-fnd-rel-rel:hasTag "DRIP" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:DSCL
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-act:DisclosureAction ;
+		]
+		;
+	rdfs:label "DSCL"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that involve a requirement for holders or beneficial owners to disclose their name, location and holdings of any issue to the issuer"@en ;
+	fibo-fnd-rel-rel:hasTag "DSCL" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:DTCH
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:DutchAuction ;
+		]
+		;
+	rdfs:label "DTCH"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions involving parties wishing to acquire a security"@en ;
+	fibo-fnd-rel-rel:hasTag "DTCH" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:DVCA
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:IncomeOrientedClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:CashDividendAction ;
+		]
+		;
+	rdfs:label "DVCA"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that distribute cash to shareholders in proportion to their equity holding"@en ;
+	fibo-fnd-rel-rel:hasTag "DVCA" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:DVOP
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:DividendOptionAction ;
+		]
+		;
+	rdfs:label "DVOP"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that involve distribution of a dividend to shareholders with a choice of benefit to receive"@en ;
+	fibo-fnd-rel-rel:hasTag "DVOP" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:DVSE
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:StockDividendAction ;
+		]
+		;
+	rdfs:label "DVSE"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that involve distribution of a dividend to shareholders in the form of equities of the issuing corporation"@en ;
+	fibo-fnd-rel-rel:hasTag "DVSE" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:EXOF
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:ExchangeAction ;
+		]
+		;
+	rdfs:label "EXOF"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that reflect an exchange of holdings for other securities and/or cash"@en ;
+	fibo-fnd-rel-rel:hasTag "EXOF" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:EXRI
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:CallOnIntermediateSecurities ;
+		]
+		;
+	rdfs:label "EXRI"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that involve a call or exercise on nil paid securities or intermediate securities resulting from an intermediate securities distribution (RHDI)"@en ;
+	fibo-fnd-rel-rel:hasTag "EXRI" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:EXTM
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-fbc-dae-cre:MaturityExtension ;
+		]
+		;
+	rdfs:label "EXTM"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that involve prolonging the maturity date of a bond"@en ;
+	fibo-fnd-rel-rel:hasTag "EXTM" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:EXWA
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		fibo-cae-ce-act:IncomeOrientedClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:WarrantExerciseAction ;
+		]
+		;
+	rdfs:label "EXWA"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that offer holders the option to buy (call warrant) or to sell (put warrant) a specific amount of stock, cash, or commodity, at a predetermined price, during a predetermined period of time"@en ;
+	fibo-fnd-rel-rel:hasTag "EXWA" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:INFO
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-act:Notification ;
+		]
+		;
+	rdfs:label "INFO"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions involving information provided by the issuer having no accounting/financial impact on the holder"@en ;
+	fibo-fnd-rel-rel:hasTag "INFO" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:INTR
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:IncomeOrientedClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:InterestPaymentAction ;
+		]
+		;
+	rdfs:label "INTR"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that involve distribution of a regular interest payment to holders of an interest-bearing asset"@en ;
+	fibo-fnd-rel-rel:hasTag "INTR" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:ActionClassificationScheme
+		;
+	rdfs:label "ISO 15022 corporate action classification scheme" ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "scheme for classifying corporate actions according to ISO 15022 Securities - Scheme for Messages (Data Field Dictionary)" ;
+	.
+
+fibo-cae-ce-15022:LIQU
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-act:Liquidation ;
+		]
+		;
+	rdfs:label "LIQU"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions consisting of distribution of cash, assets, or both"@en ;
+	fibo-fnd-rel-rel:hasTag "LIQU" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:MCAL
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:IncomeOrientedClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:FullCallEarlyRedemptionAction ;
+		]
+		;
+	rdfs:label "MCAL"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that involve redemption of an entire issue outstanding of securities prior to maturity"@en ;
+	fibo-fnd-rel-rel:hasTag "MCAL" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:MRGR
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:PostMergerSecuritiesExchange ;
+		]
+		;
+	rdfs:label "MRGR"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that involve the exchange of outstanding securities, initiated by the issuer which may include options, as the result of two or more companies combining assets, that is, an external, third party company"@en ;
+	fibo-fnd-rel-rel:hasTag "MRGR" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:PARI
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:PariPassuAction ;
+		]
+		;
+	rdfs:label "PARI"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that occur when securities with different characteristics become identical in all respects"@en ;
+	fibo-fnd-rel-rel:hasTag "PARI" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:PCAL
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:IncomeOrientedClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:PartialRedemptionWithReductionOfNominalValueAction ;
+		]
+		;
+	rdfs:label "PCAL"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that involve redemption of securities in part before their scheduled final maturity date with reduction of the nominal value of the securities"@en ;
+	fibo-fnd-rel-rel:hasTag "PCAL" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:PRED
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:IncomeOrientedClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:PartialRedemptionWithoutReductionOfNominalValueAction ;
+		]
+		;
+	rdfs:label "PRED"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that involve redemption of securities in part before their scheduled final maturity date with no reduction in nominal value"@en ;
+	fibo-fnd-rel-rel:hasTag "PRED" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:PRIO
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-act:PriorityIssue ;
+		]
+		;
+	rdfs:label "PRIO"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that involve a public offer where priority is given to existing shareholders"@en ;
+	fibo-fnd-rel-rel:hasTag "PRIO" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:REDM
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:IncomeOrientedClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:RedemptionAtMaturityAction ;
+		]
+		;
+	rdfs:label "REDM"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that involve redemption of an entire issue outstanding of securities at final maturity"@en ;
+	fibo-fnd-rel-rel:hasTag "REDM" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:REDO
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:RedenominationAction ;
+		]
+		;
+	rdfs:label "REDO"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions by which the unit (currency and/or nominal) of a security is restated"@en ;
+	fibo-fnd-rel-rel:hasTag "REDO" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:RHDI
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:IntermediateSecuritiesDistribution ;
+		]
+		;
+	rdfs:label "RHDI"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions involving the distribution of intermediate securities or privilege that gives the holder the right to take part in a future event"@en ;
+	fibo-fnd-rel-rel:hasTag "RHDI" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:SHPR
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:IncomeOrientedClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:SharesPremiumDividendAction ;
+		]
+		;
+	rdfs:label "SHPR"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that pay shareholders an amount in cash issued from the shares premium reserve"@en ;
+	fibo-fnd-rel-rel:hasTag "SHPR" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:SOFF
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-act:SpinOff ;
+		]
+		;
+	rdfs:label "SOFF"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that involve the distribution of subsidiary stock to the shareholders of the parent company without a surrender of shares"@en ;
+	fibo-fnd-rel-rel:hasTag "SOFF" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:SPLF
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:StockSplit ;
+		]
+		;
+	rdfs:label "SPLF"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that involve an increase in a corporation's number of outstanding equities without any change in the shareholder's equity or the aggregate market value at the time of the split"@en ;
+	fibo-fnd-rel-rel:hasTag "SPLF" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:SPLR
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:ReverseStockSplit ;
+		]
+		;
+	rdfs:label "SPLR"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that involve a decrease in a company's number of outstanding equities without any change in the shareholder's equity or the aggregate market value at the time of the split"@en ;
+	fibo-fnd-rel-rel:hasTag "SPLR" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:TEND
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:TenderOffer ;
+		]
+		;
+	rdfs:label "TEND"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions involving information provided by the issuer having no accounting/financial impact on the holder"@en ;
+	fibo-fnd-rel-rel:hasTag "TEND" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
+fibo-cae-ce-15022:WRTH
+	a
+		owl:NamedIndividual ,
+		fibo-cae-ce-act:BusinessStrategyClassifier ,
+		fibo-cae-ce-act:IncomeOrientedClassifier ,
+		[
+			a owl:Restriction ;
+			owl:onProperty cmns-cls:classifies ;
+			owl:allValuesFrom fibo-cae-ce-srca:WorthlessSecurityAction ;
+		]
+		;
+	rdfs:label "WRTH"@en ;
+	rdfs:isDefinedBy <https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/ISO15022-CorporateActionIndividuals/> ;
+	skos:definition "ISO 15022 classifier for corporate actions that involve booking out of valueless securities"@en ;
+	fibo-fnd-rel-rel:hasTag "WRTH" ;
+	cmns-col:isMemberOf fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	cmns-dsg:isDefinedIn fibo-cae-ce-15022:ISO15022CorporateActionClassificationScheme ;
+	.
+
